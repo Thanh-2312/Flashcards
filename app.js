@@ -1,8 +1,9 @@
 /**
  * Minimal Flashcards Application
  * Categories: Words (Card 01 - 27) & Collocations (Card 28 - 53)
+ * Front: Clear, simple A1/A2/B1 sentences for easy guessing
+ * Back: Exact IELTS target vocabulary, IPA, Vietnamese meaning, and reading context
  * Spaced Repetition Intervals: 1, 4, 7, 14 days
- * Modes: Flip Card & Interactive Typing Quiz
  */
 
 (function () {
@@ -12,7 +13,7 @@
   const INTERVAL_LEVELS = [1, 4, 7, 14];
   const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-  // --- ALL 53 FLASHCARDS (WORDS & COLLOCATIONS) ---
+  // --- ALL 53 FLASHCARDS WITH EASY A1-A2-B1 FRONT SENTENCES ---
   const DEFAULT_CARDS = [
     // ==========================================
     // PHẦN 1: WORDS (Từ Vựng - Cards 01 đến 27)
@@ -23,9 +24,9 @@
       english: 'aquatic',
       ipa: '/əˈkwæt.ɪk/ (adj - B2)',
       vietnamese: 'Thuộc về nước, sống hoặc phát triển ở dưới nước.',
-      frontText: 'Many plants and animals thrive in an __________ environment rather than on dry land.',
+      frontText: 'Fish and other __________ animals live in water, not on land.',
       context: 'Water hyacinth (Eichhornia crassipes), an aquatic plant native to South America...',
-      exampleEn: 'Many plants and animals thrive in an aquatic environment rather than on dry land.',
+      exampleEn: 'Fish and other aquatic animals live in water, not on land.',
       acceptedAnswers: ['aquatic'],
       interval: 1,
       boxLevel: 1,
@@ -38,9 +39,9 @@
       english: 'obstruct',
       ipa: '/əbˈstrʌkt/ (v - B2)',
       vietnamese: 'Gây tắc nghẽn, cản trở lối đi hoặc tầm nhìn.',
-      frontText: 'Fallen trees began to __________ the flow of water in the canal, preventing boats from passing.',
+      frontText: 'Please do not __________ the door so people can walk in and out easily.',
       context: '...started obstructing major dams and rivers.',
-      exampleEn: 'Fallen trees began to obstruct the flow of water in the canal, preventing boats from passing.',
+      exampleEn: 'Please do not obstruct the door so people can walk in and out easily.',
       acceptedAnswers: ['obstruct', 'obstructing'],
       interval: 1,
       boxLevel: 1,
@@ -53,9 +54,9 @@
       english: 'colonist',
       ipa: '/ˈkɒl.ə.nɪst/ (n - B2)',
       vietnamese: 'Người đi định cư ở vùng đất mới do mẫu quốc chiếm đóng; người thực dân.',
-      frontText: 'During the 19th century, thousands of European __________ settled in overseas territories.',
+      frontText: 'A __________ is a person who moves to live in a new land ruled by their home country.',
       context: 'In east Africa the plant arrived with Belgian colonists in Rwanda...',
-      exampleEn: 'During the 19th century, thousands of European colonists settled in overseas territories.',
+      exampleEn: 'A colonist is a person who moves to live in a new land ruled by their home country.',
       acceptedAnswers: ['colonist', 'colonists'],
       interval: 1,
       boxLevel: 1,
@@ -68,9 +69,9 @@
       english: 'delicate',
       ipa: '/ˈdel.ɪ.kət/ (adj - B2)',
       vietnamese: 'Mỏng mảnh, thanh nhã, dễ gãy hỏng nếu tác động mạnh.',
-      frontText: 'The flower has pale, __________ petals that bruise easily in heavy rain.',
+      frontText: 'Be very careful with this glass cup because it is thin and __________.',
       context: '...who liked the look of its glossy leaves and delicate purple flowers...',
-      exampleEn: 'The flower has pale, delicate petals that bruise easily in heavy rain.',
+      exampleEn: 'Be very careful with this glass cup because it is thin and delicate.',
       acceptedAnswers: ['delicate'],
       interval: 1,
       boxLevel: 1,
@@ -83,9 +84,9 @@
       english: 'glossy',
       ipa: '/ˈɡlɒs.i/ (adj - C1)',
       vietnamese: 'Nhẵn bóng, láng mượt và phản chiếu ánh sáng.',
-      frontText: 'The tropical plant has thick, __________ green leaves that shine under sunlight.',
+      frontText: 'Her new leather shoes are so clean and __________ that they shine under the light.',
       context: '...who liked the look of its glossy leaves and delicate purple flowers...',
-      exampleEn: 'The tropical plant has thick, glossy green leaves that shine under sunlight.',
+      exampleEn: 'Her new leather shoes are so clean and glossy that they shine under the light.',
       acceptedAnswers: ['glossy'],
       interval: 1,
       boxLevel: 1,
@@ -98,9 +99,9 @@
       english: 'predator',
       ipa: '/ˈpred.ə.tər/ (n - B2)',
       vietnamese: 'Động vật ăn thịt, thiên địch trong chuỗi thức ăn.',
-      frontText: 'When an invasive species enters an ecosystem with no natural __________, its population can explode unchecked.',
+      frontText: 'Lions and tigers are __________ because they hunt and eat other animals to survive.',
       context: 'There, with no natural predators and perfect temperature conditions...',
-      exampleEn: 'When an invasive species enters an ecosystem with no natural predators, its population can explode unchecked.',
+      exampleEn: 'Lions and tigers are predators because they hunt and eat other animals to survive.',
       acceptedAnswers: ['predator', 'predators'],
       interval: 1,
       boxLevel: 1,
@@ -113,9 +114,9 @@
       english: 'navigate',
       ipa: '/ˈnæv.ɪ.ɡeɪt/ (v - B2)',
       vietnamese: 'Định hướng, di chuyển hoặc điều khiển phương tiện vượt qua chướng ngại vật.',
-      frontText: 'In dense fog, sailors found it extremely difficult to __________ through the narrow channel.',
+      frontText: 'Drivers often use Google Maps to __________ through unfamiliar streets in the city.',
       context: '...as the boats that once brought the fish to shore by the hundreds struggle to navigate through the mass of plants.',
-      exampleEn: 'In dense fog, sailors found it extremely difficult to navigate through the narrow channel.',
+      exampleEn: 'Drivers often use Google Maps to navigate through unfamiliar streets in the city.',
       acceptedAnswers: ['navigate'],
       interval: 1,
       boxLevel: 1,
@@ -128,9 +129,9 @@
       english: 'demographic',
       ipa: '/ˌdem.əˈɡræf.ɪk/ (adj - C1)',
       vietnamese: 'Thuộc về số liệu dân số, cấu trúc và đặc điểm dân cư.',
-      frontText: 'Changes in birth rates have significantly altered the country\'s __________ profile.',
+      frontText: 'The government studies __________ data like age and gender to know how many people live in each town.',
       context: '...Kenya\'s latest demographic and health survey shows.',
-      exampleEn: 'Changes in birth rates have significantly altered the country\'s demographic profile.',
+      exampleEn: 'The government studies demographic data like age and gender to know how many people live in each town.',
       acceptedAnswers: ['demographic'],
       interval: 1,
       boxLevel: 1,
@@ -143,9 +144,9 @@
       english: 'annually',
       ipa: '/ˈæn.ju.ə.li/ (adv - B2)',
       vietnamese: 'Một lần mỗi năm; theo định kỳ hàng năm.',
-      frontText: 'The festival is held __________ in October, drawing thousands of visitors each year.',
+      frontText: 'We celebrate Christmas once every year, so this special festival happens __________.',
       context: 'The World Health Organization estimates that about 14,300 Kenyans die annually as a result of indoor air pollution...',
-      exampleEn: 'The festival is held annually in October, drawing thousands of visitors each year.',
+      exampleEn: 'We celebrate Christmas once every year, so this special festival happens annually.',
       acceptedAnswers: ['annually'],
       interval: 1,
       boxLevel: 1,
@@ -158,9 +159,9 @@
       english: 'decay',
       ipa: '/dɪˈkeɪ/ (v - B2)',
       vietnamese: 'Bị mục nát, thối rữa tự nhiên do vi khuẩn và nấm phân hủy.',
-      frontText: 'Bacteria accelerate the process of breaking down __________ plant matter into organic compost.',
+      frontText: 'When old fruit falls on the ground, bacteria make it rot and __________.',
       context: 'But buried in those decaying waxy leaves was a renewable energy gold mine.',
-      exampleEn: 'Bacteria accelerate the process of breaking down decaying plant matter into organic compost.',
+      exampleEn: 'When old fruit falls on the ground, bacteria make it rot and decay.',
       acceptedAnswers: ['decay', 'decaying'],
       interval: 1,
       boxLevel: 1,
@@ -173,9 +174,9 @@
       english: 'foliage',
       ipa: '/ˈfəʊ.li.ɪdʒ/ (n - C1)',
       vietnamese: 'Toàn bộ lá cây trên một cành hoặc trong một vùng thực vật; tán lá.',
-      frontText: 'In autumn, the dense forest __________ turns from vibrant green to deep shades of amber and red.',
+      frontText: 'In the forest, the green leaves of all the trees together are called __________.',
       context: '...its foliage also contains a high ratio of carbon to nitrogen.',
-      exampleEn: 'In autumn, the dense forest foliage turns from vibrant green to deep shades of amber and red.',
+      exampleEn: 'In the forest, the green leaves of all the trees together are called foliage.',
       acceptedAnswers: ['foliage'],
       interval: 1,
       boxLevel: 1,
@@ -188,9 +189,9 @@
       english: 'captivate',
       ipa: '/ˈkæp.tɪ.veɪt/ (v - C1)',
       vietnamese: 'Thu hút, làm say đắm hoặc chiếm trọn sự chú ý của ai đó.',
-      frontText: 'The speaker\'s extraordinary storytelling managed to __________ the audience for two straight hours.',
+      frontText: 'The magician did wonderful tricks that managed to __________ all the children in the room.',
       context: 'It\'s a magic combination that has captivated researchers\' imaginations...',
-      exampleEn: 'The speaker\'s extraordinary storytelling managed to captivate the audience for two straight hours.',
+      exampleEn: 'The magician did wonderful tricks that managed to captivate all the children in the room.',
       acceptedAnswers: ['captivate'],
       interval: 1,
       boxLevel: 1,
@@ -203,9 +204,9 @@
       english: 'academic',
       ipa: '/ˌæk.əˈdem.ɪk/ (n - B2)',
       vietnamese: 'Giới nghiên cứu học thuật, học giả, giáo sư giảng dạy nghiên cứu viện đại học.',
-      frontText: 'Several leading university __________ published a paper proposing new clean energy models.',
+      frontText: 'A teacher or researcher working at a university is known as an __________.',
       context: 'In 2014, Nigerian academics announced they had got better yields of biofuel gas...',
-      exampleEn: 'Several leading university academics published a paper proposing new clean energy models.',
+      exampleEn: 'A teacher or researcher working at a university is known as an academic.',
       acceptedAnswers: ['academic', 'academics'],
       interval: 1,
       boxLevel: 1,
@@ -218,9 +219,9 @@
       english: 'yield',
       ipa: '/jiːld/ (n - C1)',
       vietnamese: 'Lượng sản phẩm, năng lượng hoặc hoa màu sản xuất ra được; sản lượng.',
-      frontText: 'Modern fertilizers have allowed farmers to achieve significantly higher crop __________ per acre.',
+      frontText: 'With good rain and sunlight, the farmer collected a very large corn __________ this year.',
       context: '...announced they had got better yields of biofuel gas...',
-      exampleEn: 'Modern fertilizers have allowed farmers to achieve significantly higher crop yields per acre.',
+      exampleEn: 'With good rain and sunlight, the farmer collected a very large corn yield this year.',
       acceptedAnswers: ['yield', 'yields'],
       interval: 1,
       boxLevel: 1,
@@ -233,9 +234,9 @@
       english: 'manure',
       ipa: '/məˈnjʊər/ (n - C1)',
       vietnamese: 'Phân của động vật (bò, gà, ngựa) được dùng để bón cây hoặc ủ khí.',
-      frontText: 'Organic gardeners often spread animal __________ over the soil to enrich its nutrients.',
+      frontText: 'Farmers mix animal waste into the soil as __________ to help vegetables grow faster.',
       context: '...when they mixed the plant with chicken manure.',
-      exampleEn: 'Organic gardeners often spread animal manure over the soil to enrich its nutrients.',
+      exampleEn: 'Farmers mix animal waste into the soil as manure to help vegetables grow faster.',
       acceptedAnswers: ['manure'],
       interval: 1,
       boxLevel: 1,
@@ -248,9 +249,9 @@
       english: 'peer',
       ipa: '/pɪər/ (n - B2)',
       vietnamese: 'Người cùng trang lứa, đồng cấp, đồng nghiệp trong cùng một lĩnh vực.',
-      frontText: 'Before publishing the paper, the researcher asked her academic __________ to review the methodology.',
+      frontText: 'Children often want to play the same games and wear the same clothes as their __________ at school.',
       context: 'Kenyan scientists confirmed what their Nigerian peers and others had already found...',
-      exampleEn: 'Before publishing the paper, the researcher asked her academic peers to review the methodology.',
+      exampleEn: 'Children often want to play the same games and wear the same clothes as their peers at school.',
       acceptedAnswers: ['peer', 'peers'],
       interval: 1,
       boxLevel: 1,
@@ -263,9 +264,9 @@
       english: 'menace',
       ipa: '/ˈmen.ɪs/ (n - C1)',
       vietnamese: 'Mối hiểm họa, tác nhân đe dọa gây nguy hại cho xã hội/môi trường.',
-      frontText: 'Air pollution and traffic congestion represent dual __________ to modern urban living.',
+      frontText: 'Driving very fast in a school zone is dangerous and a terrible __________ to young children.',
       context: 'The project promised a two-for-one solution to the dual menaces of the water hyacinth and dependence on firewood.',
-      exampleEn: 'Air pollution and traffic congestion represent dual menaces to modern urban living.',
+      exampleEn: 'Driving very fast in a school zone is dangerous and a terrible menace to young children.',
       acceptedAnswers: ['menace', 'menaces'],
       interval: 1,
       boxLevel: 1,
@@ -278,9 +279,9 @@
       english: 'dung',
       ipa: '/dʌŋ/ (n - C1)',
       vietnamese: 'Phân của các loài động vật ăn cỏ lớn (bò, trâu, voi).',
-      frontText: 'Dried cow __________ is traditionally burned as fuel in some rural communities.',
+      frontText: 'In poor rural areas, people dry cow __________ in the sun to use as fuel for cooking.',
       context: '...transform a mix of water hyacinth and cow dung into biogas for cooking.',
-      exampleEn: 'Dried cow dung is traditionally burned as fuel in some rural communities.',
+      exampleEn: 'In poor rural areas, people dry cow dung in the sun to use as fuel for cooking.',
       acceptedAnswers: ['dung'],
       interval: 1,
       boxLevel: 1,
@@ -293,9 +294,9 @@
       english: 'fermentation',
       ipa: '/ˌfɜː.menˈteɪ.ʃən/ (n - C1)',
       vietnamese: 'Quá trình lên men hóa học do vi sinh vật hoặc nấm men thực hiện.',
-      frontText: 'Yeast is essential in bread-making because it drives the natural __________ of sugars into alcohol and carbon dioxide.',
+      frontText: 'Making beer and bread requires yeast to change sugar into gas, a process called __________.',
       context: '...it goes through a fermentation process and breaks down...',
-      exampleEn: 'Yeast is essential in bread-making because it drives the natural fermentation of sugars into alcohol and carbon dioxide.',
+      exampleEn: 'Making beer and bread requires yeast to change sugar into gas, a process called fermentation.',
       acceptedAnswers: ['fermentation'],
       interval: 1,
       boxLevel: 1,
@@ -308,9 +309,9 @@
       english: 'domestic',
       ipa: '/dəˈmes.tɪk/ (adj - B2)',
       vietnamese: 'Liên quan đến gia đình, việc nhà, sinh hoạt hộ gia đình (hoặc nội địa).',
-      frontText: 'High energy tariffs have increased monthly costs for ordinary __________ households.',
+      frontText: 'Cooking meals, washing dishes, and cleaning floors are common __________ tasks at home.',
       context: 'It is used in domestic stoves and for other household tasks...',
-      exampleEn: 'High energy tariffs have increased monthly costs for ordinary domestic households.',
+      exampleEn: 'Cooking meals, washing dishes, and cleaning floors are common domestic tasks at home.',
       acceptedAnswers: ['domestic'],
       interval: 1,
       boxLevel: 1,
@@ -323,9 +324,9 @@
       english: 'purify',
       ipa: '/ˈpjʊə.rɪ.faɪ/ (v - B2)',
       vietnamese: 'Lọc sạch chất độc, tạp chất để làm cho một thứ trở nên tinh khiết.',
-      frontText: 'Boiling water is one of the simplest methods to __________ contaminated surface water.',
+      frontText: 'We should boil or filter dirty river water to __________ it before drinking.',
       context: '...for other household tasks such as purifying water and incubating chicks.',
-      exampleEn: 'Boiling water is one of the simplest methods to purify contaminated surface water.',
+      exampleEn: 'We should boil or filter dirty river water to purify it before drinking.',
       acceptedAnswers: ['purify'],
       interval: 1,
       boxLevel: 1,
@@ -338,9 +339,9 @@
       english: 'incubate',
       ipa: '/ˈɪŋ.kjə.beɪt/ (v - C1)',
       vietnamese: 'Ấp trứng (giữ ấm bằng nhiệt độ phù hợp để phát triển thành con); ủ vi sinh.',
-      frontText: 'Birds sit on their eggs for several weeks to __________ them at a steady body temperature.',
+      frontText: 'Mother birds sit on their eggs to keep them warm and __________ them until baby birds hatch.',
       context: '...such as purifying water and incubating chicks.',
-      exampleEn: 'Birds sit on their eggs for several weeks to incubate them at a steady body temperature.',
+      exampleEn: 'Mother birds sit on their eggs to keep them warm and incubate them until baby birds hatch.',
       acceptedAnswers: ['incubate'],
       interval: 1,
       boxLevel: 1,
@@ -353,9 +354,9 @@
       english: 'enterprise',
       ipa: '/ˈen.tə.praɪz/ (n - B2/C1)',
       vietnamese: 'Cơ sở kinh doanh, dự án khởi nghiệp hoặc hoạt động sinh lời.',
-      frontText: 'The local charity runs a social __________ that employs young people in farming.',
+      frontText: 'She started a small bakery __________ to sell fresh cakes and make money for her family.',
       context: 'As a result, they\'re able to make more money for their families from other enterprises.',
-      exampleEn: 'The local charity runs a social enterprise that employs young people in farming.',
+      exampleEn: 'She started a small bakery enterprise to sell fresh cakes and make money for her family.',
       acceptedAnswers: ['enterprise', 'enterprises'],
       interval: 1,
       boxLevel: 1,
@@ -368,9 +369,9 @@
       english: 'relief',
       ipa: '/rɪˈliːf/ (n - B2)',
       vietnamese: 'Cảm giác nhẹ nhõm, thanh thản khi thoát khỏi áp lực hoặc lo âu.',
-      frontText: 'It was a huge __________ to hear that everyone survived the accident without severe injuries.',
+      frontText: 'I felt a huge sense of __________ when the doctor told me that my father was completely healthy.',
       context: '...gathering firewood, which is a great relief.',
-      exampleEn: 'It was a huge relief to hear that everyone survived the accident without severe injuries.',
+      exampleEn: 'I felt a huge sense of relief when the doctor told me that my father was completely healthy.',
       acceptedAnswers: ['relief'],
       interval: 1,
       boxLevel: 1,
@@ -383,9 +384,9 @@
       english: 'respiratory',
       ipa: '/rɪˈspɪr.ə.tər.i/ (adj - C1)',
       vietnamese: 'Liên quan đến cơ quan hoặc quá trình hô hấp (phổi, khí quản).',
-      frontText: 'Inhaling fine dust particles daily causes serious chronic __________ illnesses in industrial cities.',
+      frontText: 'Breathing toxic smoke every day can cause dangerous __________ sickness in your lungs.',
       context: '...families who switch to the smokeless cooking method could expect fewer respiratory diseases.',
-      exampleEn: 'Inhaling fine dust particles daily causes serious chronic respiratory illnesses in industrial cities.',
+      exampleEn: 'Breathing toxic smoke every day can cause dangerous respiratory sickness in your lungs.',
       acceptedAnswers: ['respiratory'],
       interval: 1,
       boxLevel: 1,
@@ -398,9 +399,9 @@
       english: 'vulnerable',
       ipa: '/ˈvʌl.nər.ə.bəl/ (adj - B2)',
       vietnamese: 'Dễ bị tổn hại về thể chất, tinh thần hoặc hoàn cảnh xã hội.',
-      frontText: 'Elderly individuals and young infants are particularly __________ to seasonal viral infections.',
+      frontText: 'Without warm clothes in freezing cold winter, little babies are very __________ to getting sick.',
       context: 'Women, young girls and children are particularly vulnerable because they are the ones who cook...',
-      exampleEn: 'Elderly individuals and young infants are particularly vulnerable to seasonal viral infections.',
+      exampleEn: 'Without warm clothes in freezing cold winter, little babies are very vulnerable to getting sick.',
       acceptedAnswers: ['vulnerable'],
       interval: 1,
       boxLevel: 1,
@@ -413,9 +414,9 @@
       english: 'affordability',
       ipa: '/əˌfɔː.dəˈbɪl.ə.ti/ (n - C1)',
       vietnamese: 'Mức độ phải chăng của giá cả để người dùng bình thường có thể mua được.',
-      frontText: 'The government launched a subsidy program to improve the __________ of solar home batteries.',
+      frontText: 'Many poor students worry about the __________ of college because school fees are so high.',
       context: 'Kanyiva says affordability is a challenge worth addressing...',
-      exampleEn: 'The government launched a subsidy program to improve the affordability of solar home batteries.',
+      exampleEn: 'Many poor students worry about the affordability of college because school fees are so high.',
       acceptedAnswers: ['affordability'],
       interval: 1,
       boxLevel: 1,
@@ -432,9 +433,9 @@
       english: 'make one\'s way',
       ipa: '(phrase - B2)',
       vietnamese: 'Đi tới, di chuyển từng bước về một đích đến nào đó.',
-      frontText: 'After landing on the coast, the travelers slowly __________ their __________ toward the capital city.',
+      frontText: 'After the concert ended, the crowd started to __________ their __________ back home.',
       context: '...escaped out of the country via the Kagera river and made its way downstream to Lake Victoria.',
-      exampleEn: 'After landing on the coast, the travelers slowly made their way toward the capital city.',
+      exampleEn: 'After the concert ended, the crowd started to make their way back home.',
       acceptedAnswers: ['make one\'s way', 'make ones way', 'made their way', 'make their way', 'made one\'s way', 'made ones way'],
       interval: 1,
       boxLevel: 1,
@@ -447,9 +448,9 @@
       english: 'breathe in',
       ipa: '(phrasal verb - B2)',
       vietnamese: 'Hít không khí hoặc khói bụi vào phổi (đồng nghĩa: inhale).',
-      frontText: 'Factory workers should avoid __________ in toxic fumes by wearing filtered masks.',
+      frontText: 'When you feel nervous, close your eyes and slowly __________ in fresh air.',
       context: 'And each day as they cook, they breathe in the thick, grey smoke.',
-      exampleEn: 'Factory workers should avoid breathing in toxic fumes by wearing filtered masks.',
+      exampleEn: 'When you feel nervous, close your eyes and slowly breathe in fresh air.',
       acceptedAnswers: ['breathe in', 'breathing in', 'breathe', 'breathing'],
       interval: 1,
       boxLevel: 1,
@@ -462,9 +463,9 @@
       english: 'turn out',
       ipa: '(phrasal verb - B2)',
       vietnamese: 'Hóa ra là, sau cùng phát hiện ra một sự thật bất ngờ.',
-      frontText: 'Although the project seemed like a total disaster initially, it __________ out to be an enormous success.',
+      frontText: 'We thought it would rain all afternoon, but it __________ out to be sunny and warm.',
       context: 'It turns out the floating plant isn\'t just good at spreading - its foliage also contains a high ratio...',
-      exampleEn: 'Although the project seemed like a total disaster initially, it turned out to be an enormous success.',
+      exampleEn: 'We thought it would rain all afternoon, but it turned out to be sunny and warm.',
       acceptedAnswers: ['turn out', 'turned out', 'turned'],
       interval: 1,
       boxLevel: 1,
@@ -477,9 +478,9 @@
       english: 'cater for',
       ipa: '(phrasal verb - B2/C1)',
       vietnamese: 'Phục vụ, đáp ứng đầy đủ thức ăn hoặc nhu cầu thiết yếu cho một nhóm đối tượng.',
-      frontText: 'The local university canteen is designed to __________ for over two thousand hungry students at lunchtime.',
+      frontText: 'The school canteen must prepare enough hot lunch to __________ for five hundred hungry kids.',
       context: 'Just about 4kg of the dried plant would be enough to cater for a large family\'s daily energy needs...',
-      exampleEn: 'The local university canteen is designed to cater for over two thousand hungry students at lunchtime.',
+      exampleEn: 'The school canteen must prepare enough hot lunch to cater for five hundred hungry kids.',
       acceptedAnswers: ['cater for', 'cater'],
       interval: 1,
       boxLevel: 1,
@@ -492,9 +493,9 @@
       english: 'break down',
       ipa: '(phrasal verb - B2)',
       vietnamese: '(Hóa học/Sinh học) Phân rã, phân hủy thành các hợp chất nhỏ hơn.',
-      frontText: 'In the compost pit, natural microorganisms help organic waste to __________ down into nutrient-rich soil.',
+      frontText: 'In the garden, small worms help dead leaves __________ down into rich black soil.',
       context: '...it goes through a fermentation process and breaks down, giving off gas...',
-      exampleEn: 'In the compost pit, natural microorganisms help organic waste to break down into nutrient-rich soil.',
+      exampleEn: 'In the garden, small worms help dead leaves break down into rich black soil.',
       acceptedAnswers: ['break down', 'break'],
       interval: 1,
       boxLevel: 1,
@@ -507,9 +508,9 @@
       english: 'give off',
       ipa: '(phrasal verb - B2)',
       vietnamese: 'Phát ra, tỏa ra (nhiệt, ánh sáng, khói hoặc khí ga) = emit.',
-      frontText: 'Decaying organic material in warm landfill sites begins to __________ off large volumes of methane gas.',
+      frontText: 'A burning campfire in the night will __________ off lots of heat and light.',
       context: '...giving off gas that comes out the other end.',
-      exampleEn: 'Decaying organic material in warm landfill sites begins to give off large volumes of methane gas.',
+      exampleEn: 'A burning campfire in the night will give off lots of heat and light.',
       acceptedAnswers: ['give off', 'giving off', 'give'],
       interval: 1,
       boxLevel: 1,
@@ -522,9 +523,9 @@
       english: 'switch to',
       ipa: '(phrasal verb - B2)',
       vietnamese: 'Thay đổi, chuyển từ phương pháp/sản phẩm này sang một lựa chọn khác.',
-      frontText: 'Many drivers decided to __________ to electric vehicles after petrol prices rose sharply.',
+      frontText: 'To save money, my parents decided to __________ to energy-saving LED light bulbs.',
       context: '...families who switch to the smokeless cooking method could expect fewer respiratory diseases.',
-      exampleEn: 'Many drivers decided to switch to electric vehicles after petrol prices rose sharply.',
+      exampleEn: 'To save money, my parents decided to switch to energy-saving LED light bulbs.',
       acceptedAnswers: ['switch to', 'switch'],
       interval: 1,
       boxLevel: 1,
@@ -537,9 +538,9 @@
       english: 'devote... to',
       ipa: '/dɪˈvəʊt/ (verb phrase - B2)',
       vietnamese: 'Dành phần lớn thời gian, sức lực hoặc nguồn lực cho một hoạt động cụ thể.',
-      frontText: 'Instead of spending hours on manual chores, she prefers to __________ her spare time to studying foreign languages.',
+      frontText: 'Every evening, she likes to __________ one hour to reading storybooks with her little son.',
       context: 'Besides, they don\'t have to devote a lot of time every day to gathering firewood...',
-      exampleEn: 'Instead of spending hours on manual chores, she prefers to devote her spare time to studying foreign languages.',
+      exampleEn: 'Every evening, she likes to devote one hour to reading storybooks with her little son.',
       acceptedAnswers: ['devote', 'devote to', 'devote... to'],
       interval: 1,
       boxLevel: 1,
@@ -552,9 +553,9 @@
       english: 'bring in',
       ipa: '(phrasal verb - B2)',
       vietnamese: 'Kiếm ra tiền, đem lại khoản thu nhập hoặc doanh thu.',
-      frontText: 'Starting a small online bakery helped her family __________ in an extra $500 each month.',
+      frontText: 'Selling homemade lemonade at the weekend market helped the kids __________ in twenty dollars.',
       context: '...they can focus on different tasks that bring in money',
-      exampleEn: 'Starting a small online bakery helped her family bring in an extra $500 each month.',
+      exampleEn: 'Selling homemade lemonade at the weekend market helped the kids bring in twenty dollars.',
       acceptedAnswers: ['bring in', 'bring'],
       interval: 1,
       boxLevel: 1,
@@ -567,9 +568,9 @@
       english: 'pose',
       ipa: '/pəʊz/ (verb/collocation - B2/C1)',
       vietnamese: 'Gây ra, tạo ra hoặc mang đến một mối nguy hiểm/thách thức lớn.',
-      frontText: 'Untreated industrial waste dumped into local rivers __________ a grave danger to community health.',
+      frontText: 'Throwing plastic bags into the sea will __________ a serious danger to turtles and fish.',
       context: '...given the huge health and environmental dangers posed by \'dirty\' fuels...',
-      exampleEn: 'Untreated industrial waste dumped into local rivers poses a grave danger to community health.',
+      exampleEn: 'Throwing plastic bags into the sea will pose a serious danger to turtles and fish.',
       acceptedAnswers: ['pose', 'poses', 'pose a danger'],
       interval: 1,
       boxLevel: 1,
@@ -582,9 +583,9 @@
       english: 'not someone\'s only headache',
       ipa: '(idiom - C1)',
       vietnamese: '"Đau đầu" theo nghĩa bóng: Không phải là rắc rối hoặc gánh nặng duy nhất mà một người phải chịu đựng.',
-      frontText: 'High rent was a problem, but finding qualified staff was certainly not the restaurant owner\'s only __________.',
+      frontText: 'Losing his keys was annoying, but finding a way home in the rain was not his only __________.',
       context: 'But water hyacinth isn\'t their only headache.',
-      exampleEn: 'High rent was a problem, but finding qualified staff was certainly not the restaurant owner\'s only headache.',
+      exampleEn: 'Losing his keys was annoying, but finding a way home in the rain was not his only headache.',
       acceptedAnswers: ['headache', 'only headache', 'not someone\'s only headache'],
       interval: 1,
       boxLevel: 1,
@@ -597,9 +598,9 @@
       english: 'a gold mine',
       ipa: '(idiom/metaphor - B2/C1)',
       vietnamese: 'Một nguồn lợi dồi dào, tiềm năng kinh tế khổng lồ đang chờ khai thác.',
-      frontText: 'That old warehouse full of vintage car parts proved to be a real financial __________ for the mechanics.',
+      frontText: 'Her grandmother\'s secret cooking book was a real __________ because every dish was super popular.',
       context: 'But buried in those decaying waxy leaves was a renewable energy gold mine.',
-      exampleEn: 'That old warehouse full of vintage car parts proved to be a real financial gold mine for the mechanics.',
+      exampleEn: 'Her grandmother\'s secret cooking book was a real gold mine because every dish was super popular.',
       acceptedAnswers: ['gold mine', 'a gold mine', 'goldmine'],
       interval: 1,
       boxLevel: 1,
@@ -612,9 +613,9 @@
       english: 'in an attempt to',
       ipa: '(phrase - B2)',
       vietnamese: 'Với nỗ lực / cố gắng thực hiện một mục tiêu cụ thể nào đó.',
-      frontText: 'The government lowered corporate tax rates in an __________ to stimulate domestic investment.',
+      frontText: 'He woke up at five in the morning in an __________ to finish all his homework before class.',
       context: '...villagers had taken out of the water in an attempt to clear it...',
-      exampleEn: 'The government lowered corporate tax rates in an attempt to stimulate domestic investment.',
+      exampleEn: 'He woke up at five in the morning in an attempt to finish all his homework before class.',
       acceptedAnswers: ['attempt', 'in an attempt to', 'attempt to'],
       interval: 1,
       boxLevel: 1,
@@ -627,9 +628,9 @@
       english: 'a common sight',
       ipa: '(collocation - B2)',
       vietnamese: 'Một hiện tượng, cảnh tượng diễn ra thường xuyên, ai cũng nhìn thấy quen mắt.',
-      frontText: 'Street food vendors serving steaming bowls of noodles are a __________ sight on the sidewalks of Hanoi.',
+      frontText: 'Motorbikes carrying colorful flowers are a __________ sight on the busy streets of Hanoi.',
       context: '...huge piles of water hyacinth... were a common sight.',
-      exampleEn: 'Street food vendors serving steaming bowls of noodles are a common sight on the sidewalks of Hanoi.',
+      exampleEn: 'Motorbikes carrying colorful flowers are a common sight on the busy streets of Hanoi.',
       acceptedAnswers: ['common', 'common sight', 'a common sight'],
       interval: 1,
       boxLevel: 1,
@@ -642,9 +643,9 @@
       english: 'captivate someone\'s imagination',
       ipa: '(collocation - C1)',
       vietnamese: 'Kích thích trí tưởng tượng, khiến ai đó suy nghĩ đầy say mê và hứng thú về một điều gì.',
-      frontText: 'The mysterious concept of deep-space travel has long captivated the __________ of science fiction authors.',
+      frontText: 'Exciting movies about aliens and space travel always captivate the __________ of young kids.',
       context: 'It\'s a magic combination that has captivated researchers\' imaginations...',
-      exampleEn: 'The mysterious concept of deep-space travel has long captivated the imagination of science fiction authors.',
+      exampleEn: 'Exciting movies about aliens and space travel always captivate the imagination of young kids.',
       acceptedAnswers: ['imagination', 'imaginations', 'captivate someone\'s imagination'],
       interval: 1,
       boxLevel: 1,
@@ -657,9 +658,9 @@
       english: 'provide an effective alternative to',
       ipa: '(collocation - B2/C1)',
       vietnamese: 'Đóng vai trò là một giải pháp/nguồn thay thế hữu hiệu cho một thứ truyền thống.',
-      frontText: 'Wind and solar systems can provide a viable and effective __________ to burning coal for electricity.',
+      frontText: 'Riding a bicycle to work is a healthy and cheap __________ to driving an expensive car.',
       context: 'The project is testing whether biogas can provide an effective alternative to firewood and charcoal...',
-      exampleEn: 'Wind and solar systems can provide a viable and effective alternative to burning coal for electricity.',
+      exampleEn: 'Riding a bicycle to work is a healthy and cheap alternative to driving an expensive car.',
       acceptedAnswers: ['alternative', 'provide an effective alternative to', 'effective alternative'],
       interval: 1,
       boxLevel: 1,
@@ -672,9 +673,9 @@
       english: 'beyond the reach of',
       ipa: '(idiom - C1)',
       vietnamese: 'Vượt quá khả năng chi trả, ngoài tầm với của ai đó.',
-      frontText: 'In many developing nations, the soaring cost of private healthcare remains far beyond the __________ of impoverished families.',
+      frontText: 'The price of that luxury sports car is far too expensive and beyond the __________ of normal workers.',
       context: '...the price of the digesters is beyond the reach of most villages',
-      exampleEn: 'In many developing nations, the soaring cost of private healthcare remains far beyond the reach of impoverished families.',
+      exampleEn: 'The price of that luxury sports car is far too expensive and beyond the reach of normal workers.',
       acceptedAnswers: ['reach', 'beyond the reach of', 'beyond the reach'],
       interval: 1,
       boxLevel: 1,
@@ -687,9 +688,9 @@
       english: 'a challenge worth addressing',
       ipa: '(collocation - C1)',
       vietnamese: 'Một thử thách khó khăn nhưng hoàn toàn xứng đáng để dành công sức xử lý triệt để.',
-      frontText: 'Finding ways to recycle lithium-ion batteries is a difficult challenge, but it is certainly a problem worth __________.',
+      frontText: 'Cleaning dirty plastic from the river is hard work, but it is a challenge worth __________.',
       context: 'Kanyiva says affordability is a challenge worth addressing...',
-      exampleEn: 'Finding ways to recycle lithium-ion batteries is a difficult challenge, but it is certainly a problem worth addressing.',
+      exampleEn: 'Cleaning dirty plastic from the river is hard work, but it is a challenge worth addressing.',
       acceptedAnswers: ['addressing', 'address', 'worth addressing', 'a challenge worth addressing'],
       interval: 1,
       boxLevel: 1,
@@ -702,9 +703,9 @@
       english: 'on a large scale',
       ipa: '(collocation - B2)',
       vietnamese: 'Được thực hiện trên diện rộng, mức độ bao phủ lớn.',
-      frontText: 'If reforestation projects are not carried out on a __________ scale, global warming will accelerate.',
+      frontText: 'If a big factory produces warm winter coats on a __________ scale, the cost per coat will be lower.',
       context: 'If biogas could become affordable on a large scale...',
-      exampleEn: 'If reforestation projects are not carried out on a large scale, global warming will accelerate.',
+      exampleEn: 'If a big factory produces warm winter coats on a large scale, the cost per coat will be lower.',
       acceptedAnswers: ['large', 'large scale', 'on a large scale'],
       interval: 1,
       boxLevel: 1,
@@ -717,9 +718,9 @@
       english: 'life-changing',
       ipa: '(compound adjective - B2)',
       vietnamese: 'Có tác động mạnh mẽ đến mức làm thay đổi vận mệnh hoặc chất lượng cuộc sống.',
-      frontText: 'Winning a university scholarship to study abroad was a truly __________ experience for the young student.',
+      frontText: 'Winning a scholarship to study at a top university was a truly __________ event in his life.',
       context: '...she says it \'would be life-changing for millions on the African continent and beyond\'.',
-      exampleEn: 'Winning a university scholarship to study abroad was a truly life-changing experience for the young student.',
+      exampleEn: 'Winning a scholarship to study at a top university was a truly life-changing event in his life.',
       acceptedAnswers: ['life-changing', 'life changing'],
       interval: 1,
       boxLevel: 1,
@@ -732,9 +733,9 @@
       english: 'via',
       ipa: '/ˈvaɪə/ (preposition - B2)',
       vietnamese: 'Đi qua đường nào, thông qua tuyến đường hoặc phương thức nào.',
-      frontText: 'Cargo ships transport finished goods from East Asia to Europe __________ the Suez Canal.',
+      frontText: 'I sent the homework photos to my teacher __________ email so she could check them.',
       context: '...escaped out of the country via the Kagera river and made its way downstream...',
-      exampleEn: 'Cargo ships transport finished goods from East Asia to Europe via the Suez Canal.',
+      exampleEn: 'I sent the homework photos to my teacher via email so she could check them.',
       acceptedAnswers: ['via'],
       interval: 1,
       boxLevel: 1,
@@ -747,9 +748,9 @@
       english: 'as early as',
       ipa: '(time emphasis phrase - B2)',
       vietnamese: 'Ngay từ tận (nhấn mạnh một mốc thời gian diễn ra rất sớm trong quá khứ).',
-      frontText: 'Historical records show that people in this valley practiced crop rotation as __________ as the twelfth century.',
+      frontText: 'The little bakery on the street corner opens as __________ as five in the morning.',
       context: '...captivated researchers\' imaginations since as early as the 1980s...',
-      exampleEn: 'Historical records show that people in this valley practiced crop rotation as early as the twelfth century.',
+      exampleEn: 'The little bakery on the street corner opens as early as five in the morning.',
       acceptedAnswers: ['early', 'as early as'],
       interval: 1,
       boxLevel: 1,
@@ -762,9 +763,9 @@
       english: 'besides',
       ipa: '/bɪˈsaɪdz/ (linking adverb - B2)',
       vietnamese: 'Thêm vào đó, hơn nữa (dùng ở đầu câu để bổ sung thêm một lý do có sức thuyết phục).',
-      frontText: 'The new bus network is faster than the old train. __________, tickets are considerably cheaper.',
+      frontText: 'Walking every morning helps you stay healthy. __________, it costs no money at all.',
       context: 'Besides, they don\'t have to devote a lot of time every day to gathering firewood...',
-      exampleEn: 'The new bus network is faster than the old train. Besides, tickets are considerably cheaper.',
+      exampleEn: 'Walking every morning helps you stay healthy. Besides, it costs no money at all.',
       acceptedAnswers: ['besides'],
       interval: 1,
       boxLevel: 1,
@@ -777,9 +778,9 @@
       english: 'as a result',
       ipa: '(transition phrase - B2)',
       vietnamese: 'Kết quả là, hệ quả là (chỉ mối quan hệ nguyên nhân - kết quả giữa hai câu).',
-      frontText: 'Heavy flooding destroyed local road networks. As a __________, food supplies could not reach the town for days.',
+      frontText: 'He stayed up very late playing video games. As a __________, he was late for school today.',
       context: 'As a result, they\'re able to make more money for their families from other enterprises.',
-      exampleEn: 'Heavy flooding destroyed local road networks. As a result, food supplies could not reach the town for days.',
+      exampleEn: 'He stayed up very late playing video games. As a result, he was late for school today.',
       acceptedAnswers: ['result', 'as a result'],
       interval: 1,
       boxLevel: 1,
@@ -792,9 +793,9 @@
       english: 'given',
       ipa: '/ˈɡɪv.ən/ (preposition/conjunction - C1)',
       vietnamese: 'Căn cứ vào, xét đến yếu tố thực tế nào đó trước khi đưa ra nhận xét.',
-      frontText: '__________ the high level of air pollution in the valley, respiratory illnesses are unusually common.',
+      frontText: '__________ that it was raining very heavily, we decided to stay at home and watch television.',
       context: '...a challenge worth addressing, given the huge health and environmental dangers posed by \'dirty\' fuels...',
-      exampleEn: 'Given the high level of air pollution in the valley, respiratory illnesses are unusually common.',
+      exampleEn: 'Given that it was raining very heavily, we decided to stay at home and watch television.',
       acceptedAnswers: ['given'],
       interval: 1,
       boxLevel: 1,
@@ -807,9 +808,9 @@
       english: 'and beyond',
       ipa: '(phrase - B2)',
       vietnamese: 'Và những khu vực/khía cạnh vượt xa hơn phạm vi vừa nhắc tới.',
-      frontText: 'The success of this clean water project will bring positive impacts to families in this region and __________.',
+      frontText: 'His delicious homemade coffee became famous all across the city and __________ to nearby towns.',
       context: '...life-changing for millions on the African continent and beyond.',
-      exampleEn: 'The success of this clean water project will bring positive impacts to families in this region and beyond.',
+      exampleEn: 'His delicious homemade coffee became famous all across the city and beyond to nearby towns.',
       acceptedAnswers: ['beyond', 'and beyond'],
       interval: 1,
       boxLevel: 1,
@@ -943,8 +944,8 @@
     toastContainer: document.getElementById('toast-container')
   };
 
-  // --- STORAGE HELPERS (v2 ensures existing users immediately get the new 53 cards) ---
-  const STORAGE_KEY = 'minimal_flashcards_data_v2';
+  // --- STORAGE HELPERS (v3 guarantees automatic refresh to A1-A2-B1 front sentences) ---
+  const STORAGE_KEY = 'minimal_flashcards_data_v3';
   const PREF_KEY = 'minimal_flashcards_pref_v1';
 
   function loadCardsFromStorage() {
@@ -959,7 +960,6 @@
     } catch (e) {
       console.warn('Lỗi đọc dữ liệu từ localStorage', e);
     }
-    // Default to the 53 fresh cards
     saveCardsToStorage(DEFAULT_CARDS);
     return JSON.parse(JSON.stringify(DEFAULT_CARDS));
   }
@@ -1204,12 +1204,12 @@
     el.frontTypeChip.textContent = catLabel;
     el.backTypeChip.textContent = catLabel;
 
-    // FRONT: Displays the cloze / test sentence (No hints, as requested!)
+    // FRONT: Displays the simple, clear A1/A2/B1 cloze sentence (No hints!)
     el.frontPromptLabel.textContent = 'ĐIỀN TỪ VÀO CHỖ TRỐNG (MẶT TRƯỚC)';
     el.frontVietnamese.textContent = card.frontText || card.vietnamese || '...';
-    el.frontContextHint.textContent = ''; // Absolutely no hints added
+    el.frontContextHint.textContent = ''; // Absolutely no hints
 
-    // BACK: Displays the Target answer, IPA, meaning and context
+    // BACK: Displays the Target answer, IPA, Vietnamese meaning, and Reading passage context
     el.backEnglish.textContent = card.english || '';
     el.backIpa.textContent = card.ipa || '';
     el.backMeaning.innerHTML = `<strong>Ý nghĩa:</strong> ${card.vietnamese || ''}`;
@@ -1220,7 +1220,7 @@
       if (labelElem) labelElem.textContent = 'NGỮ CẢNH TRONG BÀI ĐỌC';
 
       el.backExampleEn.textContent = card.context ? `"${card.context}"` : card.exampleEn;
-      el.backExampleVi.textContent = card.exampleEn !== card.context ? `Câu đầy đủ: ${card.exampleEn}` : '';
+      el.backExampleVi.textContent = card.exampleEn !== card.context ? `Câu mặt trước hoàn chỉnh: ${card.exampleEn}` : '';
     } else {
       el.backExampleWrapper.style.display = 'none';
     }
@@ -1237,9 +1237,9 @@
 
     el.typeBadgeCategory.textContent = card.category === 'words' ? 'Word Quiz' : 'Collocation Quiz';
     
-    // In typing mode: show the cloze sentence clearly
+    // In typing mode: display the clear A1-B1 sentence
     el.typePromptMeaning.textContent = card.frontText || card.vietnamese || '';
-    el.typeClozeHint.style.display = 'none'; // No hints added
+    el.typeClozeHint.style.display = 'none';
 
     el.userTypedInput.value = '';
     el.typeFeedbackBanner.style.display = 'none';
@@ -1311,8 +1311,6 @@
     }
 
     const cleanUser = normalizeString(userInput);
-    
-    // Targets: exact target english word, plus all accepted answer forms (singular/plural/phrases)
     const targets = [card.english, ...(card.acceptedAnswers || [])].map(t => normalizeString(t));
     const isMatch = targets.includes(cleanUser);
 
@@ -1605,7 +1603,7 @@
     if (!confirm('Khôi phục lại danh mục flashcard mẫu ban đầu (53 thẻ)?')) return;
     state.cards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
     saveCardsToStorage(state.cards);
-    showToast('Đã khôi phục toàn bộ 53 thẻ bài học');
+    showToast('Đã khôi phục toàn bộ 53 thẻ với câu A1-A2-B1 dễ hiểu');
     updateCategoryCountsPreview();
     filterAndRenderCards();
     renderManageTable();
