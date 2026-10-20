@@ -53,12 +53,10 @@
 ### Bước 2: Đẩy mã nguồn lên GitHub
 Mở terminal tại thư mục này và chạy các lệnh sau:
 ```bash
-git remote add origin https://github.com/chamlai123/flashcards.git
+git remote add origin https://github.com/Thanh-2312/Flashcards.git
 git branch -M main
 git push -u origin main
 ```
-
-*(Lưu ý: Thay `flashcards` bằng tên repo bạn vừa tạo nếu đặt tên khác)*
 
 ### Bước 3: Bật GitHub Pages
 1. Trên giao diện GitHub của repo, vào tab **Settings** (Cài đặt) → Chọn mục **Pages** ở thanh menu bên trái.
@@ -67,6 +65,6 @@ git push -u origin main
    - Chọn thư mục: `/ (root)`
 3. Nhấn **Save**.
 4. Chờ khoảng 1-2 phút, GitHub sẽ hiển thị đường dẫn trang web của bạn:
-   👉 **`https://chamlai123.github.io/flashcards/`**
+   👉 **`https://thanh-2312.github.io/Flashcards/`**
 
 Bạn có thể lưu bookmark link này trên điện thoại (thêm vào màn hình chính Home Screen như một App) hoặc máy tính để học mỗi ngày bất cứ nơi đâu!
