@@ -438,11 +438,12 @@ body {
 }
 
 .card-vietnamese-meaning {
-  font-size: 1.55rem;
-  font-weight: 600;
-  line-height: 1.35;
+  font-size: 1.22rem;
+  font-weight: 500;
+  line-height: 1.6;
   color: var(--text-main);
-  margin-bottom: 10px;
+  max-width: 580px;
+  margin: 0 auto 10px;
 }
 
 .card-context-hint {
@@ -568,10 +569,12 @@ body {
 }
 
 .type-meaning-display {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.22rem;
+  font-weight: 500;
+  line-height: 1.6;
   color: var(--text-main);
-  margin-bottom: 8px;
+  max-width: 580px;
+  margin: 0 auto 16px;
 }
 
 .type-cloze-prompt {
