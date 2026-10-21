@@ -1256,7 +1256,17 @@ Return ONLY a JSON object:
     if (inputKey) inputKey.value = config.apiKey || '';
 
     if (selectModel) {
-      const knownModels = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
+      const knownModels = [
+        'gemini-3.8-flash',
+        'gemini-3.6-flash',
+        'gemini-3-flash',
+        'gemini-3.5-flash-lite',
+        'gemini-3.1-flash-lite',
+        'gemini-2.5-flash',
+        'gemini-2.5-flash-lite',
+        'gemma-4-26b',
+        'gemma-4-31b'
+      ];
       const curModel = config.model || 'gemini-3.8-flash';
       if (knownModels.includes(curModel)) {
         selectModel.value = curModel;
