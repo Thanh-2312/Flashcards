@@ -368,7 +368,7 @@
   // --- DEFAULT CONFIG & STATE ---
   const DEFAULT_CONFIG = {
     apiKey: '',
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.8-flash',
     targetLevel: 'b1'
   };
 
@@ -454,7 +454,7 @@
       throw new Error('Vui lòng dán Google Gemini API Key trong bảng Cài đặt trước khi dùng.');
     }
 
-    const modelName = config.model || 'gemini-2.5-flash';
+    const modelName = config.model || 'gemini-3.8-flash';
     const cleanKey = config.apiKey.trim();
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(cleanKey)}`;
 
@@ -1248,11 +1248,26 @@ Return ONLY a JSON object:
 
     const inputKey = document.getElementById('speaking-api-key-input');
     const selectModel = document.getElementById('speaking-model-select');
+    const customWrap = document.getElementById('custom-model-wrapper');
+    const customInput = document.getElementById('speaking-custom-model-input');
     const selectLevel = document.getElementById('speaking-target-level');
     const statusBox = document.getElementById('speaking-test-status');
 
     if (inputKey) inputKey.value = config.apiKey || '';
-    if (selectModel) selectModel.value = config.model || 'gemini-2.5-flash';
+
+    if (selectModel) {
+      const knownModels = ['gemini-3.8-flash', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
+      const curModel = config.model || 'gemini-3.8-flash';
+      if (knownModels.includes(curModel)) {
+        selectModel.value = curModel;
+        if (customWrap) customWrap.style.display = 'none';
+      } else {
+        selectModel.value = 'custom';
+        if (customWrap) customWrap.style.display = 'block';
+        if (customInput) customInput.value = curModel;
+      }
+    }
+
     if (selectLevel) selectLevel.value = config.targetLevel || 'b1';
     if (statusBox) {
       statusBox.style.display = 'none';
@@ -1270,11 +1285,15 @@ Return ONLY a JSON object:
   async function handleTestAPIConnection() {
     const inputKey = document.getElementById('speaking-api-key-input');
     const selectModel = document.getElementById('speaking-model-select');
+    const customInput = document.getElementById('speaking-custom-model-input');
     const statusBox = document.getElementById('speaking-test-status');
     const btnTest = document.getElementById('btn-test-gemini');
 
     const key = (inputKey.value || '').trim();
-    const model = selectModel.value || 'gemini-2.5-flash';
+    let model = (selectModel.value || 'gemini-3.8-flash');
+    if (model === 'custom') {
+      model = (customInput?.value || '').trim() || 'gemini-3.8-flash';
+    }
 
     if (!key) {
       showToastMessage('Vui lòng nhập API Key để kiểm tra');
@@ -1292,7 +1311,7 @@ Return ONLY a JSON object:
       statusBox.innerHTML = `✅ Kết nối thành công! Khóa API hợp lệ và model <strong>${escapeHtml(model)}</strong> đã sẵn sàng hoạt động.`;
     } catch (err) {
       statusBox.className = 'status-box status-error';
-      statusBox.innerHTML = `❌ Kiểm tra thất bại: ${escapeHtml(err.message)}<br><small>Hãy kiểm tra xem bạn đã copy đúng key chưa hoặc key có bị giới hạn sai domain không.</small>`;
+      statusBox.innerHTML = `❌ Kiểm tra thất bại: ${escapeHtml(err.message)}<br><small>Nếu model này chưa mở cho tài khoản của bạn, bạn có thể chuyển sang <strong>gemini-2.5-flash</strong> hoặc <strong>gemini-1.5-flash</strong> để tiếp tục sử dụng bình thường.</small>`;
     } finally {
       btnTest.disabled = false;
     }
@@ -1301,15 +1320,19 @@ Return ONLY a JSON object:
   function handleSaveAISettings() {
     const inputKey = document.getElementById('speaking-api-key-input');
     const selectModel = document.getElementById('speaking-model-select');
+    const customInput = document.getElementById('speaking-custom-model-input');
     const selectLevel = document.getElementById('speaking-target-level');
 
     const key = (inputKey.value || '').trim();
-    const model = selectModel.value || 'gemini-2.5-flash';
+    let model = (selectModel.value || 'gemini-3.8-flash');
+    if (model === 'custom') {
+      model = (customInput?.value || '').trim() || 'gemini-3.8-flash';
+    }
     const targetLevel = selectLevel.value || 'b1';
 
     saveConfig({ apiKey: key, model, targetLevel });
     closeAISettingsModal();
-    showToastMessage('Đã lưu cấu hình AI thành công!');
+    showToastMessage(`Đã lưu cấu hình AI! Model đang dùng: ${model}`);
   }
 
   // --- ESCAPING UTILITIES ---
@@ -1440,6 +1463,20 @@ Return ONLY a JSON object:
     const btnSaveModal = document.getElementById('btn-save-ai-settings');
     const btnTestModal = document.getElementById('btn-test-gemini');
     const btnToggleKeyVis = document.getElementById('btn-toggle-key-vis');
+
+    const selectModel = document.getElementById('speaking-model-select');
+    const customWrap = document.getElementById('custom-model-wrapper');
+    const customInput = document.getElementById('speaking-custom-model-input');
+    if (selectModel && customWrap) {
+      selectModel.addEventListener('change', () => {
+        if (selectModel.value === 'custom') {
+          customWrap.style.display = 'block';
+          if (customInput) customInput.focus();
+        } else {
+          customWrap.style.display = 'none';
+        }
+      });
+    }
 
     if (btnOpenSettings) btnOpenSettings.addEventListener('click', openAISettingsModal);
     if (badgeSettings) badgeSettings.addEventListener('click', openAISettingsModal);

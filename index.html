@@ -792,11 +792,16 @@
             <span class="label-subtext">1 API Key dùng được cho tất cả các model dưới đây</span>
           </label>
           <select id="speaking-model-select" class="form-select">
-            <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Khuyên dùng - Nhanh, chuẩn xác, miễn phí)</option>
+            <option value="gemini-3.8-flash" selected>Gemini 3.8 Flash (Mới nhất - Cực mạnh, thông minh vượt bậc & siêu tốc)</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash (Khuyên dùng - Nhanh, chuẩn xác, miễn phí)</option>
             <option value="gemini-2.0-flash">Gemini 2.0 Flash (Tốc độ cao)</option>
             <option value="gemini-1.5-flash">Gemini 1.5 Flash (Ổn định, phản hồi tốt)</option>
             <option value="gemini-1.5-pro">Gemini 1.5 Pro (Phân tích sâu, phản hồi chậm hơn)</option>
+            <option value="custom">Tùy chỉnh (Nhập tên model khác...)</option>
           </select>
+          <div id="custom-model-wrapper" style="display: none; margin-top: 8px;">
+            <input type="text" id="speaking-custom-model-input" class="form-input" placeholder="Ví dụ: gemini-3.8-flash, gemini-3-flash-preview...">
+          </div>
         </div>
 
         <!-- Target Level Dropdown -->
