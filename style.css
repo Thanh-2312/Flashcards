@@ -1354,3 +1354,308 @@ body {
     padding: 10px;
   }
 }
+
+/* ==========================================================================
+   REAL-TIME CLOUD SYNC & CALENDAR DATE INTEGRATION
+   ========================================================================== */
+
+/* Header Sync Button */
+.sync-status-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.sync-status-btn:hover {
+  background-color: var(--bg-subtle);
+  border-color: var(--border-medium);
+  color: var(--text-main);
+}
+
+.sync-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sync-dot.dot-online {
+  background-color: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+}
+
+.sync-dot.dot-syncing {
+  background-color: #f59e0b;
+  animation: pulseSync 1s infinite alternate;
+}
+
+.sync-dot.dot-offline {
+  background-color: #94a3b8;
+}
+
+@keyframes pulseSync {
+  from { opacity: 0.4; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1.15); }
+}
+
+/* Meta Row Badges Group (Box + Due Date) */
+.meta-badges-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.card-due-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.card-due-tag.status-due {
+  background-color: #fef3c7;
+  border-color: #fde68a;
+  color: #b45309;
+}
+
+.card-due-tag.status-overdue {
+  background-color: #fee2e2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.card-due-tag.status-future {
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #047857;
+}
+
+body.dark-mode .card-due-tag.status-due {
+  background-color: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+}
+
+body.dark-mode .card-due-tag.status-overdue {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+
+body.dark-mode .card-due-tag.status-future {
+  background-color: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
+
+/* Rating Button Date Hints */
+.rate-date-hint {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* Table Due Badges in Manage Modal */
+.due-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.due-badge.due-today {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+.due-badge.due-overdue {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.due-badge.due-future {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+body.dark-mode .due-badge.due-today {
+  background-color: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+body.dark-mode .due-badge.due-overdue {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+body.dark-mode .due-badge.due-future {
+  background-color: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+}
+
+/* Sync Modal Specifics */
+.sync-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sync-status-card {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.sync-status-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sync-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.sync-status-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sync-status-pulse.dot-online {
+  background-color: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.sync-status-pulse.dot-syncing {
+  background-color: #f59e0b;
+  animation: pulseSync 1s infinite alternate;
+}
+
+.sync-status-pulse.dot-offline {
+  background-color: #94a3b8;
+}
+
+.sync-last-time {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+.sync-actions-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-sync-action {
+  flex: 1;
+  padding: 8px 12px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-sync-action:hover {
+  background-color: var(--bg-card);
+  border-color: var(--border-strong);
+}
+
+.input-with-copy {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-copy {
+  padding: 8px 12px;
+  font-size: 1rem;
+}
+
+.label-subtext {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: normal;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.sync-guide-details {
+  background-color: var(--bg-subtle);
+  border: 1px dashed var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.sync-guide-details summary {
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-main);
+  outline: none;
+}
+
+.sync-guide-steps {
+  margin: 10px 0 0 20px;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.sync-guide-steps li {
+  margin-bottom: 6px;
+}
+
+.sync-guide-steps a {
+  color: var(--accent-sage-dark, #2b6cb0);
+  text-decoration: underline;
+}
+
+.sync-share-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.share-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}

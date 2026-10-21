@@ -83,7 +83,7 @@ Mỗi thẻ flashcard mới được thêm vào mảng `DEFAULT_CARDS` trong `ap
 Sau khi kiểm tra cú pháp thành công, Agent chạy các lệnh Git sau trong thư mục làm việc:
 
 ```bash
-git add app.js AGENT.md
+git add app.js index.html style.css AGENT.md README.md
 git commit -m "feat: add B2+ flashcards from reading passage [Tên chủ đề bài đọc]"
 git push origin main
 ```

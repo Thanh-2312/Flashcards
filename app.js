@@ -1746,8 +1746,94 @@
     fileImportJson: document.getElementById('file-import-json'),
     btnResetDefaultData: document.getElementById('btn-reset-default-data'),
 
+    // Cloud Sync UI
+    btnOpenSync: document.getElementById('btn-open-sync'),
+    syncStatusDot: document.getElementById('sync-status-dot'),
+    syncStatusLabel: document.getElementById('sync-status-label'),
+    currentDueTag: document.getElementById('current-due-tag'),
+    currentDueText: document.getElementById('current-due-text'),
+    rateAgainDate: document.getElementById('rate-again-date'),
+    rateGoodDate: document.getElementById('rate-good-date'),
+
+    // Cloud Sync Modal
+    modalCloudSync: document.getElementById('modal-cloud-sync'),
+    btnCloseSyncModal: document.getElementById('btn-close-sync-modal'),
+    modalSyncPulse: document.getElementById('modal-sync-pulse'),
+    modalSyncStatusText: document.getElementById('modal-sync-status-text'),
+    modalSyncLastTime: document.getElementById('modal-sync-last-time'),
+    btnForcePush: document.getElementById('btn-force-push'),
+    btnForcePull: document.getElementById('btn-force-pull'),
+    syncUserIdInput: document.getElementById('sync-user-id-input'),
+    btnCopySyncId: document.getElementById('btn-copy-sync-id'),
+    firebaseConfigInput: document.getElementById('firebase-config-input'),
+    syncShareBox: document.getElementById('sync-share-box'),
+    syncShareUrlInput: document.getElementById('sync-share-url-input'),
+    btnCopyShareUrl: document.getElementById('btn-copy-share-url'),
+    btnDisconnectSync: document.getElementById('btn-disconnect-sync'),
+    btnSaveSyncConfig: document.getElementById('btn-save-sync-config'),
+
     toastContainer: document.getElementById('toast-container')
   };
+
+  // --- CALENDAR DATE & TIME HELPERS ---
+  function getEndOfToday() {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime();
+  }
+
+  function isCardDue(card) {
+    if (!card || !card.nextReviewDate) return true;
+    return card.nextReviewDate <= getEndOfToday();
+  }
+
+  function formatDateDMY(timestamp) {
+    if (!timestamp) return 'Chưa học';
+    const d = new Date(timestamp);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  function formatShortDate(timestamp) {
+    if (!timestamp) return '';
+    const d = new Date(timestamp);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    return `${day}/${month}`;
+  }
+
+  function formatDateTimeDMY(timestamp) {
+    if (!timestamp) return 'Chưa học';
+    const d = new Date(timestamp);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const mins = String(d.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} lúc ${hours}:${mins}`;
+  }
+
+  function formatRelativeDue(timestamp) {
+    if (!timestamp) return { text: 'Cần ôn ngay', status: 'due', isDue: true };
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const targetDate = new Date(timestamp);
+    const targetStart = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate()).getTime();
+    
+    const diffDays = Math.round((targetStart - todayStart) / MS_PER_DAY);
+    const dateStr = formatDateDMY(timestamp);
+
+    if (diffDays < 0) {
+      return { text: `Quá hạn ${Math.abs(diffDays)} ngày (${dateStr})`, status: 'overdue', isDue: true };
+    } else if (diffDays === 0) {
+      return { text: `Hôm nay (${dateStr})`, status: 'due', isDue: true };
+    } else if (diffDays === 1) {
+      return { text: `Ngày mai (${dateStr})`, status: 'future', isDue: false };
+    } else {
+      return { text: `${dateStr} (sau ${diffDays} ngày)`, status: 'future', isDue: false };
+    }
+  }
 
   // --- STORAGE HELPERS (v4 with Davies Sisters reading cards auto-merge) ---
   const STORAGE_KEY = 'minimal_flashcards_data_v4';
@@ -1908,7 +1994,7 @@
     let list = state.cards.filter(c => c.category === state.selectedCategory);
 
     if (state.currentFilter === 'due') {
-      list = list.filter(c => !c.nextReviewDate || c.nextReviewDate <= now);
+      list = list.filter(c => isCardDue(c));
     } else if (['1', '4', '7', '14'].includes(state.currentFilter)) {
       const intVal = parseInt(state.currentFilter, 10);
       list = list.filter(c => c.interval === intVal);
@@ -1919,11 +2005,10 @@
 
   function updateIntervalBadgeCounts() {
     if (!state.selectedCategory) return;
-    const now = Date.now();
     const catCards = state.cards.filter(c => c.category === state.selectedCategory);
 
     const countAll = catCards.length;
-    const countDue = catCards.filter(c => !c.nextReviewDate || c.nextReviewDate <= now).length;
+    const countDue = catCards.filter(c => isCardDue(c)).length;
     const count1 = catCards.filter(c => c.interval === 1).length;
     const count4 = catCards.filter(c => c.interval === 4).length;
     const count7 = catCards.filter(c => c.interval === 7).length;
@@ -1995,13 +2080,26 @@
     el.studyProgressFill.style.width = `${progressPercent}%`;
     el.cardPositionText.textContent = `Thẻ ${state.currentIndex + 1} / ${total}`;
 
-    // Box Level Info
+    // Box Level Info & Due Date Tag
     el.currentBoxTag.style.display = 'inline-flex';
     el.currentBoxText.textContent = `Hộp ${card.interval} ngày`;
 
-    // Next advance interval label
+    if (el.currentDueTag && el.currentDueText) {
+      const dueInfo = formatRelativeDue(card.nextReviewDate);
+      el.currentDueTag.className = `card-due-tag status-${dueInfo.status}`;
+      el.currentDueText.textContent = dueInfo.text;
+      el.currentDueTag.style.display = 'inline-flex';
+    }
+
+    // Next advance interval label & Rating Button Date Hints
     const nextInterval = getNextInterval(card.interval);
     el.btnAdvanceIntervalLabel.textContent = `+${nextInterval} ngày`;
+
+    const now = Date.now();
+    const dateAgainStr = formatShortDate(now + 1 * MS_PER_DAY);
+    const dateGoodStr = formatShortDate(now + nextInterval * MS_PER_DAY);
+    if (el.rateAgainDate) el.rateAgainDate.textContent = `(${dateAgainStr})`;
+    if (el.rateGoodDate) el.rateGoodDate.textContent = `(${dateGoodStr})`;
 
     // Render in Flip Mode
     renderFlipCard(card);
@@ -2049,7 +2147,19 @@
     }
 
     const nextDays = getNextInterval(card.interval);
-    el.backNextReviewInfo.innerHTML = `Chu kỳ tiếp theo nếu nhớ: <strong>+${nextDays} ngày</strong> (Hộp ${nextDays}d)`;
+    const now = Date.now();
+    const nextDateGood = now + (nextDays * MS_PER_DAY);
+    const nextDateAgain = now + (1 * MS_PER_DAY);
+    const dateGoodStr = formatDateDMY(nextDateGood);
+    const dateAgainStr = formatDateDMY(nextDateAgain);
+
+    el.backNextReviewInfo.innerHTML = `
+      <div class="review-date-detail" style="line-height:1.6;">
+        <div>Chu kỳ tiếp theo nếu nhớ: <strong>+${nextDays} ngày</strong> (Hộp ${nextDays}d ➔ Hạn ôn: <strong>${dateGoodStr}</strong>)</div>
+        <div style="font-size:0.85em; opacity:0.85; margin-top:3px;">Nếu quên / chưa nhớ: <strong>1 ngày</strong> (Hộp 1d ➔ Hạn ôn: <strong>${dateAgainStr}</strong>)</div>
+        ${card.lastReviewed ? `<div style="font-size:0.8em; color:var(--text-tertiary); margin-top:4px;">Lần ôn gần nhất: ${formatDateTimeDMY(card.lastReviewed)}</div>` : ''}
+      </div>
+    `;
   }
 
   function renderTypeMode(card) {
@@ -2096,16 +2206,21 @@
       originalCard.boxLevel = INTERVAL_LEVELS.indexOf(newInterval) + 1;
       originalCard.nextReviewDate = now + (newInterval * MS_PER_DAY);
       originalCard.lastReviewed = now;
-      showToast(`✨ Đã nhớ! Thẻ chuyển sang hộp +${newInterval} ngày.`);
+      originalCard.updatedAt = now;
+      const targetDateStr = formatDateDMY(originalCard.nextReviewDate);
+      showToast(`✨ Đã nhớ! Thẻ chuyển sang hộp +${newInterval} ngày (Hạn ôn: ${targetDateStr})`);
     } else {
       originalCard.interval = 1;
       originalCard.boxLevel = 1;
       originalCard.nextReviewDate = now + (1 * MS_PER_DAY);
       originalCard.lastReviewed = now;
-      showToast(`🔄 Chưa thuộc. Thẻ được xếp lại vào hộp 1 ngày.`);
+      originalCard.updatedAt = now;
+      const targetDateStr = formatDateDMY(originalCard.nextReviewDate);
+      showToast(`🔄 Chưa nhớ. Xếp lại vào Hộp 1 ngày (Hạn ôn: ${targetDateStr})`);
     }
 
     saveCardsToStorage(state.cards);
+    syncModule.pushProgressToCloud();
 
     if (state.currentFilter === 'due' || state.currentFilter === '1' || state.currentFilter === '4' || state.currentFilter === '7' || state.currentFilter === '14') {
       filterAndRenderCards();
@@ -2361,20 +2476,18 @@
       return;
     }
 
-    const now = Date.now();
     el.manageTableBody.innerHTML = list.map(c => {
-      const isDue = !c.nextReviewDate || c.nextReviewDate <= now;
-      const dueLabel = isDue
-        ? '<span style="color:var(--status-danger); font-weight:600;">Cần ôn ngay</span>'
-        : `Còn ${Math.ceil((c.nextReviewDate - now) / MS_PER_DAY)} ngày`;
+      const dueInfo = formatRelativeDue(c.nextReviewDate);
+      const lastReviewedStr = c.lastReviewed ? formatDateDMY(c.lastReviewed) : '<span style="color:var(--text-tertiary);">-</span>';
 
       return `
         <tr>
           <td><span class="card-type-chip">${c.category === 'words' ? 'Word' : 'Colloc'}</span></td>
           <td><strong>${c.english}</strong> ${c.ipa ? `<span style="font-size:0.8rem; color:var(--text-tertiary);">${c.ipa}</span>` : ''}</td>
           <td>${c.vietnamese}</td>
-          <td><span class="pill-dot dot-${c.interval}"></span> ${c.interval} ngày</td>
-          <td>${dueLabel}</td>
+          <td><span class="pill-dot dot-${c.interval}"></span> Hộp ${c.interval}d</td>
+          <td><span class="due-badge due-${dueInfo.status}">${dueInfo.text}</span></td>
+          <td>${lastReviewedStr}</td>
           <td class="text-right">
             <button type="button" class="action-btn-sm" title="Sửa" onclick="window.editCardHandler('${c.id}')">✏️</button>
             <button type="button" class="action-btn-sm delete" title="Xóa" onclick="window.deleteCardHandler('${c.id}')">🗑️</button>
@@ -2430,7 +2543,303 @@
     updateCategoryCountsPreview();
     filterAndRenderCards();
     renderManageTable();
+    syncModule.pushProgressToCloud();
   }
+
+  // --- REAL-TIME CLOUD SYNC MODULE (FIREBASE REALTIME DATABASE) ---
+  const SYNC_STORAGE_KEY = 'minimal_flashcards_sync_v2';
+  
+  const syncModule = {
+    app: null,
+    db: null,
+    dbRef: null,
+    isSyncing: false,
+    isConnected: false,
+    lastRemoteTimestamp: 0,
+    config: {
+      userId: 'thanh_flashcards_2312',
+      firebaseRaw: '',
+      firebaseConfig: null,
+      lastSyncTime: null
+    },
+
+    loadConfig() {
+      try {
+        const stored = localStorage.getItem(SYNC_STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          this.config = { ...this.config, ...parsed };
+        }
+      } catch (e) {}
+
+      // Fast auto-setup via URL query param when opening on phone
+      const urlParams = new URLSearchParams(window.location.search);
+      const cfgParam = urlParams.get('sync_cfg');
+      const userParam = urlParams.get('sync_id');
+      if (userParam) this.config.userId = decodeURIComponent(userParam);
+      if (cfgParam) {
+        try {
+          const decoded = atob(decodeURIComponent(cfgParam));
+          this.config.firebaseRaw = decoded;
+          this.parseFirebaseConfig(decoded);
+          this.saveConfig();
+          window.history.replaceState({}, document.title, window.location.pathname);
+          setTimeout(() => showToast('📲 Đã tự động nhận cấu hình Firebase cho thiết bị này!'), 800);
+        } catch (e) {}
+      }
+    },
+
+    saveConfig() {
+      try {
+        localStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(this.config));
+      } catch (e) {}
+    },
+
+    parseFirebaseConfig(input) {
+      if (!input || typeof input !== 'string') return null;
+      const clean = input.trim();
+      
+      // If it's a direct database URL like https://xyz-default-rtdb.firebaseio.com
+      if (clean.startsWith('http://') || clean.startsWith('https://')) {
+        this.config.firebaseConfig = {
+          databaseURL: clean.replace(/\/$/, '')
+        };
+        return this.config.firebaseConfig;
+      }
+
+      try {
+        let jsonStr = clean;
+        if (jsonStr.includes('=')) {
+          jsonStr = jsonStr.substring(jsonStr.indexOf('=') + 1).trim();
+        }
+        if (jsonStr.endsWith(';')) jsonStr = jsonStr.slice(0, -1).trim();
+        const parsed = JSON.parse(jsonStr);
+        if (parsed.databaseURL || parsed.apiKey || parsed.projectId) {
+          if (!parsed.databaseURL && parsed.projectId) {
+            parsed.databaseURL = `https://${parsed.projectId}-default-rtdb.firebaseio.com`;
+          }
+          this.config.firebaseConfig = parsed;
+          return parsed;
+        }
+      } catch (e) {
+        const dbUrlMatch = clean.match(/databaseURL\s*:\s*["']([^"']+)["']/i);
+        const apiKeyMatch = clean.match(/apiKey\s*:\s*["']([^"']+)["']/i);
+        const projMatch = clean.match(/projectId\s*:\s*["']([^"']+)["']/i);
+        if (dbUrlMatch || projMatch) {
+          const cfg = {
+            databaseURL: dbUrlMatch ? dbUrlMatch[1] : `https://${projMatch[1]}-default-rtdb.firebaseio.com`,
+            apiKey: apiKeyMatch ? apiKeyMatch[1] : undefined,
+            projectId: projMatch ? projMatch[1] : undefined
+          };
+          this.config.firebaseConfig = cfg;
+          return cfg;
+        }
+      }
+      return null;
+    },
+
+    init() {
+      this.loadConfig();
+      this.updateUIStatus();
+      if (this.config.firebaseConfig && window.firebase) {
+        this.connect();
+      }
+    },
+
+    connect() {
+      if (!window.firebase || !this.config.firebaseConfig) return;
+      try {
+        this.setSyncingState(true, 'Đang kết nối...');
+        if (!firebase.apps.length) {
+          this.app = firebase.initializeApp(this.config.firebaseConfig);
+        } else {
+          this.app = firebase.app();
+        }
+
+        this.db = firebase.database();
+        const safeUserId = encodeURIComponent(this.config.userId || 'thanh_flashcards_2312').replace(/\./g, '_');
+        this.dbRef = this.db.ref(`users/${safeUserId}`);
+
+        // Listen for realtime changes across devices
+        this.dbRef.on('value', (snapshot) => {
+          this.isConnected = true;
+          this.setSyncingState(false, 'Đã đồng bộ');
+          const data = snapshot.val();
+          if (data && data.updatedAt) {
+            this.handleRemoteUpdate(data);
+          }
+        }, (error) => {
+          console.warn('Lỗi kết nối Firebase Realtime:', error);
+          this.isConnected = false;
+          this.setSyncingState(false, 'Lỗi kết nối', true);
+        });
+
+      } catch (err) {
+        console.error('Không thể khởi tạo Firebase:', err);
+        this.isConnected = false;
+        this.setSyncingState(false, 'Lỗi cấu hình', true);
+      }
+    },
+
+    disconnect() {
+      if (this.dbRef) {
+        this.dbRef.off();
+      }
+      this.isConnected = false;
+      this.dbRef = null;
+      this.config.firebaseConfig = null;
+      this.config.firebaseRaw = '';
+      this.saveConfig();
+      this.updateUIStatus();
+      showToast('Đã ngắt kết nối đồng bộ');
+    },
+
+    handleRemoteUpdate(remoteData) {
+      if (!remoteData.updatedAt || remoteData.updatedAt <= this.lastRemoteTimestamp) return;
+      this.lastRemoteTimestamp = remoteData.updatedAt;
+
+      const lastLocalUpdate = state.cards.reduce((max, c) => Math.max(max, c.updatedAt || 0, c.lastReviewed || 0), 0);
+      if (remoteData.updatedAt <= lastLocalUpdate) return;
+
+      let hasChanges = false;
+      const progressMap = remoteData.progress || {};
+
+      state.cards.forEach(card => {
+        const remoteCardProgress = progressMap[card.id];
+        if (remoteCardProgress && (!card.updatedAt || remoteCardProgress.updatedAt > card.updatedAt)) {
+          card.interval = remoteCardProgress.interval || card.interval;
+          card.boxLevel = remoteCardProgress.boxLevel || card.boxLevel;
+          card.nextReviewDate = remoteCardProgress.nextReviewDate || card.nextReviewDate;
+          card.lastReviewed = remoteCardProgress.lastReviewed || card.lastReviewed;
+          card.updatedAt = remoteCardProgress.updatedAt;
+          hasChanges = true;
+        }
+      });
+
+      // Also import any custom cards added from other device
+      if (Array.isArray(remoteData.allCards) && remoteData.allCards.length > state.cards.length) {
+        const localIds = new Set(state.cards.map(c => c.id));
+        remoteData.allCards.forEach(rc => {
+          if (!localIds.has(rc.id)) {
+            state.cards.push(rc);
+            hasChanges = true;
+          }
+        });
+      }
+
+      if (hasChanges) {
+        saveCardsToStorage(state.cards);
+        filterAndRenderCards();
+        renderManageTable();
+        updateCategoryCountsPreview();
+        const deviceName = remoteData.device === 'phone' ? 'Điện thoại' : 'Máy tính';
+        showToast(`📲 Đã tự động đồng bộ tiến độ mới từ ${deviceName}!`);
+      }
+    },
+
+    pushProgressToCloud(showNotify = false) {
+      if (!this.dbRef || !this.isConnected) return;
+      this.setSyncingState(true, 'Đang lưu...');
+
+      const progress = {};
+      state.cards.forEach(c => {
+        progress[c.id] = {
+          interval: c.interval,
+          boxLevel: c.boxLevel,
+          nextReviewDate: c.nextReviewDate,
+          lastReviewed: c.lastReviewed || null,
+          updatedAt: c.updatedAt || Date.now()
+        };
+      });
+
+      const payload = {
+        updatedAt: Date.now(),
+        device: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? 'phone' : 'pc',
+        progress: progress,
+        allCards: state.cards
+      };
+
+      this.dbRef.set(payload)
+        .then(() => {
+          this.lastRemoteTimestamp = payload.updatedAt;
+          this.setSyncingState(false, 'Đã đồng bộ');
+          if (showNotify) showToast('☁️ Đã đẩy toàn bộ tiến độ lên Cloud thành công!');
+        })
+        .catch(err => {
+          console.warn('Lỗi lưu Firebase:', err);
+          this.setSyncingState(false, 'Lỗi lưu', true);
+          if (showNotify) showToast('Lỗi lưu Firebase: ' + err.message);
+        });
+    },
+
+    pullFromCloud() {
+      if (!this.dbRef) {
+        showToast('Chưa kết nối Firebase!');
+        return;
+      }
+      this.setSyncingState(true, 'Đang tải...');
+      this.dbRef.once('value')
+        .then(snapshot => {
+          const data = snapshot.val();
+          if (data && data.updatedAt) {
+            this.lastRemoteTimestamp = 0; // force accept
+            this.handleRemoteUpdate(data);
+            showToast('✅ Đã tải và áp dụng tiến độ từ Cloud!');
+          } else {
+            showToast('Cloud chưa có dữ liệu. Hãy bấm "Đẩy lên Cloud" để tạo bản lưu đầu tiên!');
+          }
+          this.setSyncingState(false, 'Đã đồng bộ');
+        })
+        .catch(err => {
+          showToast('Lỗi tải từ Firebase: ' + err.message);
+          this.setSyncingState(false, 'Lỗi kết nối', true);
+        });
+    },
+
+    setSyncingState(isSyncing, labelText, isError = false) {
+      this.isSyncing = isSyncing;
+      if (el.syncStatusLabel) el.syncStatusLabel.textContent = labelText;
+      if (el.modalSyncStatusText) el.modalSyncStatusText.textContent = labelText;
+
+      const dot = el.syncStatusDot;
+      const pulse = el.modalSyncPulse;
+      [dot, pulse].forEach(d => {
+        if (!d) return;
+        d.className = d === dot ? 'sync-dot' : 'sync-status-pulse';
+        if (isSyncing) d.classList.add('dot-syncing');
+        else if (isError) d.classList.add('dot-offline');
+        else if (this.isConnected) d.classList.add('dot-online');
+        else d.classList.add('dot-offline');
+      });
+    },
+
+    updateUIStatus() {
+      const hasConfig = !!this.config.firebaseConfig;
+      if (el.syncStatusLabel) {
+        el.syncStatusLabel.textContent = hasConfig ? (this.isConnected ? 'Đã đồng bộ' : 'Đang kết nối') : 'Đồng bộ';
+      }
+      if (el.modalSyncStatusText) {
+        el.modalSyncStatusText.textContent = hasConfig ? (this.isConnected ? 'Đã kết nối Realtime (Sẵn sàng)' : 'Đang kết nối...') : 'Chưa cấu hình Firebase';
+      }
+      if (el.syncUserIdInput) {
+        el.syncUserIdInput.value = this.config.userId || 'thanh_flashcards_2312';
+      }
+      if (el.firebaseConfigInput) {
+        el.firebaseConfigInput.value = this.config.firebaseRaw || (this.config.firebaseConfig ? JSON.stringify(this.config.firebaseConfig, null, 2) : '');
+      }
+
+      if (hasConfig && el.syncShareBox && el.syncShareUrlInput) {
+        el.syncShareBox.style.display = 'block';
+        const rawJson = this.config.firebaseRaw || JSON.stringify(this.config.firebaseConfig);
+        const encodedCfg = encodeURIComponent(btoa(rawJson));
+        const encodedId = encodeURIComponent(this.config.userId || 'thanh_flashcards_2312');
+        const origin = window.location.origin + window.location.pathname;
+        el.syncShareUrlInput.value = `${origin}?sync_id=${encodedId}&sync_cfg=${encodedCfg}`;
+      } else if (el.syncShareBox) {
+        el.syncShareBox.style.display = 'none';
+      }
+    }
+  };
 
   // --- THEME TOGGLE ---
   function toggleTheme() {
@@ -2494,6 +2903,59 @@
     el.btnRateAgain.addEventListener('click', () => handleRateCard(false));
     el.btnRateGood.addEventListener('click', () => handleRateCard(true));
 
+    // Cloud Sync Modal events
+    if (el.btnOpenSync) {
+      el.btnOpenSync.addEventListener('click', () => {
+        syncModule.updateUIStatus();
+        el.modalCloudSync.style.display = 'flex';
+      });
+    }
+    if (el.btnCloseSyncModal) {
+      el.btnCloseSyncModal.addEventListener('click', () => {
+        el.modalCloudSync.style.display = 'none';
+      });
+    }
+    if (el.btnSaveSyncConfig) {
+      el.btnSaveSyncConfig.addEventListener('click', () => {
+        const raw = el.firebaseConfigInput.value.trim();
+        const userId = el.syncUserIdInput.value.trim() || 'thanh_flashcards_2312';
+        syncModule.config.userId = userId;
+        syncModule.config.firebaseRaw = raw;
+        const parsed = syncModule.parseFirebaseConfig(raw);
+        if (!parsed) {
+          showToast('Vui lòng nhập đúng JSON firebaseConfig hoặc Database URL!');
+          return;
+        }
+        syncModule.saveConfig();
+        syncModule.connect();
+        syncModule.updateUIStatus();
+        showToast('Đang kết nối Firebase Realtime Database...');
+      });
+    }
+    if (el.btnDisconnectSync) {
+      el.btnDisconnectSync.addEventListener('click', () => {
+        syncModule.disconnect();
+      });
+    }
+    if (el.btnForcePush) {
+      el.btnForcePush.addEventListener('click', () => syncModule.pushProgressToCloud(true));
+    }
+    if (el.btnForcePull) {
+      el.btnForcePull.addEventListener('click', () => syncModule.pullFromCloud());
+    }
+    if (el.btnCopySyncId) {
+      el.btnCopySyncId.addEventListener('click', () => {
+        navigator.clipboard.writeText(el.syncUserIdInput.value);
+        showToast('Đã chép Sync ID');
+      });
+    }
+    if (el.btnCopyShareUrl) {
+      el.btnCopyShareUrl.addEventListener('click', () => {
+        navigator.clipboard.writeText(el.syncShareUrlInput.value);
+        showToast('Đã sao chép link đồng bộ cho điện thoại!');
+      });
+    }
+
     el.btnResetFilter.addEventListener('click', () => {
       state.currentFilter = 'all';
       updateIntervalNavChips();
@@ -2518,7 +2980,8 @@
     });
     el.btnResetDefaultData.addEventListener('click', resetToDefaultData);
 
-    [el.modalCardForm, el.modalManageCards].forEach(backdrop => {
+    [el.modalCardForm, el.modalManageCards, el.modalCloudSync].forEach(backdrop => {
+      if (!backdrop) return;
       backdrop.addEventListener('click', (e) => {
         if (e.target === backdrop) backdrop.style.display = 'none';
       });
@@ -2530,6 +2993,7 @@
       if (e.key === 'Escape') {
         el.modalCardForm.style.display = 'none';
         el.modalManageCards.style.display = 'none';
+        if (el.modalCloudSync) el.modalCloudSync.style.display = 'none';
         return;
       }
 
@@ -2560,10 +3024,17 @@
     });
   }
 
+  // --- INITIALIZE SYNC MODULE ON INIT ---
+  const originalInit = init;
+  function wrappedInit() {
+    originalInit();
+    syncModule.init();
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', wrappedInit);
   } else {
-    init();
+    wrappedInit();
   }
 
 })();

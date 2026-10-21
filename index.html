@@ -93,6 +93,12 @@
           </button>
         </div>
 
+        <!-- Real-time Cloud Sync Button -->
+        <button id="btn-open-sync" class="sync-status-btn" title="Đồng bộ thời gian thực qua Firebase (Phone ⇄ PC)">
+          <span class="sync-dot dot-offline" id="sync-status-dot"></span>
+          <span class="sync-label-text" id="sync-status-label">Đồng bộ</span>
+        </button>
+
         <!-- Extra Tools Menu -->
         <button id="btn-open-list" class="icon-btn" title="Danh sách thẻ & Quản lý" aria-label="Danh sách thẻ">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
@@ -128,9 +134,15 @@
         </div>
         <div class="meta-row">
           <span class="card-position" id="card-position-text">Thẻ 1 / 10</span>
-          <div class="box-level-tag" id="current-box-tag" title="Khoảng cách chu kỳ lặp">
-            <span class="box-icon">⏳</span>
-            <span id="current-box-text">Hộp 1 ngày</span>
+          <div class="meta-badges-group">
+            <div class="box-level-tag" id="current-box-tag" title="Khoảng cách chu kỳ lặp">
+              <span class="box-icon">⏳</span>
+              <span id="current-box-text">Hộp 1 ngày</span>
+            </div>
+            <div class="card-due-tag" id="current-due-tag" title="Hạn ôn tập thẻ này">
+              <span class="due-icon">📅</span>
+              <span id="current-due-text">Hôm nay</span>
+            </div>
           </div>
         </div>
       </div>
@@ -253,11 +265,13 @@
           <button id="btn-rate-again" class="btn-rate btn-rate-reset" title="Chưa thuộc, quay về chu kỳ 1 ngày (Phím 1)">
             <span class="rate-status">Chưa nhớ</span>
             <span class="rate-interval">1 ngày</span>
+            <span class="rate-date-hint" id="rate-again-date">Ngày mai</span>
           </button>
           
           <button id="btn-rate-good" class="btn-rate btn-rate-advance" title="Đã thuộc, chuyển lên mốc tiếp theo (Phím 2)">
             <span class="rate-status">Đã nhớ</span>
             <span class="rate-interval" id="btn-advance-interval-label">+4 ngày</span>
+            <span class="rate-date-hint" id="rate-good-date">+4 ngày</span>
           </button>
         </div>
 
@@ -398,7 +412,8 @@
               <th>Tiếng Anh</th>
               <th>Nghĩa tiếng Việt</th>
               <th>Chu kỳ</th>
-              <th>Ôn tiếp theo</th>
+              <th>Hạn ôn tập (Ngày)</th>
+              <th>Lần ôn cuối</th>
               <th class="text-right">Thao tác</th>
             </tr>
           </thead>
@@ -415,8 +430,93 @@
     </div>
   </div>
 
+  <!-- MODAL: FIREBASE REALTIME CLOUD SYNC -->
+  <div id="modal-cloud-sync" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Đồng Bộ Đám Mây (Phone ⇄ PC)</h2>
+          <p class="modal-subtitle">Đồng bộ tức thì bằng Google Firebase Realtime Database</p>
+        </div>
+        <button id="btn-close-sync-modal" class="btn-close-modal" aria-label="Đóng">&times;</button>
+      </div>
+
+      <div class="sync-modal-body">
+        <!-- Live Status Card -->
+        <div class="sync-status-card" id="sync-status-card">
+          <div class="sync-status-header">
+            <div class="sync-status-indicator">
+              <span class="sync-status-pulse dot-offline" id="modal-sync-pulse"></span>
+              <strong id="modal-sync-status-text">Chưa kết nối Firebase</strong>
+            </div>
+            <span class="sync-last-time" id="modal-sync-last-time">Chưa đồng bộ</span>
+          </div>
+          <div class="sync-actions-row">
+            <button type="button" id="btn-force-push" class="btn-sync-action" title="Đẩy toàn bộ thẻ và tiến độ từ máy này lên đám mây">
+              ☁️ Đẩy lên Cloud
+            </button>
+            <button type="button" id="btn-force-pull" class="btn-sync-action" title="Tải tiến độ mới nhất từ đám mây về máy này">
+              ⬇️ Tải từ Cloud về
+            </button>
+          </div>
+        </div>
+
+        <!-- Sync Key Setting -->
+        <div class="form-row">
+          <label for="sync-user-id-input" class="form-label">
+            Mã định danh đồng bộ (Sync ID) *
+            <span class="label-subtext">Cả điện thoại và máy tính phải dùng chung mã này để thấy cùng dữ liệu</span>
+          </label>
+          <div class="input-with-copy">
+            <input type="text" id="sync-user-id-input" class="form-input" placeholder="Ví dụ: thanh_flashcards_2312" value="thanh_flashcards_2312">
+            <button type="button" id="btn-copy-sync-id" class="btn-subtle btn-copy" title="Sao chép">📋</button>
+          </div>
+        </div>
+
+        <!-- Firebase Config Input -->
+        <div class="form-row">
+          <label for="firebase-config-input" class="form-label">
+            Cấu hình Firebase (JSON hoặc Database URL) *
+            <span class="label-subtext">Dán toàn bộ firebaseConfig hoặc đường dẫn https://...firebaseio.com</span>
+          </label>
+          <textarea id="firebase-config-input" class="form-textarea" rows="4" placeholder='{"databaseURL": "https://your-app-default-rtdb.firebaseio.com", "apiKey": "..."}'></textarea>
+        </div>
+
+        <!-- One-click Quick Setup Guide -->
+        <details class="sync-guide-details">
+          <summary>📖 Hướng dẫn tạo Firebase miễn phí trong 2 phút (chỉ làm 1 lần)</summary>
+          <ol class="sync-guide-steps">
+            <li>Truy cập <a href="https://console.firebase.google.com" target="_blank" rel="noopener">Firebase Console</a> và nhấn <strong>Add project</strong> (miễn phí 100%).</li>
+            <li>Trong menu trái, chọn <strong>Build</strong> ➔ <strong>Realtime Database</strong> ➔ Bấm <strong>Create Database</strong>.</li>
+            <li>Chọn vị trí (Singapore hoặc US) ➔ Chọn <strong>Start in test mode</strong> (quyền read/write: true).</li>
+            <li>Sao chép đường dẫn Database URL (dạng <code>https://&lt;ten-du-an&gt;.firebaseio.com/</code>) dán vào ô cấu hình ở trên và bấm <strong>Lưu & Kết nối</strong>!</li>
+          </ol>
+        </details>
+
+        <!-- Generate Instant Link for Phone -->
+        <div class="sync-share-box" id="sync-share-box" style="display: none;">
+          <label class="form-label">📲 Link đồng bộ nhanh cho Điện Thoại:</label>
+          <p class="share-desc">Mở link này trên điện thoại để tự động kết nối ngay mà không cần nhập lại cấu hình:</p>
+          <div class="input-with-copy">
+            <input type="text" id="sync-share-url-input" class="form-input" readonly>
+            <button type="button" id="btn-copy-share-url" class="btn-subtle btn-copy" title="Sao chép link">📋</button>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-disconnect-sync" class="btn-secondary text-danger">Ngắt kết nối</button>
+          <button type="button" id="btn-save-sync-config" class="btn-primary">Lưu & Kết nối ngay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- FIREBASE REALTIME DATABASE COMPAT SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
   <!-- SCRIPTS -->
   <script src="app.js"></script>

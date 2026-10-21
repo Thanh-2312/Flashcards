@@ -14,18 +14,24 @@
    - **Chế độ Lật thẻ (Flip Card):** Chạm hoặc nhấn <kbd>Space</kbd> để lật thẻ 3D mượt mà, hỗ trợ phát âm chuẩn bản xứ (Audio TTS).
    - **Chế độ Gõ từ (Interactive Typing Quiz):** Nhìn nghĩa tiếng Việt hoặc câu ngữ cảnh có chỗ trống, gõ từ tiếng Anh và hệ thống tự động kiểm tra đúng/sai, có nút gợi ý chữ cái đầu.
 
-3. **Hệ thống lặp lại ngắt quãng (Spaced Repetition):**
+3. **Hệ thống lặp lại ngắt quãng (Spaced Repetition) tích hợp ngày lịch cụ thể:**
    - ⏳ Chu kỳ ghi nhớ chuẩn khoa học: **1 ngày → 4 ngày → 7 ngày → 14 ngày**.
-   - Khi bấm **"Đã nhớ" (hoặc phím 2)**: Thẻ tự động tăng cấp chu kỳ (1d → 4d → 7d → 14d).
-   - Khi bấm **"Chưa nhớ" (hoặc phím 1)**: Thẻ lập tức quay về hộp 1 ngày để ôn luyện lại.
-   - Bộ lọc thông minh: Lọc theo thẻ "Đến hạn hôm nay", thẻ "1 ngày", "4 ngày", "7 ngày", "14 ngày".
+   - 📅 **Tích hợp ngày lịch chi tiết:** Mỗi thẻ hiển thị rõ ràng ngày đáo hạn cụ thể (ví dụ: `25/10/2026 (+4 ngày)`, `Hôm nay (21/10)`), ngày ôn gần nhất và nhãn cảnh báo quá hạn.
+   - Khi bấm **"Đã nhớ" (hoặc phím 2)**: Thẻ tự động tăng cấp chu kỳ (1d → 4d → 7d → 14d) và tính chính xác ngày ôn tiếp theo.
+   - Khi bấm **"Chưa nhớ" (hoặc phím 1)**: Thẻ lập tức quay về hộp 1 ngày (đáo hạn vào ngày mai).
+   - Bộ lọc thông minh: Lọc theo thẻ "Đến hạn hôm nay" (tính theo ngày lịch), thẻ "1 ngày", "4 ngày", "7 ngày", "14 ngày".
 
-4. **Thiết kế tối giản trung tính (Pale Neutral Minimalist):**
+4. **Đồng bộ thời gian thực 2 chiều Điện thoại ⇄ Máy tính (Firebase Realtime Sync):**
+   - 🔄 **Real-time 100%:** Bấm "Đã nhớ" / "Chưa nhớ" trên điện thoại thì máy tính tự động nhảy tiến độ tức thì mà không cần tải lại trang.
+   - 📲 **Thiết lập 1 chạm cực nhanh:** Có nút "Link đồng bộ nhanh cho điện thoại", chỉ cần gửi link sang điện thoại mở lên là tự động kết nối mà không cần nhập lại mã hay cấu hình.
+   - 🔒 Hoàn toàn miễn phí trọn đời qua Google Firebase Realtime Database.
+
+5. **Thiết kế tối giản trung tính (Pale Neutral Minimalist):**
    - Tông màu dịu mắt: Warm Alabaster, Sage & Slate, font chữ Plus Jakarta Sans hiện đại.
    - Hỗ trợ đổi sang giao diện trung tính tối (Dark mode).
 
-5. **Độc lập & Bảo mật dữ liệu:**
-   - Tự động lưu trên trình duyệt (`localStorage`).
+6. **Độc lập & Bảo mật dữ liệu:**
+   - Tự động lưu trên trình duyệt (`localStorage`) + đồng bộ đám mây Firebase.
    - Hỗ trợ **Xuất file JSON** (Export) để sao lưu hoặc chuyển đổi sang điện thoại/máy tính khác.
    - Hỗ trợ **Nhập file JSON** (Import) và khôi phục bộ thẻ mẫu bất kỳ lúc nào.
 
