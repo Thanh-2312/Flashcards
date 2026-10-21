@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Minimal Flashcards • Words & Collocations</title>
-  <meta name="description" content="Ứng dụng Flashcard tối giản phong cách trung tính nhạt với chu kỳ ngắt quãng 1, 4, 7, 14 ngày và chế độ gõ tương tác / lật thẻ.">
-  
+  <meta name="description"
+    content="Ứng dụng Flashcard tối giản phong cách trung tính nhạt với chu kỳ ngắt quãng 1, 4, 7, 14 ngày và chế độ gõ tương tác / lật thẻ.">
+
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗂️</text></svg>">
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗂️</text></svg>">
 </head>
+
 <body>
 
   <!-- TYPE SELECTION SCREEN (MODAL ON FIRST VISIT / SWITCHABLE) -->
@@ -22,13 +28,15 @@
       <div class="selection-header">
         <span class="selection-badge">Học từ vựng & ngữ cảnh</span>
         <h1 class="selection-title">Chọn Loại Flashcard</h1>
-        <p class="selection-desc">Hệ thống ghi nhớ ngắt quãng (1 - 4 - 7 - 14 ngày). Hãy chọn danh mục bạn muốn rèn luyện hôm nay:</p>
+        <p class="selection-desc">Hệ thống ghi nhớ ngắt quãng (1 - 4 - 7 - 14 ngày). Hãy chọn danh mục bạn muốn rèn
+          luyện hôm nay:</p>
       </div>
 
       <div class="category-cards-grid">
         <button type="button" class="type-select-btn" data-category="words" id="btn-select-words">
           <div class="type-icon-box">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
               <line x1="9" y1="7" x2="15" y2="7"></line>
@@ -44,7 +52,8 @@
 
         <button type="button" class="type-select-btn" data-category="collocations" id="btn-select-collocations">
           <div class="type-icon-box">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
               <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
             </svg>
@@ -54,6 +63,23 @@
             <div class="type-sub">Cụm từ cố định tự nhiên, ngữ cảnh học thuật IELTS</div>
           </div>
           <span class="count-pill" id="collocations-preview-count">0 cụm</span>
+        </button>
+
+        <button type="button" class="type-select-btn" data-category="speaking" id="btn-select-speaking">
+          <div class="type-icon-box" style="color: #0d9488;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="22"></line>
+              <line x1="8" y1="22" x2="16" y2="22"></line>
+            </svg>
+          </div>
+          <div class="type-info">
+            <div class="type-name">IELTS Speaking AI</div>
+            <div class="type-sub">Dịch câu đời thường sang tiếng Anh & Luyện 1 câu IELTS mỗi ngày có AI chấm chữa</div>
+          </div>
+          <span class="count-pill count-pill-ai" id="speaking-preview-badge">✨ AI Coach</span>
         </button>
       </div>
 
@@ -65,13 +91,15 @@
 
   <!-- MAIN APP CONTAINER -->
   <div class="app-shell" id="app-shell">
-    
+
     <!-- HEADER -->
     <header class="app-header">
       <div class="header-left">
         <button id="btn-change-category" class="category-toggle-btn" title="Đổi danh mục">
           <span class="current-cat-indicator" id="current-cat-name">Words</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
         </button>
         <span class="header-divider"></span>
         <div class="spaced-due-counter" id="spaced-due-badge" title="Số thẻ đến hạn ôn hôm nay">
@@ -81,14 +109,26 @@
       </div>
 
       <div class="header-right">
+        <!-- Quick Nav to Speaking AI -->
+        <button id="btn-nav-speaking" class="nav-speaking-pill-btn" title="Mở tính năng luyện IELTS Speaking AI">
+          <span>🎤 Speaking AI</span>
+        </button>
+
         <!-- Interactive Mode Switcher -->
         <div class="study-mode-switch" role="radiogroup" aria-label="Chế độ học">
           <button id="mode-flip-btn" class="mode-tab-btn active" data-mode="flip" title="Chế độ lật thẻ truyền thống">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="14" x="3" y="5" rx="2"/><path d="M7 5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="14" x="3" y="5" rx="2" />
+              <path d="M7 5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2" />
+            </svg>
             <span>Lật thẻ</span>
           </button>
           <button id="mode-type-btn" class="mode-tab-btn" data-mode="type" title="Chế độ điền từ kiểm tra đúng/sai">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="4 7 4 4 20 4 20 7" />
+              <line x1="9" x2="15" y1="20" y2="20" />
+              <line x1="12" x2="12" y1="4" y2="20" />
+            </svg>
             <span>Gõ từ</span>
           </button>
         </div>
@@ -101,13 +141,34 @@
 
         <!-- Extra Tools Menu -->
         <button id="btn-open-list" class="icon-btn" title="Danh sách thẻ & Quản lý" aria-label="Danh sách thẻ">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="3.01" y2="6" />
+            <line x1="3" y1="12" x2="3.01" y2="12" />
+            <line x1="3" y1="18" x2="3.01" y2="18" />
+          </svg>
         </button>
         <button id="btn-add-card" class="icon-btn" title="Thêm thẻ mới" aria-label="Thêm thẻ mới">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
         </button>
         <button id="btn-toggle-theme" class="icon-btn" title="Đổi màu nền trung tính" aria-label="Đổi giao diện">
-          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
         </button>
       </div>
     </header>
@@ -149,17 +210,19 @@
 
       <!-- FLASHCARD DISPLAY WRAPPER -->
       <div class="card-stage">
-        
+
         <!-- FLIP CARD VIEW -->
         <div class="card-scene" id="card-scene">
           <div class="flashcard-3d" id="flashcard-element" tabindex="0" role="button" aria-label="Nhấn để lật thẻ">
-            
+
             <!-- FRONT FACE -->
             <div class="card-face card-front">
               <div class="face-top">
                 <span class="card-type-chip" id="front-type-chip">Words</span>
                 <span class="flip-hint-icon" title="Nhấn để xem nghĩa">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                  </svg>
                   <span>Chạm để lật</span>
                 </span>
               </div>
@@ -179,8 +242,13 @@
             <div class="card-face card-back">
               <div class="face-top">
                 <span class="card-type-chip" id="back-type-chip">Words</span>
-                <button type="button" class="btn-tts" id="btn-audio-speak" title="Nghe phát âm chuẩn" aria-label="Phát âm">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                <button type="button" class="btn-tts" id="btn-audio-speak" title="Nghe phát âm chuẩn"
+                  aria-label="Phát âm">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                  </svg>
                 </button>
               </div>
 
@@ -188,7 +256,7 @@
                 <h2 class="card-english-word" id="back-english">...</h2>
                 <div class="card-ipa" id="back-ipa">/.../</div>
                 <div class="back-meaning-text" id="back-meaning">...</div>
-                
+
                 <div class="example-box" id="back-example-wrapper">
                   <div class="example-label">VÍ DỤ ÁP DỤNG</div>
                   <p class="example-en" id="back-example-en">...</p>
@@ -212,18 +280,12 @@
             <span class="type-mode-badge" id="type-badge-category">Words</span>
             <div class="type-meaning-display" id="type-prompt-meaning">Nghĩa tiếng Việt ở đây</div>
             <div class="type-cloze-prompt" id="type-cloze-hint">Gợi ý câu: ...</div>
-            
+
             <form id="type-form" class="type-input-form" onsubmit="return false;">
               <div class="input-wrapper">
-                <input 
-                  type="text" 
-                  id="user-typed-input" 
-                  class="type-input-field" 
-                  placeholder="Gõ từ hoặc cụm từ tiếng Anh..." 
-                  autocomplete="off" 
-                  autocapitalize="off" 
-                  spellcheck="false"
-                >
+                <input type="text" id="user-typed-input" class="type-input-field"
+                  placeholder="Gõ từ hoặc cụm từ tiếng Anh..." autocomplete="off" autocapitalize="off"
+                  spellcheck="false">
                 <button type="submit" id="btn-submit-answer" class="btn-check-answer">
                   Kiểm tra
                 </button>
@@ -238,7 +300,11 @@
                 <div class="feedback-correct-word" id="feedback-correct-word">Đáp án đúng: <span></span></div>
               </div>
               <button type="button" id="btn-audio-type" class="btn-tts" title="Nghe phát âm">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                </svg>
               </button>
             </div>
 
@@ -253,22 +319,27 @@
 
       <!-- STUDY ACTION CONTROLS -->
       <div class="controls-toolbar" id="controls-toolbar">
-        
+
         <!-- Navigation Buttons -->
         <button id="btn-prev-card" class="btn-action-nav" title="Thẻ trước (<)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
           <span>Trước</span>
         </button>
 
         <!-- Interval Rating Buttons (1, 4, 7, 14 ngày) -->
         <div class="rating-buttons-group" id="rating-buttons-group">
-          <button id="btn-rate-again" class="btn-rate btn-rate-reset" title="Chưa thuộc, quay về chu kỳ 1 ngày (Phím 1)">
+          <button id="btn-rate-again" class="btn-rate btn-rate-reset"
+            title="Chưa thuộc, quay về chu kỳ 1 ngày (Phím 1)">
             <span class="rate-status">Chưa nhớ</span>
             <span class="rate-interval">1 ngày</span>
             <span class="rate-date-hint" id="rate-again-date">Ngày mai</span>
           </button>
-          
-          <button id="btn-rate-good" class="btn-rate btn-rate-advance" title="Đã thuộc, chuyển lên mốc tiếp theo (Phím 2)">
+
+          <button id="btn-rate-good" class="btn-rate btn-rate-advance"
+            title="Đã thuộc, chuyển lên mốc tiếp theo (Phím 2)">
             <span class="rate-status">Đã nhớ</span>
             <span class="rate-interval" id="btn-advance-interval-label">+4 ngày</span>
             <span class="rate-date-hint" id="rate-good-date">+4 ngày</span>
@@ -277,7 +348,10 @@
 
         <button id="btn-next-card" class="btn-action-nav" title="Thẻ tiếp (>)">
           <span>Tiếp</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
         </button>
 
       </div>
@@ -294,6 +368,157 @@
       </div>
 
     </main>
+
+    <!-- SPEAKING WORKSPACE (IELTS SPEAKING AI) -->
+    <section class="speaking-workspace" id="speaking-view" style="display: none;">
+      <!-- SPEAKING HEADER / SUBNAV -->
+      <div class="speaking-top-bar">
+        <div class="speaking-bar-left">
+          <button type="button" id="btn-back-to-flashcard" class="btn-subtle btn-back-nav" title="Quay lại học Flashcard">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Flashcards</span>
+          </button>
+          <div class="speaking-title-group">
+            <h1 class="speaking-view-title">🎤 IELTS Speaking AI Coach</h1>
+            <span class="speaking-level-pill">Dành cho người mới học (B1)</span>
+          </div>
+        </div>
+
+        <div class="speaking-bar-right">
+          <!-- Live API Status Badge (Click to open settings) -->
+          <button type="button" id="speaking-api-badge" class="speaking-badge badge-warning" title="Nhấn để cấu hình Gemini API Key & Model">
+            🟡 <span>Chưa có API Key</span>
+          </button>
+          <button type="button" id="btn-open-ai-settings" class="btn-subtle btn-ai-config" title="Cài đặt API Key & Model Gemini">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>Cài đặt AI</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- MAIN TABS SWITCHER -->
+      <div class="speaking-tabs-nav" role="tablist">
+        <button type="button" id="tab-btn-translate" class="speaking-tab-btn active" role="tab" aria-selected="true">
+          <span class="tab-icon">💬</span>
+          <span class="tab-title">1. Dịch câu đời thường (Việt ➔ Anh)</span>
+        </button>
+        <button type="button" id="tab-btn-daily" class="speaking-tab-btn" role="tab" aria-selected="false">
+          <span class="tab-icon">🎯</span>
+          <span class="tab-title">2. Luyện 1 câu IELTS mỗi ngày (Chấm chữa)</span>
+        </button>
+      </div>
+
+      <!-- ================= TAB 1: TRANSLATE ================= -->
+      <div id="speaking-tab-translate" class="speaking-tab-content">
+        <div class="speaking-card-panel">
+          <div class="panel-header-desc">
+            <h3>Chuyển câu tiếng Việt đời thường sang tiếng Anh nói tự nhiên</h3>
+            <p>Nhập cách nói tự nhiên thường ngày của bạn. AI sẽ chuyển đổi sang cách người bản xứ thực sự nói (Everyday Spoken English) thay vì dịch từng từ gượng gạo.</p>
+          </div>
+
+          <!-- Quick Samples -->
+          <div class="quick-samples-row">
+            <span class="quick-label">Gợi ý thử nhanh:</span>
+            <button type="button" class="quick-sample-tag" data-text="Hôm nay tôi lười quá, chẳng muốn làm gì hết.">😴 Lười quá chẳng muốn làm gì</button>
+            <button type="button" class="quick-sample-tag" data-text="Dạo này công việc bận tối mắt tối mũi chẳng có lúc nào thở.">💼 Bận tối mắt tối mũi</button>
+            <button type="button" class="quick-sample-tag" data-text="Tối nay rảnh không, đi cà phê tám chuyện tí đi?">☕ Đi cà phê tám chuyện</button>
+            <button type="button" class="quick-sample-tag" data-text="Tôi tính đổi việc vì môi trường ở đó ngột ngạt quá.">🔄 Tính đổi việc</button>
+          </div>
+
+          <div class="translate-input-wrapper">
+            <textarea id="speaking-translate-input" class="speaking-textarea" rows="3"
+              placeholder="Gõ một câu tiếng Việt bạn hay nói... (Ví dụ: 'Dạo này tôi lười nấu cơm ghê, toàn gọi đồ ăn ngoài')"></textarea>
+            <div class="translate-actions-bar">
+              <span class="keyboard-hint-text">💡 Nhấn <kbd>Ctrl</kbd> + <kbd>Enter</kbd> để dịch nhanh</span>
+              <button type="button" id="btn-do-translate" class="btn-primary btn-do-translate">
+                <span>✨ Dịch sang tiếng Anh tự nhiên</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- RESULT CARD -->
+          <div id="speaking-translate-result" style="display: none;"></div>
+
+          <!-- HISTORY LIST -->
+          <div id="speaking-translate-history" class="speaking-history-container"></div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 2: DAILY IELTS ================= -->
+      <div id="speaking-tab-daily" class="speaking-tab-content" style="display: none;">
+        <div class="speaking-card-panel">
+          
+          <!-- CONTROLS & PART FILTER -->
+          <div class="daily-filter-bar">
+            <div class="filter-group">
+              <span class="filter-label">Chọn Part:</span>
+              <div class="btn-group-chips">
+                <button type="button" class="part-switch-btn active" data-part="1">Part 1 (Ngắn 2-4 câu)</button>
+                <button type="button" class="part-switch-btn" data-part="2">Part 2 (Cue Card 1-2p)</button>
+                <button type="button" class="part-switch-btn" data-part="3">Part 3 (Thảo luận sâu)</button>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <span class="filter-label">Nguồn đề:</span>
+              <div class="btn-group-chips">
+                <button type="button" class="source-switch-btn active" data-source="classic">🏛️ Kinh điển</button>
+                <button type="button" class="source-switch-btn" data-source="forecast">🔥 Dự đoán mới</button>
+              </div>
+            </div>
+
+            <div class="filter-group streak-group">
+              <div class="streak-badge-pill" title="Chuỗi ngày luyện tập liên tục">
+                🔥 Chuỗi ngày: <strong id="speaking-streak-count">0 ngày</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- QUESTION DISPLAY CARD -->
+          <div id="daily-question-display" class="daily-question-box"></div>
+
+          <!-- ANSWER INPUT AREA -->
+          <div class="daily-answer-wrapper">
+            <div class="answer-helper-banner">
+              <div class="helper-icon">💡</div>
+              <div class="helper-text">
+                <strong>Thoải mái viết câu trả lời của bạn:</strong>
+                <p>Nếu gặp từ hoặc cụm từ bạn chưa biết nói tiếng Anh, cứ viết tạm bằng tiếng Việt trong ngoặc như: <em>"I like (đi phượt) on weekends because it is (xả stress)"</em>. AI sẽ tự động hiểu và hướng dẫn bạn cách diễn đạt tự nhiên nhất!</p>
+              </div>
+            </div>
+
+            <textarea id="daily-user-answer" class="speaking-textarea daily-textarea" rows="6"
+              placeholder="Bắt đầu viết câu trả lời của bạn ở đây... (Bản nháp sẽ tự động lưu liên tục)"></textarea>
+
+            <div class="answer-status-bar">
+              <div class="word-count-info">
+                <span id="daily-word-count">0 từ</span>
+                <span class="divider-dot">•</span>
+                <span id="daily-length-guide" class="text-tertiary">Gợi ý: 30 - 50 từ</span>
+              </div>
+              <div class="answer-action-buttons">
+                <button type="button" id="btn-clear-daily-draft" class="btn-subtle text-danger" title="Xóa bản nháp này để viết lại từ đầu">Xóa làm lại</button>
+                <button type="button" id="btn-submit-daily" class="btn-primary btn-submit-daily">
+                  <span>🚀 Nộp bài & Nhận chấm chữa AI</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- DETAILED FEEDBACK REPORT -->
+          <div id="daily-feedback-container" style="display: none;"></div>
+
+          <!-- RECENT DAILY ANSWERS HISTORY -->
+          <div id="daily-history-list" class="speaking-history-container"></div>
+        </div>
+      </div>
+    </section>
 
     <!-- FOOTER INFO / INTERVAL GUIDE -->
     <footer class="app-footer">
@@ -320,7 +545,7 @@
 
       <form id="card-editor-form" class="modal-form">
         <input type="hidden" id="edit-card-id" value="">
-        
+
         <div class="form-row">
           <label for="card-input-category" class="form-label">Loại thẻ *</label>
           <select id="card-input-category" class="form-select" required>
@@ -331,7 +556,8 @@
 
         <div class="form-row">
           <label for="card-input-english" class="form-label">Từ / Cụm từ tiếng Anh *</label>
-          <input type="text" id="card-input-english" class="form-input" placeholder="Ví dụ: ubiquitous hoặc bitterly disappointed" required>
+          <input type="text" id="card-input-english" class="form-input"
+            placeholder="Ví dụ: ubiquitous hoặc bitterly disappointed" required>
         </div>
 
         <div class="form-row">
@@ -341,17 +567,20 @@
 
         <div class="form-row">
           <label for="card-input-vietnamese" class="form-label">Nghĩa tiếng Việt *</label>
-          <input type="text" id="card-input-vietnamese" class="form-input" placeholder="Ví dụ: Phổ biến khắp nơi, đâu đâu cũng thấy" required>
+          <input type="text" id="card-input-vietnamese" class="form-input"
+            placeholder="Ví dụ: Phổ biến khắp nơi, đâu đâu cũng thấy" required>
         </div>
 
         <div class="form-row">
           <label for="card-input-example-en" class="form-label">Câu ví dụ tiếng Anh</label>
-          <textarea id="card-input-example-en" class="form-textarea" rows="2" placeholder="Ví dụ: Smartphones have become ubiquitous in modern life."></textarea>
+          <textarea id="card-input-example-en" class="form-textarea" rows="2"
+            placeholder="Ví dụ: Smartphones have become ubiquitous in modern life."></textarea>
         </div>
 
         <div class="form-row">
           <label for="card-input-example-vi" class="form-label">Dịch nghĩa câu ví dụ</label>
-          <input type="text" id="card-input-example-vi" class="form-input" placeholder="Ví dụ: Điện thoại thông minh đã trở nên phổ biến ở khắp nơi trong đời sống hiện đại.">
+          <input type="text" id="card-input-example-vi" class="form-input"
+            placeholder="Ví dụ: Điện thoại thông minh đã trở nên phổ biến ở khắp nơi trong đời sống hiện đại.">
         </div>
 
         <div class="form-row">
@@ -385,20 +614,32 @@
 
       <div class="manage-toolbar">
         <div class="search-box">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
           <input type="text" id="manage-search-input" placeholder="Tìm theo từ, nghĩa hoặc ví dụ...">
         </div>
         <div class="manage-actions">
           <button id="btn-export-json" class="btn-subtle" title="Tải file dữ liệu về máy">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
             <span>Xuất JSON</span>
           </button>
           <label class="btn-subtle file-upload-label" title="Khôi phục thẻ từ file JSON">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
             <span>Nhập JSON</span>
             <input type="file" id="file-import-json" accept=".json" style="display: none;">
           </label>
-          <button id="btn-reset-default-data" class="btn-subtle text-danger" title="Khôi phục lại danh sách thẻ mẫu mặc định">
+          <button id="btn-reset-default-data" class="btn-subtle text-danger"
+            title="Khôi phục lại danh sách thẻ mẫu mặc định">
             Khôi phục mẫu
           </button>
         </div>
@@ -452,10 +693,12 @@
             <span class="sync-last-time" id="modal-sync-last-time">Chưa đồng bộ</span>
           </div>
           <div class="sync-actions-row">
-            <button type="button" id="btn-force-push" class="btn-sync-action" title="Đẩy toàn bộ thẻ và tiến độ từ máy này lên đám mây">
+            <button type="button" id="btn-force-push" class="btn-sync-action"
+              title="Đẩy toàn bộ thẻ và tiến độ từ máy này lên đám mây">
               ☁️ Đẩy lên Cloud
             </button>
-            <button type="button" id="btn-force-pull" class="btn-sync-action" title="Tải tiến độ mới nhất từ đám mây về máy này">
+            <button type="button" id="btn-force-pull" class="btn-sync-action"
+              title="Tải tiến độ mới nhất từ đám mây về máy này">
               ⬇️ Tải từ Cloud về
             </button>
           </div>
@@ -468,7 +711,8 @@
             <span class="label-subtext">Cả điện thoại và máy tính phải dùng chung mã này để thấy cùng dữ liệu</span>
           </label>
           <div class="input-with-copy">
-            <input type="text" id="sync-user-id-input" class="form-input" placeholder="Ví dụ: thanh_flashcards_2312" value="thanh_flashcards_2312">
+            <input type="text" id="sync-user-id-input" class="form-input" placeholder="Ví dụ: thanh_flashcards_2312"
+              value="thanh_flashcards_2312">
             <button type="button" id="btn-copy-sync-id" class="btn-subtle btn-copy" title="Sao chép">📋</button>
           </div>
         </div>
@@ -479,17 +723,22 @@
             Cấu hình Firebase (JSON hoặc Database URL) *
             <span class="label-subtext">Dán toàn bộ firebaseConfig hoặc đường dẫn https://...firebaseio.com</span>
           </label>
-          <textarea id="firebase-config-input" class="form-textarea" rows="4" placeholder='{"databaseURL": "https://your-app-default-rtdb.firebaseio.com", "apiKey": "..."}'></textarea>
+          <textarea id="firebase-config-input" class="form-textarea" rows="4"
+            placeholder='{"databaseURL": "https://your-app-default-rtdb.firebaseio.com", "apiKey": "..."}'></textarea>
         </div>
 
         <!-- One-click Quick Setup Guide -->
         <details class="sync-guide-details">
           <summary>📖 Hướng dẫn tạo Firebase miễn phí trong 2 phút (chỉ làm 1 lần)</summary>
           <ol class="sync-guide-steps">
-            <li>Truy cập <a href="https://console.firebase.google.com" target="_blank" rel="noopener">Firebase Console</a> và nhấn <strong>Add project</strong> (miễn phí 100%).</li>
-            <li>Trong menu trái, chọn <strong>Build</strong> ➔ <strong>Realtime Database</strong> ➔ Bấm <strong>Create Database</strong>.</li>
-            <li>Chọn vị trí (Singapore hoặc US) ➔ Chọn <strong>Start in test mode</strong> (quyền read/write: true).</li>
-            <li>Sao chép đường dẫn Database URL (dạng <code>https://&lt;ten-du-an&gt;.firebaseio.com/</code>) dán vào ô cấu hình ở trên và bấm <strong>Lưu & Kết nối</strong>!</li>
+            <li>Truy cập <a href="https://console.firebase.google.com" target="_blank" rel="noopener">Firebase
+                Console</a> và nhấn <strong>Add project</strong> (miễn phí 100%).</li>
+            <li>Trong menu trái, chọn <strong>Build</strong> ➔ <strong>Realtime Database</strong> ➔ Bấm <strong>Create
+                Database</strong>.</li>
+            <li>Chọn vị trí (Singapore hoặc US) ➔ Chọn <strong>Start in test mode</strong> (quyền read/write: true).
+            </li>
+            <li>Sao chép đường dẫn Database URL (dạng <code>https://&lt;ten-du-an&gt;.firebaseio.com/</code>) dán vào ô
+              cấu hình ở trên và bấm <strong>Lưu & Kết nối</strong>!</li>
           </ol>
         </details>
 
@@ -511,6 +760,79 @@
     </div>
   </div>
 
+  <!-- MODAL: GEMINI AI SETTINGS (API KEY & MODEL SELECTOR) -->
+  <div id="modal-speaking-settings" class="modal-backdrop" style="display: none;">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Cài Đặt AI (Google Gemini)</h2>
+          <p class="modal-subtitle">Dùng để dịch câu đàm thoại và chấm chữa bài nói IELTS Speaking</p>
+        </div>
+        <button id="btn-close-ai-settings" class="btn-close-modal" aria-label="Đóng">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- API Key Input -->
+        <div class="form-row">
+          <label for="speaking-api-key-input" class="form-label">
+            Google Gemini API Key *
+            <span class="label-subtext">Khóa API được lưu an toàn trực tiếp trên trình duyệt máy bạn (localStorage)</span>
+          </label>
+          <div class="input-with-copy">
+            <input type="password" id="speaking-api-key-input" class="form-input"
+              placeholder="Dán API key bắt đầu bằng AIza..." autocomplete="off">
+            <button type="button" id="btn-toggle-key-vis" class="btn-subtle btn-copy" title="Hiện / Ẩn Key">👁️</button>
+          </div>
+        </div>
+
+        <!-- Model Selector Dropdown -->
+        <div class="form-row">
+          <label for="speaking-model-select" class="form-label">
+            Chọn Mô Hình AI (Model) *
+            <span class="label-subtext">1 API Key dùng được cho tất cả các model dưới đây</span>
+          </label>
+          <select id="speaking-model-select" class="form-select">
+            <option value="gemini-2.5-flash" selected>Gemini 2.5 Flash (Khuyên dùng - Nhanh, chuẩn xác, miễn phí)</option>
+            <option value="gemini-2.0-flash">Gemini 2.0 Flash (Tốc độ cao)</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash (Ổn định, phản hồi tốt)</option>
+            <option value="gemini-1.5-pro">Gemini 1.5 Pro (Phân tích sâu, phản hồi chậm hơn)</option>
+          </select>
+        </div>
+
+        <!-- Target Level Dropdown -->
+        <div class="form-row">
+          <label for="speaking-target-level" class="form-label">
+            Trình Độ Hiện Tại Của Bạn
+            <span class="label-subtext">Giúp AI căn chỉnh bản mẫu đơn giản vừa sức nhất cho bạn</span>
+          </label>
+          <select id="speaking-target-level" class="form-select">
+            <option value="b1" selected>B1 (Pre-Intermediate) - Mặc định: Câu ngắn, từ quen thuộc</option>
+            <option value="a2">A2 (Elementary) - Rất cơ bản, siêu đơn giản</option>
+            <option value="b2">B2 (Intermediate) - Tự tin hơn</option>
+          </select>
+        </div>
+
+        <!-- Test Connection Result Box -->
+        <div id="speaking-test-status" class="status-box" style="display: none;"></div>
+
+        <!-- Step-by-Step Guide Accordion -->
+        <details class="sync-guide-details" open>
+          <summary>📖 Cách lấy API Key miễn phí trong 1 phút (không cần thẻ tín dụng)</summary>
+          <ol class="sync-guide-steps">
+            <li>Truy cập <a href="https://aistudio.google.com" target="_blank" rel="noopener">Google AI Studio (aistudio.google.com)</a> và đăng nhập bằng tài khoản Google.</li>
+            <li>Nhấn vào <strong>"Get API key"</strong> ở thanh menu bên trái ➔ Bấm <strong>"Create API key"</strong>.</li>
+            <li>Sao chép chuỗi mã (bắt đầu bằng <code>AIza...</code>), dán vào ô ở trên và nhấn <strong>Lưu Cấu Hình</strong>!</li>
+          </ol>
+        </details>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-test-gemini" class="btn-secondary">🔍 Kiểm tra kết nối</button>
+          <button type="button" id="btn-save-ai-settings" class="btn-primary">Lưu Cấu Hình</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
@@ -520,5 +842,7 @@
 
   <!-- SCRIPTS -->
   <script src="app.js"></script>
+  <script src="speaking.js"></script>
 </body>
+
 </html>

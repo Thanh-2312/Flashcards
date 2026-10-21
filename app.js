@@ -1644,6 +1644,8 @@
     selectionOverlay: document.getElementById('selection-overlay'),
     btnSelectWords: document.getElementById('btn-select-words'),
     btnSelectCollocations: document.getElementById('btn-select-collocations'),
+    btnSelectSpeaking: document.getElementById('btn-select-speaking'),
+    btnNavSpeaking: document.getElementById('btn-nav-speaking'),
     wordsPreviewCount: document.getElementById('words-preview-count'),
     collocationsPreviewCount: document.getElementById('collocations-preview-count'),
     
@@ -1947,7 +1949,7 @@
 
     updateCategoryCountsPreview();
 
-    if (prefs.category && (prefs.category === 'words' || prefs.category === 'collocations')) {
+    if (prefs.category && (prefs.category === 'words' || prefs.category === 'collocations' || prefs.category === 'speaking')) {
       selectCategory(prefs.category, false);
       el.selectionOverlay.style.display = 'none';
     } else {
@@ -1969,6 +1971,46 @@
   function selectCategory(categoryKey, savePref = true) {
     state.selectedCategory = categoryKey;
     el.selectionOverlay.style.display = 'none';
+
+    const speakingView = document.getElementById('speaking-view');
+    const intervalNav = document.querySelector('.interval-nav');
+    const studyArea = document.getElementById('study-area');
+    const studyModeSwitch = document.querySelector('.study-mode-switch');
+    const spacedBadge = document.getElementById('spaced-due-badge');
+    const navSpeakingBtn = document.getElementById('btn-nav-speaking');
+
+    if (categoryKey === 'speaking') {
+      el.currentCatName.textContent = 'Speaking AI';
+      if (speakingView) speakingView.style.display = 'block';
+      if (intervalNav) intervalNav.style.display = 'none';
+      if (studyArea) studyArea.style.display = 'none';
+      if (studyModeSwitch) studyModeSwitch.style.display = 'none';
+      if (spacedBadge) spacedBadge.style.display = 'none';
+      if (navSpeakingBtn) {
+        navSpeakingBtn.classList.add('active-nav-speaking');
+        navSpeakingBtn.innerHTML = '<span>🗂️ Flashcards</span>';
+        navSpeakingBtn.title = 'Quay về học Flashcard từ vựng & collocations';
+      }
+      if (window.speakingModule && typeof window.speakingModule.onActivate === 'function') {
+        window.speakingModule.onActivate();
+      }
+      if (savePref) {
+        saveUserPreferences({ category: categoryKey });
+      }
+      return;
+    }
+
+    // Otherwise Words or Collocations
+    if (speakingView) speakingView.style.display = 'none';
+    if (intervalNav) intervalNav.style.display = 'block';
+    if (studyArea) studyArea.style.display = 'block';
+    if (studyModeSwitch) studyModeSwitch.style.display = 'inline-flex';
+    if (spacedBadge) spacedBadge.style.display = 'inline-flex';
+    if (navSpeakingBtn) {
+      navSpeakingBtn.classList.remove('active-nav-speaking');
+      navSpeakingBtn.innerHTML = '<span>🎤 Speaking AI</span>';
+      navSpeakingBtn.title = 'Mở tính năng luyện IELTS Speaking AI';
+    }
 
     if (categoryKey === 'words') {
       el.currentCatName.textContent = 'Words';
@@ -2852,6 +2894,18 @@
   function bindEvents() {
     el.btnSelectWords.addEventListener('click', () => selectCategory('words'));
     el.btnSelectCollocations.addEventListener('click', () => selectCategory('collocations'));
+    if (el.btnSelectSpeaking) {
+      el.btnSelectSpeaking.addEventListener('click', () => selectCategory('speaking'));
+    }
+    if (el.btnNavSpeaking) {
+      el.btnNavSpeaking.addEventListener('click', () => {
+        if (state.selectedCategory === 'speaking') {
+          selectCategory('words');
+        } else {
+          selectCategory('speaking');
+        }
+      });
+    }
     el.btnChangeCategory.addEventListener('click', () => {
       updateCategoryCountsPreview();
       el.selectionOverlay.style.display = 'flex';
@@ -3023,6 +3077,59 @@
       }
     });
   }
+
+  // --- EXPOSE PUBLIC BRIDGES FOR SPEAKING & EXTERNAL MODULES ---
+  window.selectCategory = selectCategory;
+  window.speakEnglish = speakEnglish;
+  window.showToast = showToast;
+  window.addCollocationCard = function (cardData) {
+    const english = (cardData.english || '').trim();
+    const vietnamese = (cardData.vietnamese || '').trim();
+    const exampleEn = (cardData.exampleEn || '').trim();
+    const exampleVi = (cardData.exampleVi || '').trim();
+    const ipa = (cardData.ipa || '/collocation/').trim();
+
+    if (!english) return false;
+
+    // Build cloze frontText with __________
+    let frontText = exampleEn;
+    if (frontText) {
+      const escaped = english.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'gi');
+      if (regex.test(frontText)) {
+        frontText = frontText.replace(regex, '__________');
+      } else {
+        frontText = `${exampleEn} (Chỗ trống: __________)`;
+      }
+    } else {
+      frontText = `__________: ${vietnamese}`;
+    }
+
+    const newCard = {
+      id: 'card-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+      category: 'collocations',
+      english: english,
+      ipa: ipa,
+      vietnamese: vietnamese,
+      frontText: frontText,
+      exampleEn: exampleEn || english,
+      context: exampleVi || vietnamese,
+      acceptedAnswers: [english],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    };
+
+    state.cards.unshift(newCard);
+    saveCardsToStorage(state.cards);
+    updateCategoryCountsPreview();
+    if (typeof syncModule !== 'undefined' && syncModule.syncCardsToCloud) {
+      syncModule.syncCardsToCloud(state.cards);
+    }
+    showToast(`Đã lưu "${english}" vào Collocations Flashcards!`);
+    return true;
+  };
 
   // --- INITIALIZE SYNC MODULE ON INIT ---
   const originalInit = init;
