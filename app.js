@@ -1,7 +1,7 @@
 /**
  * Minimal Flashcards Application
- * Categories: Words (Card 01 - 27) & Collocations (Card 28 - 53)
- * Front: Clear, simple A1/A2/B1 sentences for easy guessing
+ * Categories: Words & Collocations (IELTS Academic Reading)
+ * Front: Clear, simple A1/A2/B1 sentences with blank for easy guessing
  * Back: Exact IELTS target vocabulary, IPA, Vietnamese meaning, and reading context
  * Spaced Repetition Intervals: 1, 4, 7, 14 days
  */
@@ -13,7 +13,7 @@
   const INTERVAL_LEVELS = [1, 4, 7, 14];
   const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
-  // --- ALL 53 FLASHCARDS WITH EASY A1-A2-B1 FRONT SENTENCES ---
+  // --- ALL FLASHCARDS (WORDS & COLLOCATIONS) WITH EASY A1-A2-B1 FRONT SENTENCES ---
   const DEFAULT_CARDS = [
     // ==========================================
     // PHẦN 1: WORDS (Từ Vựng - Cards 01 đến 27)
@@ -816,6 +816,811 @@
       boxLevel: 1,
       nextReviewDate: Date.now(),
       createdDate: Date.now()
+    },
+
+    // =========================================================================
+    // BÀI ĐỌC 2: THE DAVIES SISTERS & FRENCH IMPRESSIONISM
+    // PHẦN 1: WORDS (Từ Vựng Cấp B2+ - Cards 54 đến 88)
+    // =========================================================================
+    {
+      id: 'card-54',
+      category: 'words',
+      english: 'amass',
+      ipa: '/əˈmæs/ (v - C1)',
+      vietnamese: 'Tích lũy, gom góp một số lượng lớn (tiền của, tài sản, tác phẩm nghệ thuật qua thời gian).',
+      frontText: 'Over many years, he worked hard and saved money to __________ a large collection of rare coins.',
+      context: 'Between 1908 and 1924, Gwendoline and Margaret Davies amassed one of the largest collections of late-nineteenth and early-twentieth-century French paintings in Britain.',
+      exampleEn: 'Over many years, he worked hard and saved money to amass a large collection of rare coins.',
+      acceptedAnswers: ['amass', 'amassed'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-55',
+      category: 'words',
+      english: 'inheritance',
+      ipa: '/ɪnˈher.ɪ.təns/ (n - B2)',
+      vietnamese: 'Tài sản hoặc tiền bạc thừa kế (được để lại sau khi người thân qua đời).',
+      frontText: 'When his rich uncle died, David received a large __________ of money and land.',
+      context: 'In 1907, when Gwendoline came into her inheritance (Margaret would follow in 1909), the sisters were said to be the wealthiest unmarried women in Britain.',
+      exampleEn: 'When his rich uncle died, David received a large inheritance of money and land.',
+      acceptedAnswers: ['inheritance'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-56',
+      category: 'words',
+      english: 'upbringing',
+      ipa: '/ˈʌpˌbrɪŋ.ɪŋ/ (n - B2)',
+      vietnamese: 'Sự nuôi dạy, giáo dục nhận được từ gia đình khi còn thơ ấu.',
+      frontText: 'Thanks to a loving family __________, the children grew up to be polite and honest.',
+      context: 'Their religious upbringing in rural Wales gave them a deep sense of social responsibility...',
+      exampleEn: 'Thanks to a loving family upbringing, the children grew up to be polite and honest.',
+      acceptedAnswers: ['upbringing'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-57',
+      category: 'words',
+      english: 'philanthropic',
+      ipa: '/ˌfɪl.ənˈθrɒp.ɪk/ (adj - C1)',
+      vietnamese: 'Nhân đức, từ thiện (tìm cách thúc đẩy phúc lợi của người khác bằng việc tài trợ kinh phí).',
+      frontText: 'The rich businesswoman gave millions to poor schools because of her __________ heart.',
+      context: '...and they chose to use their inheritance for cultural and philanthropic purposes.',
+      exampleEn: 'The rich businesswoman gave millions to poor schools because of her philanthropic heart.',
+      acceptedAnswers: ['philanthropic'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-58',
+      category: 'words',
+      english: 'rigorously',
+      ipa: '/ˈrɪɡ.ər.əs.li/ (adv - C1)',
+      vietnamese: 'Một cách nghiêm ngặt, khắt khe, rất cẩn thận và kỹ lưỡng.',
+      frontText: 'The new airplane was tested very __________ to make sure that it was completely safe before flying.',
+      context: 'While there was no real family history of art collecting, the sisters\' education was rigorously geared toward such pursuits.',
+      exampleEn: 'The new airplane was tested very rigorously to make sure that it was completely safe before flying.',
+      acceptedAnswers: ['rigorously'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-59',
+      category: 'words',
+      english: 'pursuit',
+      ipa: '/pəˈsjuːt/ (n - B2)',
+      vietnamese: 'Sở thích, hoạt động theo đuổi đam mê hoặc mục tiêu cụ thể.',
+      frontText: 'Drawing pictures and gardening are enjoyable outdoor __________ that help people relax.',
+      context: '...the sisters\' education was rigorously geared toward such pursuits.',
+      exampleEn: 'Drawing pictures and gardening are enjoyable outdoor pursuits that help people relax.',
+      acceptedAnswers: ['pursuit', 'pursuits'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-60',
+      category: 'words',
+      english: 'extensively',
+      ipa: '/ɪkˈsten.sɪv.li/ (adv - B2)',
+      vietnamese: 'Một cách sâu rộng, trên phạm vi rộng khắp nhiều nơi.',
+      frontText: 'Before writing the travel book, she travelled __________ to more than twenty different countries.',
+      context: '...and they travelled extensively with their governess, Jane Blaker, visiting art galleries and making extensive notes on the collections there.',
+      exampleEn: 'Before writing the travel book, she travelled extensively to more than twenty different countries.',
+      acceptedAnswers: ['extensively'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-61',
+      category: 'words',
+      english: 'governess',
+      ipa: '/ˈɡʌv.ə.nəs/ (n - C1)',
+      vietnamese: 'Nữ gia sư, cô giáo riêng dạy kèm trẻ em tại nhà của gia đình khá giả thời xưa.',
+      frontText: 'In the old days, rich parents hired a female __________ to teach their young daughters at home.',
+      context: '...and they travelled extensively with their governess, Jane Blaker, visiting art galleries...',
+      exampleEn: 'In the old days, rich parents hired a female governess to teach their young daughters at home.',
+      acceptedAnswers: ['governess', 'governesses'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-62',
+      category: 'words',
+      english: 'coincide',
+      ipa: '/ˌkəʊ.ɪnˈsaɪd/ (v - B2)',
+      vietnamese: 'Trùng hợp, diễn ra cùng một thời điểm với sự việc khác.',
+      frontText: 'My birthday will __________ with the first day of the school holidays this year.',
+      context: 'The sisters began to make regular art purchases from 1908, which roughly coincided with the dates of their inheritance.',
+      exampleEn: 'My birthday will coincide with the first day of the school holidays this year.',
+      acceptedAnswers: ['coincide', 'coincided'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-63',
+      category: 'words',
+      english: 'retain',
+      ipa: '/rɪˈteɪn/ (v - B2)',
+      vietnamese: 'Giữ lại, duy trì (quyền kiểm soát, vai trò, vị trí hoặc ký ức).',
+      frontText: 'Although she was very busy, the manager wanted to __________ control over all money decisions.',
+      context: '...it has recently been accepted that Gwendoline and Margaret retained a far more active role in the process.',
+      exampleEn: 'Although she was very busy, the manager wanted to retain control over all money decisions.',
+      acceptedAnswers: ['retain', 'retained'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-64',
+      category: 'words',
+      english: 'preference',
+      ipa: '/ˈpref.ər.əns/ (n - B2)',
+      vietnamese: 'Sự yêu thích, ưu tiên thích cái gì hơn cái khác.',
+      frontText: 'I have a strong __________ for hot tea rather than cold coffee on rainy mornings.',
+      context: 'The sisters\' journals reveal their preference for Old Master paintings.',
+      exampleEn: 'I have a strong preference for hot tea rather than cold coffee on rainy mornings.',
+      acceptedAnswers: ['preference', 'preferences'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-65',
+      category: 'words',
+      english: 'secure',
+      ipa: '/sɪˈkjʊər/ (v - B2)',
+      vietnamese: 'Giành được, có được hoặc mua được thứ gì đó quý hiếm, khó đạt được.',
+      frontText: 'Thousands of excited fans tried their best to __________ a ticket to the final match.',
+      context: 'Yet they initially made very few attempts to secure any such works.',
+      exampleEn: 'Thousands of excited fans tried their best to secure a ticket to the final match.',
+      acceptedAnswers: ['secure', 'secured'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-66',
+      category: 'words',
+      english: 'champion',
+      ipa: '/ˈtʃæm.pi.ən/ (n - C1)',
+      vietnamese: 'Người nhiệt thành ủng hộ, bảo vệ và cổ vũ cho một ý tưởng hay phong trào.',
+      frontText: 'The local doctor has always been a strong __________ of healthy food and clean water for children.',
+      context: 'We know that Hugh Blaker, as a champion of contemporary French art had a hand in the decision...',
+      exampleEn: 'The local doctor has always been a strong champion of healthy food and clean water for children.',
+      acceptedAnswers: ['champion', 'champions'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-67',
+      category: 'words',
+      english: 'contemporary',
+      ipa: '/kənˈtem.pər.ər.i/ (adj - B2)',
+      vietnamese: 'Đương đại, hiện đại cùng thời.',
+      frontText: 'The modern museum shows both old history paintings and __________ art by living artists.',
+      context: 'We know that Hugh Blaker, as a champion of contemporary French art had a hand in the decision...',
+      exampleEn: 'The modern museum shows both old history paintings and contemporary art by living artists.',
+      acceptedAnswers: ['contemporary'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-68',
+      category: 'words',
+      english: 'precise',
+      ipa: '/prɪˈsaɪs/ (adj - B2)',
+      vietnamese: 'Chính xác, cụ thể và rõ ràng từng chi tiết.',
+      frontText: 'Could you tell me the __________ time when the bus will reach the station?',
+      context: 'Whatever the precise reason for this change, their first purchases of Impressionist art, made in October 1912, were scenes of Venice...',
+      exampleEn: 'Could you tell me the precise time when the bus will reach the station?',
+      acceptedAnswers: ['precise'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-69',
+      category: 'words',
+      english: 'finance',
+      ipa: '/ˈfaɪ.næns/ (v - B2)',
+      vietnamese: 'Tài trợ, chu cấp kinh phí tiền của cho một công trình hoặc dự án.',
+      frontText: 'The city government agreed to __________ the building of a free public library for students.',
+      context: 'Their initial response to the war effort was to finance the safe passage of artists from occupied Belgium to Wales...',
+      exampleEn: 'The city government agreed to finance the building of a free public library for students.',
+      acceptedAnswers: ['finance', 'financed'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-70',
+      category: 'words',
+      english: 'occupied',
+      ipa: '/ˈɒk.jə.paɪd/ (adj - B2)',
+      vietnamese: 'Bị quân đội nước ngoài chiếm đóng, kiểm soát trong thời chiến.',
+      frontText: 'Families living in the __________ town had to obey strict rules set by enemy soldiers.',
+      context: '...to finance the safe passage of artists from occupied Belgium to Wales...',
+      exampleEn: 'Families living in the occupied town had to obey strict rules set by enemy soldiers.',
+      acceptedAnswers: ['occupied'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-71',
+      category: 'words',
+      english: 'humanitarian',
+      ipa: '/hjuːˌmæn.ɪˈteə.ri.ən/ (adj - C1)',
+      vietnamese: 'Mang tính nhân đạo, vì lòng thương xót và cứu trợ con người khi hoạn nạn.',
+      frontText: 'Doctors and nurses travelled to the war zone on an important __________ mission to save injured people.',
+      context: '...to finance the safe passage of artists from occupied Belgium to Wales, as a humanitarian act...',
+      exampleEn: 'Doctors and nurses travelled to the war zone on an important humanitarian mission to save injured people.',
+      acceptedAnswers: ['humanitarian'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-72',
+      category: 'words',
+      english: 'vibrant',
+      ipa: '/ˈvaɪ.brənt/ (adj - B2)',
+      vietnamese: 'Sôi động, náo nhiệt, đầy màu sắc và tràn trề nhựa sống.',
+      frontText: 'The town center at night was colourful and __________ with lively music and happy crowds.',
+      context: '...with the hope of establishing a vibrant artists\' community in the area.',
+      exampleEn: 'The town center at night was colourful and vibrant with lively music and happy crowds.',
+      acceptedAnswers: ['vibrant'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-73',
+      category: 'words',
+      english: 'conflict',
+      ipa: '/ˈkɒn.flɪkt/ (n - B2)',
+      vietnamese: 'Cuộc xung đột, chiến tranh vũ trang hoặc mối mâu thuẫn sâu sắc.',
+      frontText: 'Many innocent families had to leave their village because of the dangerous armed __________ in the country.',
+      context: 'Later in the conflict, both sisters decided to volunteer at a canteen for troops at Troyes, in northern France...',
+      exampleEn: 'Many innocent families had to leave their village because of the dangerous armed conflict in the country.',
+      acceptedAnswers: ['conflict', 'conflicts'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-74',
+      category: 'words',
+      english: 'tedious',
+      ipa: '/ˈtiː.di.əs/ (adj - C1)',
+      vietnamese: 'Buồn tẻ, chán ngắt và mệt óc vì kéo dài lặp đi lặp lại.',
+      frontText: 'Checking thousands of long numbers on paper by hand is very slow and __________ work.',
+      context: 'It was tedious and distressing work, which would have a permanent effect on Gwendoline\'s health.',
+      exampleEn: 'Checking thousands of long numbers on paper by hand is very slow and tedious work.',
+      acceptedAnswers: ['tedious'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-75',
+      category: 'words',
+      english: 'distressing',
+      ipa: '/dɪˈstres.ɪŋ/ (adj - C1)',
+      vietnamese: 'Đau lòng, gây khổ sở, đau buồn hoặc lo lắng cực độ.',
+      frontText: 'Hearing the sad news about the burning houses was extremely __________ to everyone in the room.',
+      context: 'It was tedious and distressing work, which would have a permanent effect on Gwendoline\'s health.',
+      exampleEn: 'Hearing the sad news about the burning houses was extremely distressing to everyone in the room.',
+      acceptedAnswers: ['distressing'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-76',
+      category: 'words',
+      english: 'permanent',
+      ipa: '/ˈpɜː.mə.nənt/ (adj - B2)',
+      vietnamese: 'Lâu dài, vĩnh viễn, cố định không đổi theo thời gian.',
+      frontText: 'Smoking cigarettes every day can cause __________ damage to your lungs that medicine cannot repair.',
+      context: '...which would have a permanent effect on Gwendoline\'s health.',
+      exampleEn: 'Smoking cigarettes every day can cause permanent damage to your lungs that medicine cannot repair.',
+      acceptedAnswers: ['permanent'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-77',
+      category: 'words',
+      english: 'acquire',
+      ipa: '/əˈkwaɪər/ (v - B2)',
+      vietnamese: 'Thu nhận được, mua được (tài sản quý giá hoặc kỹ năng mới).',
+      frontText: 'With the money he earned from his job, he was able to __________ a small coffee shop in town.',
+      context: 'Here she acquired two works by Cézanne - Provençal Landscape and The François Zola Dam.',
+      exampleEn: 'With the money he earned from his job, he was able to acquire a small coffee shop in town.',
+      acceptedAnswers: ['acquire', 'acquired'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-78',
+      category: 'words',
+      english: 'commentator',
+      ipa: '/ˈkɒm.ən.teɪ.tər/ (n - B2)',
+      vietnamese: 'Nhà bình luận, người phân tích và bình phẩm về tin tức, thời sự hay thể thao.',
+      frontText: 'During the football match on television, the sports __________ described every play with excitement.',
+      context: 'Commentators have often described the sisters as unlikely pioneer collectors.',
+      exampleEn: 'During the football match on television, the sports commentator described every play with excitement.',
+      acceptedAnswers: ['commentator', 'commentators'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-79',
+      category: 'words',
+      english: 'unlikely',
+      ipa: '/ʌnˈlaɪ.kli/ (adj - B2)',
+      vietnamese: 'Không ngờ tới, khó tin nhưng có thật; ít có khả năng xảy ra.',
+      frontText: 'The shy little boy was the most __________ student to win the race, but he won first prize.',
+      context: 'Commentators have often described the sisters as unlikely pioneer collectors.',
+      exampleEn: 'The shy little boy was the most unlikely student to win the race, but he won first prize.',
+      acceptedAnswers: ['unlikely'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-80',
+      category: 'words',
+      english: 'pioneer',
+      ipa: '/ˌpaɪəˈnɪər/ (n - B2)',
+      vietnamese: 'Người tiên phong, người đi đầu khai phá một lĩnh vực mới.',
+      frontText: 'Marie Curie was a great scientific __________ who discovered new elements that changed modern medicine.',
+      context: 'Commentators have often described the sisters as unlikely pioneer collectors.',
+      exampleEn: 'Marie Curie was a great scientific pioneer who discovered new elements that changed modern medicine.',
+      acceptedAnswers: ['pioneer', 'pioneers'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-81',
+      category: 'words',
+      english: 'isolation',
+      ipa: '/ˌaɪ.səlˈeɪ.ʃən/ (n - B2)',
+      vietnamese: 'Sự cô lập, tình trạng sống tách biệt xa cách khỏi mọi người.',
+      frontText: 'Living in complete __________ on an empty mountain made the old monk feel peaceful.',
+      context: 'Much is made of their isolation in rural Wales and the fact that they didn\'t make friends with artists or gallery owners.',
+      exampleEn: 'Living in complete isolation on an empty mountain made the old monk feel peaceful.',
+      acceptedAnswers: ['isolation'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-82',
+      category: 'words',
+      english: 'upheaval',
+      ipa: '/ʌpˈhiː.vəl/ (n - C1)',
+      vietnamese: 'Sự biến động dữ dội, xáo trộn to lớn làm xáo trộn cuộc sống bình thường.',
+      frontText: 'The sudden closing of the factory brought great economic __________ and panic to the small town.',
+      context: '...when faced with the poverty and social upheaval created by the First World War.',
+      exampleEn: 'The sudden closing of the factory brought great economic upheaval and panic to the small town.',
+      acceptedAnswers: ['upheaval', 'upheavals'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-83',
+      category: 'words',
+      english: 'exclusively',
+      ipa: '/ɪkˈskluː.sɪv.li/ (adv - B2)',
+      vietnamese: 'Dành riêng, hoàn toàn chỉ duy nhất cho một mục đích hoặc đối tượng.',
+      frontText: 'This warm swimming pool is used __________ by young kids and their parents on Sunday mornings.',
+      context: 'Her philanthropic pursuits then became focused almost exclusively on social causes...',
+      exampleEn: 'This warm swimming pool is used exclusively by young kids and their parents on Sunday mornings.',
+      acceptedAnswers: ['exclusively'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-84',
+      category: 'words',
+      english: 'venue',
+      ipa: '/ˈven.juː/ (n - B2)',
+      vietnamese: 'Địa điểm diễn ra sự kiện, buổi hòa nhạc, hội nghị hoặc thi đấu.',
+      frontText: 'The large central theatre was the chosen __________ for the international piano concert.',
+      context: '...into a conference center and venue for the Gregynog Festival of Music and Poetry.',
+      exampleEn: 'The large central theatre was the chosen venue for the international piano concert.',
+      acceptedAnswers: ['venue', 'venues'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-85',
+      category: 'words',
+      english: 'routinely',
+      ipa: '/ruːˈtiːn.li/ (adv - B2)',
+      vietnamese: 'Một cách thường lệ, đều đặn như thói quen hằng ngày.',
+      frontText: 'The school nurse __________ washes her hands and checks the health of each student every morning.',
+      context: 'The sisters collected French Impressionist paintings at a time when such art was routinely ignored by individuals and institutions alike.',
+      exampleEn: 'The school nurse routinely washes her hands and checks the health of each student every morning.',
+      acceptedAnswers: ['routinely'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-86',
+      category: 'words',
+      english: 'respectively',
+      ipa: '/rɪˈspek.tɪv.li/ (adv - B2)',
+      vietnamese: 'Theo thứ tự lần lượt tương ứng với từng đối tượng vừa nhắc.',
+      frontText: 'Paul and Lisa scored 80 and 95 points __________, meaning Paul got 80 and Lisa got 95.',
+      context: 'The Gwendoline and Margaret Davies collection, donated in 1951 and 1963 respectively to the National Museum Wales...',
+      exampleEn: 'Paul and Lisa scored 80 and 95 points respectively, meaning Paul got 80 and Lisa got 95.',
+      acceptedAnswers: ['respectively'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-87',
+      category: 'words',
+      english: 'lasting',
+      ipa: '/ˈlɑː.stɪŋ/ (adj - B2)',
+      vietnamese: 'Lâu dài, trường tồn, có giá trị hoặc ảnh hưởng bền bỉ qua năm tháng.',
+      frontText: 'The kindness of the doctor made a deep and __________ impression on the little patient.',
+      context: 'In collecting paintings that they loved, the sisters created a lasting and meaningful cultural legacy for the people of Wales and beyond.',
+      exampleEn: 'The kindness of the doctor made a deep and lasting impression on the little patient.',
+      acceptedAnswers: ['lasting'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-88',
+      category: 'words',
+      english: 'legacy',
+      ipa: '/ˈleɡ.ə.si/ (n - C1)',
+      vietnamese: 'Di sản để lại cho thế hệ sau (văn hóa, tinh thần, thành tựu cuộc đời).',
+      frontText: 'The old king died, but his great wisdom and peaceful laws left an enduring __________ for his people.',
+      context: '...the sisters created a lasting and meaningful cultural legacy for the people of Wales and beyond.',
+      exampleEn: 'The old king died, but his great wisdom and peaceful laws left an enduring legacy for his people.',
+      acceptedAnswers: ['legacy', 'legacies'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+
+    // =========================================================================
+    // BÀI ĐỌC 2: THE DAVIES SISTERS & FRENCH IMPRESSIONISM
+    // PHẦN 2: COLLOCATIONS & PHRASES (Cụm Từ B2+ - Cards 89 đến 106)
+    // =========================================================================
+    {
+      id: 'card-89',
+      category: 'collocations',
+      english: 'amass a fortune',
+      ipa: '(collocation - C1)',
+      vietnamese: 'Tích lũy một khối tài sản / gia tài khổng lồ.',
+      frontText: 'By inventing and selling useful computer software, the young engineer was able to __________ in just five years.',
+      context: '...David Davies, a Welshman who amassed a fortune in the shipping and mining industries.',
+      exampleEn: 'By inventing and selling useful computer software, the young engineer was able to amass a fortune in just five years.',
+      acceptedAnswers: ['amass a fortune', 'amassed a fortune'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-90',
+      category: 'collocations',
+      english: 'come into',
+      ipa: '(phrasal verb - B2)',
+      vietnamese: 'Thừa hưởng, được nhận (khoản tiền hoặc tài sản lớn do người thân qua đời để lại).',
+      frontText: 'When his grandfather died peacefully, Mark __________ a large sum of money and a family farm.',
+      context: 'In 1907, when Gwendoline came into her inheritance (Margaret would follow in 1909)...',
+      exampleEn: 'When his grandfather died peacefully, Mark came into a large sum of money and a family farm.',
+      acceptedAnswers: ['come into', 'came into'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-91',
+      category: 'collocations',
+      english: 'social responsibility',
+      ipa: '(collocation - B2)',
+      vietnamese: 'Trách nhiệm xã hội (bổn phận đạo đức của cá nhân hay tổ chức đóng góp cho cộng đồng).',
+      frontText: 'Big businesses have a clear __________ to reduce plastic waste and protect nature.',
+      context: 'Their religious upbringing in rural Wales gave them a deep sense of social responsibility...',
+      exampleEn: 'Big businesses have a clear social responsibility to reduce plastic waste and protect nature.',
+      acceptedAnswers: ['social responsibility'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-92',
+      category: 'collocations',
+      english: 'gear toward',
+      ipa: '(verb phrase - B2)',
+      vietnamese: 'Định hướng, thiết kế phù hợp cho một mục tiêu hay đối tượng nhất định.',
+      frontText: 'This easy grammar book is specifically __________ helping beginners learn English step by step.',
+      context: '...the sisters\' education was rigorously geared toward such pursuits.',
+      exampleEn: 'This easy grammar book is specifically geared toward helping beginners learn English step by step.',
+      acceptedAnswers: ['gear toward', 'geared toward', 'geared towards', 'gear towards'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-93',
+      category: 'collocations',
+      english: 'retain an active role',
+      ipa: '(collocation - B2)',
+      vietnamese: 'Duy trì vai trò chủ động, tích cực tham gia vào một tiến trình.',
+      frontText: 'Even after retiring from work, the teacher continued to __________ in organizing community events.',
+      context: '...it has recently been accepted that Gwendoline and Margaret retained a far more active role in the process.',
+      exampleEn: 'Even after retiring from work, the teacher continued to retain an active role in organizing community events.',
+      acceptedAnswers: ['retain an active role', 'retained an active role', 'active role'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-94',
+      category: 'collocations',
+      english: 'in relative terms',
+      ipa: '(phrase - C1)',
+      vietnamese: 'Xét về mặt tương đối (so sánh trong mối tương quan với các yếu tố khác).',
+      frontText: 'Living in a small town is quite cheap __________, especially when you compare it to a huge capital city.',
+      context: 'While the sisters were wealthy in relative terms, their income was nothing compared to the fortunes of American art collectors...',
+      exampleEn: 'Living in a small town is quite cheap in relative terms, especially when you compare it to a huge capital city.',
+      acceptedAnswers: ['in relative terms', 'relative terms'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-95',
+      category: 'collocations',
+      english: 'nothing compared to',
+      ipa: '(phrase - B2)',
+      vietnamese: 'Không thấm vào đâu / chẳng là gì khi so với cái gì khác.',
+      frontText: 'My small garden is __________ the giant national park that surrounds the mountain.',
+      context: '...their income was nothing compared to the fortunes of American art collectors of this period...',
+      exampleEn: 'My small garden is nothing compared to the giant national park that surrounds the mountain.',
+      acceptedAnswers: ['nothing compared to'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-96',
+      category: 'collocations',
+      english: 'beyond one\'s means',
+      ipa: '(idiom - B2)',
+      vietnamese: 'Vượt quá khả năng tài chính / đắt đỏ hơn số tiền ai đó có thể kiếm được.',
+      frontText: 'Buying that luxury sports car is totally __________ because I only have a low monthly salary.',
+      context: 'Quite simply, high quality Old Master works were, if not beyond their means, then beyond what they were willing to pay for them.',
+      exampleEn: 'Buying that luxury sports car is totally beyond my means because I only have a low monthly salary.',
+      acceptedAnswers: ['beyond one\'s means', 'beyond ones means', 'beyond my means', 'beyond their means', 'beyond her means', 'beyond his means'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-97',
+      category: 'collocations',
+      english: 'turn to',
+      ipa: '(phrasal verb - B2)',
+      vietnamese: 'Chuyển sang quan tâm hoặc tìm đến (một hoạt động, lĩnh vực mới).',
+      frontText: 'When she stopped playing professional tennis, she __________ painting and wrote books.',
+      context: '...their collecting took a new direction and they turned to the work of the French Impressionists.',
+      exampleEn: 'When she stopped playing professional tennis, she turned to painting and wrote books.',
+      acceptedAnswers: ['turn to', 'turned to'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-98',
+      category: 'collocations',
+      english: 'have a hand in',
+      ipa: '(idiom - B2)',
+      vietnamese: 'Có can dự vào, góp phần tạo nên (một kết quả, quyết định nào đó).',
+      frontText: 'We all know that the friendly teacher __________ organizing the wonderful surprise celebration.',
+      context: 'We know that Hugh Blaker, as a champion of contemporary French art had a hand in the decision...',
+      exampleEn: 'We all know that the friendly teacher had a hand in organizing the wonderful surprise celebration.',
+      acceptedAnswers: ['have a hand in', 'had a hand in', 'hand in'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-99',
+      category: 'collocations',
+      english: 'the bulk of',
+      ipa: '(phrase - C1)',
+      vietnamese: 'Phần lớn nhất, đa số hoặc số lượng chủ yếu của cái gì.',
+      frontText: 'The student spends __________ his pocket money on buying exciting mystery books.',
+      context: 'Over the next 12 years, the sisters amassed the bulk of their Impressionist collection...',
+      exampleEn: 'The student spends the bulk of his pocket money on buying exciting mystery books.',
+      acceptedAnswers: ['the bulk of', 'bulk of', 'bulk'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-100',
+      category: 'collocations',
+      english: 'safe passage',
+      ipa: '(collocation - C1)',
+      vietnamese: 'Sự đi lại an toàn (vượt qua vùng chiến sự nguy hiểm mà không bị tấn công hay bắt giữ).',
+      frontText: 'The police officers guided the lost travelers to give them __________ through the dark forest.',
+      context: 'Their initial response to the war effort was to finance the safe passage of artists from occupied Belgium to Wales...',
+      exampleEn: 'The police officers guided the lost travelers to give them safe passage through the dark forest.',
+      acceptedAnswers: ['safe passage'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-101',
+      category: 'collocations',
+      english: 'go on display',
+      ipa: '(collocation - B2)',
+      vietnamese: 'Được đưa ra trưng bày, triển lãm cho công chúng chiêm ngưỡng.',
+      frontText: 'The ancient golden necklace will __________ at the city museum starting tomorrow morning.',
+      context: '...where they became the first works by Cézanne to go on display in a public gallery in Britain.',
+      exampleEn: 'The ancient golden necklace will go on display at the city museum starting tomorrow morning.',
+      acceptedAnswers: ['go on display', 'went on display', 'on display'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-102',
+      category: 'collocations',
+      english: 'feel obliged to',
+      ipa: '(phrase - B2)',
+      vietnamese: 'Cảm thấy có bổn phận hoặc bị ép buộc phải làm điều gì đó.',
+      frontText: 'Since my kind neighbor cooked dinner for me, I __________ help him paint his garden fence.',
+      context: 'Yet they didn\'t feel obliged to follow fashionable tastes and were free to pursue their own preferences.',
+      exampleEn: 'Since my kind neighbor cooked dinner for me, I feel obliged to help him paint his garden fence.',
+      acceptedAnswers: ['feel obliged to', 'felt obliged to', 'obliged to'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-103',
+      category: 'collocations',
+      english: 'social upheaval',
+      ipa: '(collocation - C1)',
+      vietnamese: 'Sự biến động / xáo trộn xã hội to lớn và sâu sắc.',
+      frontText: 'The sudden rise in prices caused intense __________ that changed daily life for thousands of families.',
+      context: '...when faced with the poverty and social upheaval created by the First World War.',
+      exampleEn: 'The sudden rise in prices caused intense social upheaval that changed daily life for thousands of families.',
+      acceptedAnswers: ['social upheaval'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-104',
+      category: 'collocations',
+      english: 'social causes',
+      ipa: '(collocation - B2)',
+      vietnamese: 'Các mục tiêu vì cộng đồng, sự nghiệp từ thiện hoặc công ích xã hội.',
+      frontText: 'The rich singer donates money to many __________ such as building schools and feeding hungry children.',
+      context: 'Her philanthropic pursuits then became focused almost exclusively on social causes...',
+      exampleEn: 'The rich singer donates money to many social causes such as building schools and feeding hungry children.',
+      acceptedAnswers: ['social causes', 'social cause'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-105',
+      category: 'collocations',
+      english: 'on a small scale',
+      ipa: '(phrase - B2)',
+      vietnamese: 'Ở quy mô nhỏ, phạm vi hạn chế.',
+      frontText: 'He began selling fresh vegetables __________ from his garden before opening a big supermarket.',
+      context: '...started again in the 1930s acquiring, on a relatively small scale, work by contemporary British artists.',
+      exampleEn: 'He began selling fresh vegetables on a small scale from his garden before opening a big supermarket.',
+      acceptedAnswers: ['on a small scale', 'small scale', 'on a relatively small scale'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
+    },
+    {
+      id: 'card-106',
+      category: 'collocations',
+      english: 'for consideration',
+      ipa: '(phrase - B2)',
+      vietnamese: 'Để xem xét, nghiên cứu cân nhắc trước khi quyết định.',
+      frontText: 'The architect sent three house plans to the committee __________ before building started.',
+      context: '...and also regularly had paintings sent to their home for consideration.',
+      exampleEn: 'The architect sent three house plans to the committee for consideration before building started.',
+      acceptedAnswers: ['for consideration'],
+      interval: 1,
+      boxLevel: 1,
+      nextReviewDate: Date.now(),
+      createdDate: Date.now()
     }
   ];
 
@@ -944,16 +1749,34 @@
     toastContainer: document.getElementById('toast-container')
   };
 
-  // --- STORAGE HELPERS (v3 guarantees automatic refresh to A1-A2-B1 front sentences) ---
-  const STORAGE_KEY = 'minimal_flashcards_data_v3';
+  // --- STORAGE HELPERS (v4 with Davies Sisters reading cards auto-merge) ---
+  const STORAGE_KEY = 'minimal_flashcards_data_v4';
   const PREF_KEY = 'minimal_flashcards_pref_v1';
 
   function loadCardsFromStorage() {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+      let stored = localStorage.getItem(STORAGE_KEY);
+      // Auto-migrate from v3 if present
+      if (!stored) {
+        const oldStored = localStorage.getItem('minimal_flashcards_data_v3');
+        if (oldStored) stored = oldStored;
+      }
+
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // Merge missing default cards seamlessly so new cards are added automatically
+          const existingIds = new Set(parsed.map(c => c.id));
+          let hasNew = false;
+          DEFAULT_CARDS.forEach(card => {
+            if (!existingIds.has(card.id)) {
+              parsed.push(JSON.parse(JSON.stringify(card)));
+              hasNew = true;
+            }
+          });
+          if (hasNew) {
+            saveCardsToStorage(parsed);
+          }
           return parsed;
         }
       }
@@ -1600,10 +2423,10 @@
   }
 
   function resetToDefaultData() {
-    if (!confirm('Khôi phục lại danh mục flashcard mẫu ban đầu (53 thẻ)?')) return;
+    if (!confirm(`Khôi phục lại danh mục flashcard mẫu ban đầu (${DEFAULT_CARDS.length} thẻ)?`)) return;
     state.cards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
     saveCardsToStorage(state.cards);
-    showToast('Đã khôi phục toàn bộ 53 thẻ với câu A1-A2-B1 dễ hiểu');
+    showToast(`Đã khôi phục toàn bộ ${DEFAULT_CARDS.length} thẻ với câu A1-A2-B1 dễ hiểu`);
     updateCategoryCountsPreview();
     filterAndRenderCards();
     renderManageTable();
