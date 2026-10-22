@@ -2596,7 +2596,7 @@
       if (spacedBadge) spacedBadge.style.display = 'none';
       if (navSpeakingBtn) {
         navSpeakingBtn.classList.add('active-nav-speaking');
-        navSpeakingBtn.innerHTML = '<span>🗂️ Flashcards</span>';
+        navSpeakingBtn.innerHTML = '<span>Flashcards</span>';
         navSpeakingBtn.title = 'Quay về học Flashcard từ vựng & collocations';
       }
       if (window.speakingModule && typeof window.speakingModule.onActivate === 'function') {
@@ -2616,7 +2616,7 @@
     if (spacedBadge) spacedBadge.style.display = 'inline-flex';
     if (navSpeakingBtn) {
       navSpeakingBtn.classList.remove('active-nav-speaking');
-      navSpeakingBtn.innerHTML = '<span>🎤 Speaking AI</span>';
+      navSpeakingBtn.innerHTML = '<span>Speaking AI</span>';
       navSpeakingBtn.title = 'Mở tính năng luyện IELTS Speaking AI';
     }
 
@@ -2858,7 +2858,7 @@
       originalCard.lastReviewed = now;
       originalCard.updatedAt = now;
       const targetDateStr = formatDateDMY(originalCard.nextReviewDate);
-      showToast(`✨ Đã nhớ! Thẻ chuyển sang hộp +${newInterval} ngày (Hạn ôn: ${targetDateStr})`);
+      showToast(`Đã nhớ! Thẻ chuyển sang hộp +${newInterval} ngày (Hạn ôn: ${targetDateStr})`);
     } else {
       originalCard.interval = 1;
       originalCard.boxLevel = 1;
@@ -2866,7 +2866,7 @@
       originalCard.lastReviewed = now;
       originalCard.updatedAt = now;
       const targetDateStr = formatDateDMY(originalCard.nextReviewDate);
-      showToast(`🔄 Chưa nhớ. Xếp lại vào Hộp 1 ngày (Hạn ôn: ${targetDateStr})`);
+      showToast(`Chưa nhớ. Xếp lại vào Hộp 1 ngày (Hạn ôn: ${targetDateStr})`);
     }
 
     saveCardsToStorage(state.cards);
@@ -3139,8 +3139,8 @@
           <td><span class="due-badge due-${dueInfo.status}">${dueInfo.text}</span></td>
           <td>${lastReviewedStr}</td>
           <td class="text-right">
-            <button type="button" class="action-btn-sm" title="Sửa" onclick="window.editCardHandler('${c.id}')">✏️</button>
-            <button type="button" class="action-btn-sm delete" title="Xóa" onclick="window.deleteCardHandler('${c.id}')">🗑️</button>
+            <button type="button" class="action-btn-sm" title="Sửa" onclick="window.editCardHandler('${c.id}')">Sửa</button>
+            <button type="button" class="action-btn-sm delete text-danger" title="Xóa" onclick="window.deleteCardHandler('${c.id}')">Xóa</button>
           </td>
         </tr>
       `;
@@ -3222,6 +3222,23 @@
         }
       } catch (e) {}
 
+      // Hardcoded fallback / default from config.js (window.APP_CONFIG)
+      if (window.APP_CONFIG) {
+        if (window.APP_CONFIG.SYNC_USER_ID && (!this.config.userId || this.config.userId === 'thanh_flashcards_2312')) {
+          this.config.userId = window.APP_CONFIG.SYNC_USER_ID;
+        }
+        const appFb = window.APP_CONFIG.FIREBASE_CONFIG || window.APP_CONFIG.FIREBASE_DATABASE_URL;
+        if (appFb) {
+          if (typeof appFb === 'string' && appFb.trim() && !appFb.includes('ten-du-an')) {
+            this.config.firebaseRaw = appFb.trim();
+            this.parseFirebaseConfig(appFb.trim());
+          } else if (typeof appFb === 'object' && appFb.databaseURL && appFb.databaseURL.trim() && !appFb.databaseURL.includes('ten-du-an')) {
+            this.config.firebaseConfig = { ...appFb };
+            this.config.firebaseRaw = JSON.stringify(appFb, null, 2);
+          }
+        }
+      }
+
       // Fast auto-setup via URL query param when opening on phone
       const urlParams = new URLSearchParams(window.location.search);
       const cfgParam = urlParams.get('sync_cfg');
@@ -3234,7 +3251,7 @@
           this.parseFirebaseConfig(decoded);
           this.saveConfig();
           window.history.replaceState({}, document.title, window.location.pathname);
-          setTimeout(() => showToast('📲 Đã tự động nhận cấu hình Firebase cho thiết bị này!'), 800);
+          setTimeout(() => showToast('Đã tự động nhận cấu hình Firebase cho thiết bị này!'), 800);
         } catch (e) {}
       }
     },
@@ -3383,7 +3400,7 @@
         renderManageTable();
         updateCategoryCountsPreview();
         const deviceName = remoteData.device === 'phone' ? 'Điện thoại' : 'Máy tính';
-        showToast(`📲 Đã tự động đồng bộ tiến độ mới từ ${deviceName}!`);
+        showToast(`Đã tự động đồng bộ tiến độ mới từ ${deviceName}!`);
       }
     },
 
@@ -3413,7 +3430,7 @@
         .then(() => {
           this.lastRemoteTimestamp = payload.updatedAt;
           this.setSyncingState(false, 'Đã đồng bộ');
-          if (showNotify) showToast('☁️ Đã đẩy toàn bộ tiến độ lên Cloud thành công!');
+          if (showNotify) showToast('Đã đẩy toàn bộ tiến độ lên Cloud thành công!');
         })
         .catch(err => {
           console.warn('Lỗi lưu Firebase:', err);
@@ -3434,7 +3451,7 @@
           if (data && data.updatedAt) {
             this.lastRemoteTimestamp = 0; // force accept
             this.handleRemoteUpdate(data);
-            showToast('✅ Đã tải và áp dụng tiến độ từ Cloud!');
+            showToast('Đã tải và áp dụng tiến độ từ Cloud!');
           } else {
             showToast('Cloud chưa có dữ liệu. Hãy bấm "Đẩy lên Cloud" để tạo bản lưu đầu tiên!');
           }

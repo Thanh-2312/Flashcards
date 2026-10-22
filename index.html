@@ -17,7 +17,7 @@
 
   <link rel="stylesheet" href="style.css">
   <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗂️</text></svg>">
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%232563EB%22/><path d=%22M8 10h16M8 16h12M8 22h8%22 stroke=%22white%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/></svg>">
 </head>
 
 <body>
@@ -66,7 +66,7 @@
         </button>
 
         <button type="button" class="type-select-btn" data-category="speaking" id="btn-select-speaking">
-          <div class="type-icon-box" style="color: #0d9488;">
+          <div class="type-icon-box" style="color: #2563eb;">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
               stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
@@ -79,12 +79,12 @@
             <div class="type-name">IELTS Speaking AI</div>
             <div class="type-sub">Dịch câu đời thường sang tiếng Anh & Luyện 1 câu IELTS mỗi ngày có AI chấm chữa</div>
           </div>
-          <span class="count-pill count-pill-ai" id="speaking-preview-badge">✨ AI Coach</span>
+          <span class="count-pill count-pill-ai" id="speaking-preview-badge">AI Coach</span>
         </button>
       </div>
 
       <div class="selection-footer">
-        <span class="tip-text">💡 Dễ dàng chuyển đổi linh hoạt bất kỳ lúc nào trên thanh điều hướng.</span>
+        <span class="tip-text">Dễ dàng chuyển đổi linh hoạt bất kỳ lúc nào trên thanh điều hướng.</span>
       </div>
     </div>
   </div>
@@ -111,24 +111,15 @@
       <div class="header-right">
         <!-- Quick Nav to Speaking AI -->
         <button id="btn-nav-speaking" class="nav-speaking-pill-btn" title="Mở tính năng luyện IELTS Speaking AI">
-          <span>🎤 Speaking AI</span>
+          <span>Speaking AI</span>
         </button>
 
         <!-- Interactive Mode Switcher -->
         <div class="study-mode-switch" role="radiogroup" aria-label="Chế độ học">
           <button id="mode-flip-btn" class="mode-tab-btn active" data-mode="flip" title="Chế độ lật thẻ truyền thống">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect width="18" height="14" x="3" y="5" rx="2" />
-              <path d="M7 5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v2" />
-            </svg>
             <span>Lật thẻ</span>
           </button>
           <button id="mode-type-btn" class="mode-tab-btn" data-mode="type" title="Chế độ điền từ kiểm tra đúng/sai">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="4 7 4 4 20 4 20 7" />
-              <line x1="9" x2="15" y1="20" y2="20" />
-              <line x1="12" x2="12" y1="4" y2="20" />
-            </svg>
             <span>Gõ từ</span>
           </button>
         </div>
@@ -197,11 +188,9 @@
           <span class="card-position" id="card-position-text">Thẻ 1 / 10</span>
           <div class="meta-badges-group">
             <div class="box-level-tag" id="current-box-tag" title="Khoảng cách chu kỳ lặp">
-              <span class="box-icon">⏳</span>
               <span id="current-box-text">Hộp 1 ngày</span>
             </div>
             <div class="card-due-tag" id="current-due-tag" title="Hạn ôn tập thẻ này">
-              <span class="due-icon">📅</span>
               <span id="current-due-text">Hôm nay</span>
             </div>
           </div>
@@ -234,7 +223,7 @@
               </div>
 
               <div class="face-bottom">
-                <span class="keyboard-tip">💡 Nhấn <kbd>Space</kbd> để lật thẻ</span>
+                <span class="keyboard-tip">Nhấn <kbd>Space</kbd> để lật thẻ</span>
               </div>
             </div>
 
@@ -309,7 +298,7 @@
             </div>
 
             <div class="type-hints-row">
-              <button type="button" id="btn-hint-letter" class="btn-text-subtle">💡 Hiện chữ cái đầu</button>
+              <button type="button" id="btn-hint-letter" class="btn-text-subtle">Hiện chữ cái đầu</button>
               <button type="button" id="btn-reveal-solution" class="btn-text-subtle">Xem đáp án</button>
             </div>
           </div>
@@ -358,7 +347,6 @@
 
       <!-- EMPTY STATE (WHEN NO CARDS MATCH) -->
       <div class="empty-state-view" id="empty-state-view" style="display: none;">
-        <div class="empty-icon">🌱</div>
         <h3 class="empty-title">Không có thẻ nào ở mục này</h3>
         <p class="empty-desc" id="empty-desc-text">Bạn đã ôn xong toàn bộ thẻ đến hạn hoặc bộ lọc chưa có thẻ nào.</p>
         <div class="empty-actions">
@@ -382,7 +370,7 @@
             <span>Flashcards</span>
           </button>
           <div class="speaking-title-group">
-            <h1 class="speaking-view-title">🎤 IELTS Speaking AI Coach</h1>
+            <h1 class="speaking-view-title">IELTS Speaking AI Coach</h1>
             <span class="speaking-level-pill">Dành cho người mới học (B1)</span>
           </div>
         </div>
@@ -390,7 +378,7 @@
         <div class="speaking-bar-right">
           <!-- Live API Status Badge (Click to open settings) -->
           <button type="button" id="speaking-api-badge" class="speaking-badge badge-warning" title="Nhấn để cấu hình Gemini API Key & Model">
-            🟡 <span>Chưa có API Key</span>
+            <span class="badge-dot-idle"></span><span>Chưa có API Key</span>
           </button>
           <button type="button" id="btn-open-ai-settings" class="btn-subtle btn-ai-config" title="Cài đặt API Key & Model Gemini">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -405,11 +393,9 @@
       <!-- MAIN TABS SWITCHER -->
       <div class="speaking-tabs-nav" role="tablist">
         <button type="button" id="tab-btn-translate" class="speaking-tab-btn active" role="tab" aria-selected="true">
-          <span class="tab-icon">💬</span>
           <span class="tab-title">1. Dịch câu đời thường (Việt ➔ Anh)</span>
         </button>
         <button type="button" id="tab-btn-daily" class="speaking-tab-btn" role="tab" aria-selected="false">
-          <span class="tab-icon">🎯</span>
           <span class="tab-title">2. Luyện 1 câu IELTS mỗi ngày (Chấm chữa)</span>
         </button>
       </div>
@@ -425,19 +411,19 @@
           <!-- Quick Samples -->
           <div class="quick-samples-row">
             <span class="quick-label">Gợi ý thử nhanh:</span>
-            <button type="button" class="quick-sample-tag" data-text="Hôm nay tôi lười quá, chẳng muốn làm gì hết.">😴 Lười quá chẳng muốn làm gì</button>
-            <button type="button" class="quick-sample-tag" data-text="Dạo này công việc bận tối mắt tối mũi chẳng có lúc nào thở.">💼 Bận tối mắt tối mũi</button>
-            <button type="button" class="quick-sample-tag" data-text="Tối nay rảnh không, đi cà phê tám chuyện tí đi?">☕ Đi cà phê tám chuyện</button>
-            <button type="button" class="quick-sample-tag" data-text="Tôi tính đổi việc vì môi trường ở đó ngột ngạt quá.">🔄 Tính đổi việc</button>
+            <button type="button" class="quick-sample-tag" data-text="Hôm nay tôi lười quá, chẳng muốn làm gì hết.">Lười quá chẳng muốn làm gì</button>
+            <button type="button" class="quick-sample-tag" data-text="Dạo này công việc bận tối mắt tối mũi chẳng có lúc nào thở.">Bận tối mắt tối mũi</button>
+            <button type="button" class="quick-sample-tag" data-text="Tối nay rảnh không, đi cà phê tám chuyện tí đi?">Đi cà phê tám chuyện</button>
+            <button type="button" class="quick-sample-tag" data-text="Tôi tính đổi việc vì môi trường ở đó ngột ngạt quá.">Tính đổi việc</button>
           </div>
 
           <div class="translate-input-wrapper">
             <textarea id="speaking-translate-input" class="speaking-textarea" rows="3"
               placeholder="Gõ một câu tiếng Việt bạn hay nói... (Ví dụ: 'Dạo này tôi lười nấu cơm ghê, toàn gọi đồ ăn ngoài')"></textarea>
             <div class="translate-actions-bar">
-              <span class="keyboard-hint-text">💡 Nhấn <kbd>Ctrl</kbd> + <kbd>Enter</kbd> để dịch nhanh</span>
+              <span class="keyboard-hint-text">Nhấn <kbd>Ctrl</kbd> + <kbd>Enter</kbd> để dịch nhanh</span>
               <button type="button" id="btn-do-translate" class="btn-primary btn-do-translate">
-                <span>✨ Dịch sang tiếng Anh tự nhiên</span>
+                <span>Dịch sang tiếng Anh tự nhiên</span>
               </button>
             </div>
           </div>
@@ -468,14 +454,14 @@
             <div class="filter-group">
               <span class="filter-label">Nguồn đề:</span>
               <div class="btn-group-chips">
-                <button type="button" class="source-switch-btn active" data-source="classic">🏛️ Kinh điển</button>
-                <button type="button" class="source-switch-btn" data-source="forecast">🔥 Dự đoán mới</button>
+                <button type="button" class="source-switch-btn active" data-source="classic">Kinh điển</button>
+                <button type="button" class="source-switch-btn" data-source="forecast">Dự đoán mới</button>
               </div>
             </div>
 
             <div class="filter-group streak-group">
               <div class="streak-badge-pill" title="Chuỗi ngày luyện tập liên tục">
-                🔥 Chuỗi ngày: <strong id="speaking-streak-count">0 ngày</strong>
+                Chuỗi ngày: <strong id="speaking-streak-count">0 ngày</strong>
               </div>
             </div>
           </div>
@@ -486,7 +472,6 @@
           <!-- ANSWER INPUT AREA -->
           <div class="daily-answer-wrapper">
             <div class="answer-helper-banner">
-              <div class="helper-icon">💡</div>
               <div class="helper-text">
                 <strong>Thoải mái viết câu trả lời của bạn:</strong>
                 <p>Nếu gặp từ hoặc cụm từ bạn chưa biết nói tiếng Anh, cứ viết tạm bằng tiếng Việt trong ngoặc như: <em>"I like (đi phượt) on weekends because it is (xả stress)"</em>. AI sẽ tự động hiểu và hướng dẫn bạn cách diễn đạt tự nhiên nhất!</p>
@@ -505,7 +490,7 @@
               <div class="answer-action-buttons">
                 <button type="button" id="btn-clear-daily-draft" class="btn-subtle text-danger" title="Xóa bản nháp này để viết lại từ đầu">Xóa làm lại</button>
                 <button type="button" id="btn-submit-daily" class="btn-primary btn-submit-daily">
-                  <span>🚀 Nộp bài & Nhận chấm chữa AI</span>
+                  <span>Nộp bài & Nhận chấm chữa AI</span>
                 </button>
               </div>
             </div>
@@ -695,11 +680,11 @@
           <div class="sync-actions-row">
             <button type="button" id="btn-force-push" class="btn-sync-action"
               title="Đẩy toàn bộ thẻ và tiến độ từ máy này lên đám mây">
-              ☁️ Đẩy lên Cloud
+              Đẩy lên Cloud
             </button>
             <button type="button" id="btn-force-pull" class="btn-sync-action"
               title="Tải tiến độ mới nhất từ đám mây về máy này">
-              ⬇️ Tải từ Cloud về
+              Tải từ Cloud về
             </button>
           </div>
         </div>
@@ -713,7 +698,7 @@
           <div class="input-with-copy">
             <input type="text" id="sync-user-id-input" class="form-input" placeholder="Ví dụ: thanh_flashcards_2312"
               value="thanh_flashcards_2312">
-            <button type="button" id="btn-copy-sync-id" class="btn-subtle btn-copy" title="Sao chép">📋</button>
+            <button type="button" id="btn-copy-sync-id" class="btn-subtle btn-copy" title="Sao chép">Sao chép</button>
           </div>
         </div>
 
@@ -729,7 +714,7 @@
 
         <!-- One-click Quick Setup Guide -->
         <details class="sync-guide-details">
-          <summary>📖 Hướng dẫn tạo Firebase miễn phí trong 2 phút (chỉ làm 1 lần)</summary>
+          <summary>Hướng dẫn tạo Firebase miễn phí (chỉ làm 1 lần)</summary>
           <ol class="sync-guide-steps">
             <li>Truy cập <a href="https://console.firebase.google.com" target="_blank" rel="noopener">Firebase
                 Console</a> và nhấn <strong>Add project</strong> (miễn phí 100%).</li>
@@ -744,11 +729,11 @@
 
         <!-- Generate Instant Link for Phone -->
         <div class="sync-share-box" id="sync-share-box" style="display: none;">
-          <label class="form-label">📲 Link đồng bộ nhanh cho Điện Thoại:</label>
+          <label class="form-label">Link đồng bộ nhanh cho Điện Thoại:</label>
           <p class="share-desc">Mở link này trên điện thoại để tự động kết nối ngay mà không cần nhập lại cấu hình:</p>
           <div class="input-with-copy">
             <input type="text" id="sync-share-url-input" class="form-input" readonly>
-            <button type="button" id="btn-copy-share-url" class="btn-subtle btn-copy" title="Sao chép link">📋</button>
+            <button type="button" id="btn-copy-share-url" class="btn-subtle btn-copy" title="Sao chép link">Sao chép</button>
           </div>
         </div>
 
@@ -781,7 +766,7 @@
           <div class="input-with-copy">
             <input type="password" id="speaking-api-key-input" class="form-input"
               placeholder="Dán API key bắt đầu bằng AIza..." autocomplete="off">
-            <button type="button" id="btn-toggle-key-vis" class="btn-subtle btn-copy" title="Hiện / Ẩn Key">👁️</button>
+            <button type="button" id="btn-toggle-key-vis" class="btn-subtle btn-copy" title="Hiện / Ẩn Key">Hiện</button>
           </div>
         </div>
 
@@ -826,7 +811,7 @@
 
         <!-- Step-by-Step Guide Accordion -->
         <details class="sync-guide-details" open>
-          <summary>📖 Cách lấy API Key miễn phí trong 1 phút (không cần thẻ tín dụng)</summary>
+          <summary>Cách lấy API Key miễn phí (không cần thẻ tín dụng)</summary>
           <ol class="sync-guide-steps">
             <li>Truy cập <a href="https://aistudio.google.com" target="_blank" rel="noopener">Google AI Studio (aistudio.google.com)</a> và đăng nhập bằng tài khoản Google.</li>
             <li>Nhấn vào <strong>"Get API key"</strong> ở thanh menu bên trái ➔ Bấm <strong>"Create API key"</strong>.</li>
@@ -835,7 +820,7 @@
         </details>
 
         <div class="modal-footer">
-          <button type="button" id="btn-test-gemini" class="btn-secondary">🔍 Kiểm tra kết nối</button>
+          <button type="button" id="btn-test-gemini" class="btn-secondary">Kiểm tra kết nối</button>
           <button type="button" id="btn-save-ai-settings" class="btn-primary">Lưu Cấu Hình</button>
         </div>
       </div>
@@ -850,6 +835,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
   <!-- SCRIPTS -->
+  <script src="config.js"></script>
   <script src="app.js"></script>
   <script src="speaking.js"></script>
 </body>

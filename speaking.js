@@ -396,7 +396,24 @@
   function loadConfig() {
     try {
       const raw = localStorage.getItem(STORAGE_CONFIG_KEY);
-      return raw ? { ...DEFAULT_CONFIG, ...JSON.parse(raw) } : { ...DEFAULT_CONFIG };
+      let cfg = raw ? { ...DEFAULT_CONFIG, ...JSON.parse(raw) } : { ...DEFAULT_CONFIG };
+
+      // Auto-load from config.js (window.APP_CONFIG)
+      if (window.APP_CONFIG) {
+        if (window.APP_CONFIG.GEMINI_API_KEY && typeof window.APP_CONFIG.GEMINI_API_KEY === 'string') {
+          const hardcodedKey = window.APP_CONFIG.GEMINI_API_KEY.trim();
+          if (hardcodedKey && !hardcodedKey.includes('...') && hardcodedKey !== 'AIzaSy...') {
+            cfg.apiKey = hardcodedKey;
+          }
+        }
+        if (window.APP_CONFIG.GEMINI_MODEL) {
+          cfg.model = window.APP_CONFIG.GEMINI_MODEL;
+        }
+        if (window.APP_CONFIG.TARGET_LEVEL) {
+          cfg.targetLevel = window.APP_CONFIG.TARGET_LEVEL;
+        }
+      }
+      return cfg;
     } catch (e) {
       return { ...DEFAULT_CONFIG };
     }
@@ -626,7 +643,7 @@ Return ONLY a JSON object with this exact structure:
     } finally {
       isTranslating = false;
       btnTranslate.disabled = false;
-      btnTranslate.innerHTML = '<span>✨ Dịch sang tiếng Anh tự nhiên</span>';
+      btnTranslate.innerHTML = '<span>Dịch sang tiếng Anh tự nhiên</span>';
     }
   }
 
@@ -640,7 +657,7 @@ Return ONLY a JSON object with this exact structure:
     if (data.key_phrases && data.key_phrases.length) {
       phrasesHtml = `
         <div class="result-section-box">
-          <div class="result-section-title">🧩 Cụm từ hay đáng học:</div>
+          <div class="result-section-title">Cụm từ gợi ý đáng học:</div>
           <div class="phrases-grid">
             ${data.key_phrases.map((p, idx) => `
               <div class="phrase-card">
@@ -650,10 +667,10 @@ Return ONLY a JSON object with this exact structure:
                     ${p.ipa ? `<span class="phrase-ipa">${escapeHtml(p.ipa)}</span>` : ''}
                   </div>
                   <div class="phrase-actions">
-                    <button type="button" class="btn-icon-tiny" title="Nghe phát âm" onclick="window.speakingModule.speak('${escapeJs(p.en)}')">🔊</button>
+                    <button type="button" class="btn-speaking-action btn-speak" title="Nghe phát âm" onclick="window.speakingModule.speak('${escapeJs(p.en)}')">Nghe</button>
                     <button type="button" class="btn-add-flashcard-pill" title="Lưu thành flashcard collocation"
                       onclick="window.speakingModule.savePhrase(${idx}, 'translate')">
-                      ➕ Lưu Thẻ
+                      Lưu Thẻ
                     </button>
                   </div>
                 </div>
@@ -670,23 +687,23 @@ Return ONLY a JSON object with this exact structure:
       <div class="translate-result-card">
         <div class="result-header">
           <div class="result-badge-row">
-            <span class="badge-tag badge-tag-green">✅ Kết quả tự nhiên</span>
+            <span class="badge-tag badge-tag-green">Kết quả tự nhiên</span>
             <span class="badge-original-label">Gốc: "${escapeHtml(originalVi)}"</span>
           </div>
         </div>
 
         <!-- MAIN NATURAL -->
         <div class="speaking-option-card main-option">
-          <div class="option-label">⭐ CÁCH NÓI TỰ NHIÊN NHẤT (EVERYDAY SPOKEN)</div>
+          <div class="option-label">CÁCH NÓI TỰ NHIÊN (EVERYDAY SPOKEN)</div>
           <div class="option-content-row">
             <div class="option-text-main">${escapeHtml(data.main)}</div>
             <div class="option-btns">
               <button type="button" class="btn-speaking-action btn-speak" title="Nghe đọc chuẩn" onclick="window.speakingModule.speak('${escapeJs(data.main)}')">
-                🔊 Nghe
+                Nghe
               </button>
               <button type="button" class="btn-speaking-action btn-save-card" title="Lưu câu này vào Flashcard Collocations"
                 onclick="window.speakingModule.saveCustomCard('${escapeJs(data.main)}', '${escapeJs(originalVi)}')">
-                ➕ Lưu Collocation
+                Lưu Collocation
               </button>
             </div>
           </div>
@@ -696,22 +713,22 @@ Return ONLY a JSON object with this exact structure:
         <div class="variants-row">
           ${data.casual ? `
             <div class="speaking-option-card variant-option">
-              <div class="option-label">💬 THÂN MẬT / VỚI BẠN BÈ (CASUAL)</div>
+              <div class="option-label">THÂN MẬT / BẠN BÈ (CASUAL)</div>
               <div class="option-text-sub">${escapeHtml(data.casual)}</div>
               <div class="option-btns-sub">
-                <button type="button" class="btn-icon-tiny" title="Nghe đọc" onclick="window.speakingModule.speak('${escapeJs(data.casual)}')">🔊</button>
-                <button type="button" class="btn-add-flashcard-pill" title="Lưu thẻ" onclick="window.speakingModule.saveCustomCard('${escapeJs(data.casual)}', '${escapeJs(originalVi)}')">➕ Lưu</button>
+                <button type="button" class="btn-speaking-action btn-speak" title="Nghe đọc" onclick="window.speakingModule.speak('${escapeJs(data.casual)}')">Nghe</button>
+                <button type="button" class="btn-add-flashcard-pill" title="Lưu thẻ" onclick="window.speakingModule.saveCustomCard('${escapeJs(data.casual)}', '${escapeJs(originalVi)}')">Lưu</button>
               </div>
             </div>
           ` : ''}
 
           ${data.polite ? `
             <div class="speaking-option-card variant-option">
-              <div class="option-label">🎩 LỊCH SỰ / CÔNG SỞ (POLITE / FORMAL)</div>
+              <div class="option-label">LỊCH SỰ / CÔNG SỞ (POLITE / FORMAL)</div>
               <div class="option-text-sub">${escapeHtml(data.polite)}</div>
               <div class="option-btns-sub">
-                <button type="button" class="btn-icon-tiny" title="Nghe đọc" onclick="window.speakingModule.speak('${escapeJs(data.polite)}')">🔊</button>
-                <button type="button" class="btn-add-flashcard-pill" title="Lưu thẻ" onclick="window.speakingModule.saveCustomCard('${escapeJs(data.polite)}', '${escapeJs(originalVi)}')">➕ Lưu</button>
+                <button type="button" class="btn-speaking-action btn-speak" title="Nghe đọc" onclick="window.speakingModule.speak('${escapeJs(data.polite)}')">Nghe</button>
+                <button type="button" class="btn-add-flashcard-pill" title="Lưu thẻ" onclick="window.speakingModule.saveCustomCard('${escapeJs(data.polite)}', '${escapeJs(originalVi)}')">Lưu</button>
               </div>
             </div>
           ` : ''}
@@ -720,7 +737,6 @@ Return ONLY a JSON object with this exact structure:
         <!-- NOTE -->
         ${data.note_vi ? `
           <div class="result-note-box">
-            <span class="note-icon">💡</span>
             <div class="note-content">
               <strong>Lưu ý cách nói của người bản xứ:</strong>
               <p>${escapeHtml(data.note_vi)}</p>
@@ -750,14 +766,14 @@ Return ONLY a JSON object with this exact structure:
 
     historyBox.innerHTML = `
       <div class="history-header">
-        <span class="history-title">🕒 Lịch sử dịch gần đây (${state.translations.length})</span>
+        <span class="history-title">Lịch sử dịch gần đây (${state.translations.length})</span>
         <button type="button" class="btn-text-subtle" onclick="window.speakingModule.clearTranslateHistory()">Xóa lịch sử</button>
       </div>
       <div class="history-list">
         ${state.translations.slice(0, 10).map((item, idx) => `
           <div class="history-item" onclick="window.speakingModule.recallTranslation(${idx})">
-            <div class="history-vi">🇻🇳 ${escapeHtml(item.vi)}</div>
-            <div class="history-en">🇬🇧 ${escapeHtml(item.result?.main || '')}</div>
+            <div class="history-vi">${escapeHtml(item.vi)}</div>
+            <div class="history-en">${escapeHtml(item.result?.main || '')}</div>
           </div>
         `).join('')}
       </div>
@@ -817,28 +833,28 @@ Return ONLY a JSON object with this exact structure:
         <div class="q-meta-badges">
           <span class="badge-part">Part ${currentPart}</span>
           <span class="badge-topic">${escapeHtml(q.topic)}</span>
-          <span class="badge-source">${currentSource === 'forecast' ? '🔥 Bộ đề dự đoán' : '🏛️ Câu hỏi kinh điển'}</span>
+          <span class="badge-source">${currentSource === 'forecast' ? 'Bộ đề dự đoán' : 'Câu hỏi kinh điển'}</span>
         </div>
         <div class="q-status-wrap">
-          ${alreadyDone ? '<span class="status-done-pill">✅ Hôm nay đã làm</span>' : '<span class="status-todo-pill">⚡ Câu của hôm nay</span>'}
+          ${alreadyDone ? '<span class="status-done-pill">Đã làm hôm nay</span>' : '<span class="status-todo-pill">Câu của hôm nay</span>'}
         </div>
       </div>
 
       <div class="question-main-box">
         <h2 class="question-text">${escapeHtml(q.question)}</h2>
-        <div class="question-vi-hint">💡 ${escapeHtml(q.vietnamese)}</div>
+        <div class="question-vi-hint">${escapeHtml(q.vietnamese)}</div>
         ${bulletsHtml}
       </div>
 
       <div class="question-action-bar">
         <button type="button" class="btn-speaking-action btn-speak" onclick="window.speakingModule.speak('${escapeJs(q.question)}')">
-          🔊 Nghe câu hỏi
+          Nghe câu hỏi
         </button>
         <button type="button" id="btn-toggle-hints" class="btn-speaking-action btn-hint" onclick="window.speakingModule.toggleHints()">
-          💡 Xem gợi ý làm bài
+          Gợi ý làm bài
         </button>
         <button type="button" class="btn-speaking-action btn-change-q" title="Đổi sang câu hỏi khác cùng Part" onclick="window.speakingModule.changeQuestion()">
-          🎲 Đổi câu khác
+          Đổi câu khác
         </button>
       </div>
 
@@ -1039,7 +1055,7 @@ Return ONLY a JSON object:
     } finally {
       isSubmitting = false;
       btnSubmit.disabled = false;
-      btnSubmit.innerHTML = '<span>🚀 Nộp bài & Nhận chấm chữa AI</span>';
+      btnSubmit.innerHTML = '<span>Nộp bài & Nhận chấm chữa AI</span>';
     }
   }
 
@@ -1053,7 +1069,7 @@ Return ONLY a JSON object:
     if (data.mistakes && data.mistakes.length) {
       mistakesHtml = `
         <div class="feedback-sub-box">
-          <div class="feedback-sub-title">❌ Các lỗi ngữ pháp & từ vựng cần lưu ý:</div>
+          <div class="feedback-sub-title">Các lỗi ngữ pháp & từ vựng cần lưu ý:</div>
           <div class="mistakes-grid">
             ${data.mistakes.map(m => `
               <div class="mistake-item">
@@ -1062,7 +1078,7 @@ Return ONLY a JSON object:
                   <span class="m-arrow">➔</span>
                   <span class="m-right">${escapeHtml(m.right)}</span>
                 </div>
-                <div class="m-why">💡 ${escapeHtml(m.why_vi)}</div>
+                <div class="m-why">${escapeHtml(m.why_vi)}</div>
               </div>
             `).join('')}
           </div>
@@ -1074,7 +1090,7 @@ Return ONLY a JSON object:
     if (data.phrases && data.phrases.length) {
       phrasesHtml = `
         <div class="feedback-sub-box">
-          <div class="feedback-sub-title">🧩 Cụm từ ghi điểm nên nạp vào Flashcard:</div>
+          <div class="feedback-sub-title">Cụm từ ghi điểm nên nạp vào Flashcard:</div>
           <div class="phrases-grid">
             ${data.phrases.map((p, idx) => `
               <div class="phrase-card">
@@ -1084,8 +1100,8 @@ Return ONLY a JSON object:
                     ${p.ipa ? `<span class="phrase-ipa">${escapeHtml(p.ipa)}</span>` : ''}
                   </div>
                   <div class="phrase-actions">
-                    <button type="button" class="btn-icon-tiny" title="Nghe đọc" onclick="window.speakingModule.speak('${escapeJs(p.en)}')">🔊</button>
-                    <button type="button" class="btn-add-flashcard-pill" title="Lưu thẻ" onclick="window.speakingModule.savePhrase(${idx}, 'daily')">➕ Lưu Thẻ</button>
+                    <button type="button" class="btn-speaking-action btn-speak" title="Nghe đọc" onclick="window.speakingModule.speak('${escapeJs(p.en)}')">Nghe</button>
+                    <button type="button" class="btn-add-flashcard-pill" title="Lưu thẻ" onclick="window.speakingModule.savePhrase(${idx}, 'daily')">Lưu Thẻ</button>
                   </div>
                 </div>
                 <div class="phrase-vi">${escapeHtml(p.vi)}</div>
@@ -1102,7 +1118,7 @@ Return ONLY a JSON object:
         <!-- SCORE & ENCOURAGEMENT -->
         <div class="score-banner">
           <div class="score-left">
-            <span class="score-badge">⭐ Band ước tính: ${escapeHtml(data.band || '5.0')}</span>
+            <span class="score-badge">Band ước tính: ${escapeHtml(data.band || '5.0')}</span>
             <span class="score-subtext">Trình độ B1</span>
           </div>
           <div class="score-comment">
@@ -1112,7 +1128,7 @@ Return ONLY a JSON object:
 
         <!-- CORRECTED VERSION -->
         <div class="feedback-sub-box">
-          <div class="feedback-sub-title">✏️ Bài của bạn sau khi sửa lỗi (chỗ tô màu là chỗ sửa):</div>
+          <div class="feedback-sub-title">Bài của bạn sau khi sửa lỗi:</div>
           <div class="corrected-text-box">
             ${data.corrected_html || escapeHtml(originalAnswer)}
           </div>
@@ -1124,26 +1140,26 @@ Return ONLY a JSON object:
         <!-- SIMPLE MODEL ANSWER (LEVEL B1) -->
         <div class="model-answer-card simple-model">
           <div class="model-badge-row">
-            <span class="model-type-badge simple-badge">🟢 NÓI ĐƠN GIẢN (LEVEL B1 - DỄ NÓI CHO NGƯỜI MỚI)</span>
+            <span class="model-type-badge simple-badge">NÓI ĐƠN GIẢN (LEVEL B1 - DỄ NÓI CHO NGƯỜI MỚI)</span>
             <div class="model-actions">
               <button type="button" class="btn-speaking-action btn-speak" onclick="window.speakingModule.speak('${escapeJs(data.simple_version)}', 0.85)">
-                🔊 Nghe đọc chậm
+                Nghe đọc chậm
               </button>
             </div>
           </div>
           <p class="model-text">${escapeHtml(data.simple_version)}</p>
           <div class="model-tip-footer">
-            💡 <em>Hãy bấm nghe phát âm và đọc to lại 2-3 lần theo ngữ điệu (Shadowing).</em>
+            <em>Hãy bấm nghe phát âm và đọc to lại 2-3 lần theo ngữ điệu (Shadowing).</em>
           </div>
         </div>
 
         <!-- ADVANCED MODEL ANSWER (BAND 6.5 - 7.0) -->
         <div class="model-answer-card advanced-model">
           <div class="model-badge-row">
-            <span class="model-type-badge advanced-badge">🔵 NÓI TỰ NHIÊN HƠN (BAND 6.5 - 7.0)</span>
+            <span class="model-type-badge advanced-badge">NÓI TỰ NHIÊN HƠN (BAND 6.5 - 7.0)</span>
             <div class="model-actions">
               <button type="button" class="btn-speaking-action btn-speak" onclick="window.speakingModule.speak('${escapeJs(data.advanced_version)}', 0.9)">
-                🔊 Nghe đọc
+                Nghe đọc
               </button>
             </div>
           </div>
@@ -1156,7 +1172,6 @@ Return ONLY a JSON object:
         <!-- NEXT STEP TIP -->
         ${data.next_tip_vi ? `
           <div class="next-tip-box">
-            <span class="next-tip-icon">🎯</span>
             <div class="next-tip-body">
               <strong>Mẹo thực chiến cho lần nói tiếp theo:</strong>
               <p>${escapeHtml(data.next_tip_vi)}</p>
@@ -1208,18 +1223,18 @@ Return ONLY a JSON object:
 
     historyContainer.innerHTML = `
       <div class="history-header">
-        <span class="history-title">📚 Bài luyện đã hoàn thành (${state.answers.length})</span>
+        <span class="history-title">Bài luyện đã hoàn thành (${state.answers.length})</span>
       </div>
       <div class="history-list">
         ${state.answers.slice(0, 8).map((a, idx) => `
           <div class="history-answer-item" onclick="window.speakingModule.recallAnswer(${idx})">
             <div class="ans-header">
               <span class="ans-part">Part ${a.part}</span>
-              <span class="ans-band">⭐ Band ${escapeHtml(a.feedback?.band || '5.0')}</span>
+              <span class="ans-band">Band ${escapeHtml(a.feedback?.band || '5.0')}</span>
               <span class="ans-date">${escapeHtml(a.dateStr)}</span>
             </div>
-            <div class="ans-q">❓ ${escapeHtml(a.questionText)}</div>
-            <div class="ans-preview">💬 "${escapeHtml(a.answer.slice(0, 100))}${a.answer.length > 100 ? '...' : ''}"</div>
+            <div class="ans-q">${escapeHtml(a.questionText)}</div>
+            <div class="ans-preview">"${escapeHtml(a.answer.slice(0, 100))}${a.answer.length > 100 ? '...' : ''}"</div>
           </div>
         `).join('')}
       </div>
@@ -1233,11 +1248,11 @@ Return ONLY a JSON object:
 
     if (config.apiKey && config.apiKey.trim()) {
       badge.className = 'speaking-badge badge-active';
-      badge.innerHTML = `🟢 <span>${escapeHtml(config.model || 'gemini-2.5-flash')}</span>`;
+      badge.innerHTML = `<span class="badge-dot-live"></span><span>${escapeHtml(config.model || 'gemini-3.8-flash')}</span>`;
       badge.title = 'AI đã sẵn sàng (bấm để đổi model hoặc API Key)';
     } else {
       badge.className = 'speaking-badge badge-warning';
-      badge.innerHTML = `🟡 <span>Chưa có API Key</span>`;
+      badge.innerHTML = `<span class="badge-dot-idle"></span><span>Chưa có API Key</span>`;
       badge.title = 'Nhấn để cài đặt Gemini API Key';
     }
   }
