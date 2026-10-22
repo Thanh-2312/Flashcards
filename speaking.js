@@ -364,12 +364,15 @@
   // --- STORAGE KEYS ---
   const STORAGE_CONFIG_KEY = 'speaking_gemini_config_v1';
   const STORAGE_STATE_KEY = 'speaking_user_state_v1';
+  const STORAGE_VOICE_STATS_KEY = 'speaking_voice_stats_v1';
 
   // --- DEFAULT CONFIG & STATE ---
   const DEFAULT_CONFIG = {
     apiKey: '',
     model: 'gemini-3.8-flash',
-    targetLevel: 'b1'
+    targetLevel: 'b1',
+    driveClientId: '',
+    driveFolderName: 'IELTS Speaking Voice'
   };
 
   const DEFAULT_STATE = {
@@ -381,16 +384,28 @@
     streakCount: 0
   };
 
+  const DEFAULT_VOICE_STATS = {
+    dailySpokenSec: {}, // { 'YYYY-MM-DD': number }
+    streakCount: 0,
+    lastSpokenDate: '',
+    totalSpokenMinutes: 0
+  };
+
   // State in memory
   let config = loadConfig();
   let state = loadState();
-  let currentActiveTab = 'translate'; // 'translate' | 'daily'
+  let voiceStats = loadVoiceStats();
+  let currentActiveTab = 'speak-now'; // 'speak-now' | 'voice-diary' | 'daily' | 'translate'
   let currentPart = 1; // 1 | 2 | 3
   let currentSource = 'classic'; // 'classic' | 'forecast'
   let currentQuestion = null;
   let isTranslating = false;
   let isSubmitting = false;
   let isLoadingHints = false;
+
+  // Active speak-now attempt memory
+  let lastAttempt1 = null; // for comparison when doing attempt 2
+  let currentAttemptNum = 1; // 1 | 2
 
   // --- STORAGE HELPERS ---
   function loadConfig() {
@@ -412,6 +427,14 @@
         if (window.APP_CONFIG.TARGET_LEVEL) {
           cfg.targetLevel = window.APP_CONFIG.TARGET_LEVEL;
         }
+        if (window.APP_CONFIG.GOOGLE_DRIVE) {
+          if (window.APP_CONFIG.GOOGLE_DRIVE.CLIENT_ID && !cfg.driveClientId) {
+            cfg.driveClientId = window.APP_CONFIG.GOOGLE_DRIVE.CLIENT_ID;
+          }
+          if (window.APP_CONFIG.GOOGLE_DRIVE.FOLDER_NAME) {
+            cfg.driveFolderName = window.APP_CONFIG.GOOGLE_DRIVE.FOLDER_NAME;
+          }
+        }
       }
       return cfg;
     } catch (e) {
@@ -423,6 +446,7 @@
     config = { ...config, ...newConfig };
     localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(config));
     updateAPIStatusBadge();
+    updateDriveAuthStatusUI();
   }
 
   function loadState() {
@@ -436,6 +460,20 @@
 
   function saveState() {
     localStorage.setItem(STORAGE_STATE_KEY, JSON.stringify(state));
+  }
+
+  function loadVoiceStats() {
+    try {
+      const raw = localStorage.getItem(STORAGE_VOICE_STATS_KEY);
+      return raw ? { ...DEFAULT_VOICE_STATS, ...JSON.parse(raw) } : { ...DEFAULT_VOICE_STATS };
+    } catch (e) {
+      return { ...DEFAULT_VOICE_STATS };
+    }
+  }
+
+  function saveVoiceStats() {
+    localStorage.setItem(STORAGE_VOICE_STATS_KEY, JSON.stringify(voiceStats));
+    renderVoiceStatsBar();
   }
 
   // --- SOUND / TTS SYNTHESIS ---
@@ -534,6 +572,523 @@
       return JSON.parse(cleaned);
     }
   }
+
+  // --- AUDIO BASE64 HELPER ---
+  function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result;
+        const base64 = typeof result === 'string' && result.includes(',') ? result.split(',')[1] : result;
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  // --- GEMINI MULTIMODAL AUDIO CALLER ---
+  async function callGeminiWithAudio(audioBlob, promptText, systemPrompt = '') {
+    if (!config.apiKey || !config.apiKey.trim()) {
+      openAISettingsModal();
+      throw new Error('Vui lòng dán Google Gemini API Key trong bảng Cài đặt trước khi dùng.');
+    }
+
+    const modelName = config.model || 'gemini-3.8-flash';
+    const cleanKey = config.apiKey.trim();
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${encodeURIComponent(cleanKey)}`;
+
+    const base64Audio = await blobToBase64(audioBlob);
+    const mimeType = (audioBlob.type || 'audio/webm').split(';')[0];
+
+    const payload = {
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              inlineData: {
+                mimeType: mimeType,
+                data: base64Audio
+              }
+            },
+            {
+              text: promptText
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        temperature: 0.4,
+        responseMimeType: 'application/json'
+      }
+    };
+
+    if (systemPrompt) {
+      payload.systemInstruction = {
+        parts: [{ text: systemPrompt }]
+      };
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+      let errMsg = `Lỗi HTTP ${response.status}`;
+      try {
+        const errJson = await response.json();
+        errMsg = errJson.error?.message || errMsg;
+      } catch (e) {
+        errMsg = response.statusText || errMsg;
+      }
+
+      if (response.status === 400 || response.status === 403) {
+        throw new Error(`API Key không hợp lệ hoặc model không hỗ trợ định dạng âm thanh: ${errMsg}`);
+      }
+      if (response.status === 429) {
+        throw new Error('Đã chạm hạn mức gọi tạm thời (Rate Limit). Vui lòng đợi 30 giây rồi thử lại!');
+      }
+      throw new Error(`Lỗi Gemini API: ${errMsg}`);
+    }
+
+    const data = await response.json();
+    const textOut = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!textOut) {
+      throw new Error('Không nhận được nội dung phản hồi từ Gemini. Vui lòng thử nói lại.');
+    }
+
+    try {
+      return JSON.parse(textOut);
+    } catch (parseError) {
+      const cleaned = textOut.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+      return JSON.parse(cleaned);
+    }
+  }
+
+  // =========================================================================
+  // INDEXEDDB ENGINE: LOCAL VOICE RECORDINGS ARCHIVE (OFFLINE-FIRST)
+  // =========================================================================
+  const VoiceDB = {
+    DB_NAME: 'IELTS_Voice_Recordings_v1',
+    DB_VERSION: 1,
+    STORE_NAME: 'recordings',
+    _dbPromise: null,
+
+    getDB() {
+      if (!this._dbPromise) {
+        this._dbPromise = new Promise((resolve, reject) => {
+          if (!window.indexedDB) {
+            reject(new Error('Trình duyệt không hỗ trợ IndexedDB'));
+            return;
+          }
+          const req = indexedDB.open(this.DB_NAME, this.DB_VERSION);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(this.STORE_NAME)) {
+              const store = db.createObjectStore(this.STORE_NAME, { keyPath: 'id' });
+              store.createIndex('dateStr', 'dateStr', { unique: false });
+              store.createIndex('timestamp', 'timestamp', { unique: false });
+            }
+          };
+          req.onsuccess = (e) => resolve(e.target.result);
+          req.onerror = (e) => reject(e.target.error);
+        });
+      }
+      return this._dbPromise;
+    },
+
+    async save(record) {
+      const db = await this.getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.STORE_NAME, 'readwrite');
+        const store = tx.objectStore(this.STORE_NAME);
+        const req = store.put(record);
+        req.onsuccess = () => resolve(record);
+        req.onerror = () => reject(req.error);
+      });
+    },
+
+    async getAll() {
+      const db = await this.getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.STORE_NAME, 'readonly');
+        const store = tx.objectStore(this.STORE_NAME);
+        const req = store.getAll();
+        req.onsuccess = () => {
+          const list = req.result || [];
+          list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+          resolve(list);
+        };
+        req.onerror = () => reject(req.error);
+      });
+    },
+
+    async get(id) {
+      const db = await this.getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.STORE_NAME, 'readonly');
+        const store = tx.objectStore(this.STORE_NAME);
+        const req = store.get(id);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    },
+
+    async update(id, updates) {
+      const existing = await this.get(id);
+      if (!existing) return null;
+      const updated = { ...existing, ...updates };
+      return this.save(updated);
+    },
+
+    async delete(id) {
+      const db = await this.getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.STORE_NAME, 'readwrite');
+        const store = tx.objectStore(this.STORE_NAME);
+        const req = store.delete(id);
+        req.onsuccess = () => resolve(true);
+        req.onerror = () => reject(req.error);
+      });
+    }
+  };
+
+  // =========================================================================
+  // GOOGLE DRIVE SERVICE: CLOUD VOICE SYNC (GIS OAUTH & REST API V3)
+  // =========================================================================
+  const GoogleDriveService = {
+    accessToken: localStorage.getItem('gdrive_speaking_access_token') || '',
+    tokenExpiry: parseInt(localStorage.getItem('gdrive_speaking_token_expiry') || '0', 10),
+    folderId: localStorage.getItem('gdrive_speaking_folder_id') || '',
+    tokenClient: null,
+
+    initGIS() {
+      if (typeof window.google === 'undefined' || !window.google.accounts || !window.google.accounts.oauth2) {
+        return;
+      }
+      const clientId = (config.driveClientId || '').trim();
+      if (!clientId) return;
+
+      try {
+        this.tokenClient = window.google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: 'https://www.googleapis.com/auth/drive.file',
+          callback: async (tokenResponse) => {
+            if (tokenResponse.error) {
+              showToastMessage(`Lỗi đăng nhập Google Drive: ${tokenResponse.error}`);
+              return;
+            }
+            if (tokenResponse.access_token) {
+              this.accessToken = tokenResponse.access_token;
+              this.tokenExpiry = Date.now() + (parseInt(tokenResponse.expires_in, 10) || 3500) * 1000;
+              localStorage.setItem('gdrive_speaking_access_token', this.accessToken);
+              localStorage.setItem('gdrive_speaking_token_expiry', String(this.tokenExpiry));
+              updateDriveAuthStatusUI();
+              showToastMessage('✅ Đã kết nối Google Drive thành công!');
+              await this.ensureFolder();
+              await this.syncUnsyncedRecordings();
+              renderVoiceDiary();
+            }
+          }
+        });
+      } catch (err) {
+        console.warn('GIS Init warning:', err);
+      }
+    },
+
+    isConnected() {
+      return Boolean(this.accessToken && Date.now() < this.tokenExpiry);
+    },
+
+    requestToken() {
+      const clientId = (config.driveClientId || '').trim();
+      if (!clientId) {
+        openAISettingsModal();
+        showToastMessage('Vui lòng nhập Google OAuth Client ID trong Cài đặt trước!');
+        return;
+      }
+      if (!this.tokenClient) {
+        this.initGIS();
+      }
+      if (this.tokenClient) {
+        this.tokenClient.requestAccessToken({ prompt: '' });
+      } else {
+        showToastMessage('Đang kết nối thư viện Google Identity... Vui lòng thử lại sau vài giây.');
+      }
+    },
+
+    async ensureFolder() {
+      if (!this.isConnected()) return null;
+      if (this.folderId) return this.folderId;
+
+      const folderName = config.driveFolderName || 'IELTS Speaking Voice';
+      try {
+        const q = `name='${folderName.replace(/'/g, "\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`;
+        const searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&fields=files(id,name)`, {
+          headers: { 'Authorization': `Bearer ${this.accessToken}` }
+        });
+        if (searchRes.ok) {
+          const data = await searchRes.json();
+          if (data.files && data.files.length > 0) {
+            this.folderId = data.files[0].id;
+            localStorage.setItem('gdrive_speaking_folder_id', this.folderId);
+            return this.folderId;
+          }
+        }
+
+        // Create folder if not found
+        const createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: folderName,
+            mimeType: 'application/vnd.google-apps.folder'
+          })
+        });
+        if (createRes.ok) {
+          const created = await createRes.json();
+          this.folderId = created.id;
+          localStorage.setItem('gdrive_speaking_folder_id', this.folderId);
+          return this.folderId;
+        }
+      } catch (e) {
+        console.warn('Folder error:', e);
+      }
+      return null;
+    },
+
+    async uploadRecording(record) {
+      if (!this.isConnected() || !record.audioBlob) return null;
+
+      try {
+        const folderId = await this.ensureFolder();
+        const dateStr = record.dateStr || getTodayDateString();
+        const part = record.part || 1;
+        const attempt = record.attempt || 1;
+        const ext = record.audioBlob.type?.includes('mp4') ? 'mp4' : 'webm';
+        const fileName = `${dateStr}_P${part}_lan${attempt}_${record.id}.${ext}`;
+
+        const metadata = {
+          name: fileName,
+          description: record.transcript || 'IELTS Speaking Voice Recording',
+          parents: folderId ? [folderId] : [],
+          appProperties: {
+            speakingRecordId: record.id,
+            dateStr: dateStr,
+            part: String(part),
+            attempt: String(attempt),
+            durationSec: String(record.durationSec || 0)
+          }
+        };
+
+        const boundary = '-------314159265358979323846';
+        const delimiter = "\r\n--" + boundary + "\r\n";
+        const closeDelim = "\r\n--" + boundary + "--";
+
+        const base64Data = await blobToBase64(record.audioBlob);
+        const mimeType = record.audioBlob.type?.split(';')[0] || 'audio/webm';
+
+        const multipartRequestBody =
+          delimiter +
+          'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+          JSON.stringify(metadata) +
+          delimiter +
+          'Content-Type: ' + mimeType + '\r\n' +
+          'Content-Transfer-Encoding: base64\r\n\r\n' +
+          base64Data +
+          closeDelim;
+
+        const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${this.accessToken}`,
+            'Content-Type': 'multipart/related; boundary=' + boundary
+          },
+          body: multipartRequestBody
+        });
+
+        if (res.ok) {
+          const uploaded = await res.json();
+          await VoiceDB.update(record.id, {
+            syncedToDrive: true,
+            driveFileId: uploaded.id,
+            driveFileName: fileName
+          });
+          return uploaded.id;
+        }
+      } catch (e) {
+        console.warn('Drive upload error:', e);
+      }
+      return null;
+    },
+
+    async syncUnsyncedRecordings() {
+      if (!this.isConnected()) return;
+      try {
+        const all = await VoiceDB.getAll();
+        const unsynced = all.filter(r => !r.syncedToDrive && r.audioBlob);
+        for (const item of unsynced) {
+          await this.uploadRecording(item);
+        }
+      } catch (e) {
+        console.warn('Sync error:', e);
+      }
+    }
+  };
+
+  // =========================================================================
+  // VOICE RECORDER: NATIVE BROWSER MEDIARECORDER
+  // =========================================================================
+  const VoiceRecorder = {
+    mediaRecorder: null,
+    stream: null,
+    chunks: [],
+    startTime: 0,
+    timerInterval: null,
+    isRecording: false,
+    durationSec: 0,
+
+    async start() {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Trình duyệt của bạn không hỗ trợ ghi âm trực tiếp qua mic. Vui lòng dùng Chrome, Edge hoặc Safari.');
+      }
+
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        }
+      });
+
+      this.chunks = [];
+      let mimeType = 'audio/webm;codecs=opus';
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        if (MediaRecorder.isTypeSupported('audio/webm')) mimeType = 'audio/webm';
+        else if (MediaRecorder.isTypeSupported('audio/mp4')) mimeType = 'audio/mp4';
+        else mimeType = '';
+      }
+
+      this.mediaRecorder = mimeType ? new MediaRecorder(this.stream, { mimeType }) : new MediaRecorder(this.stream);
+
+      this.mediaRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          this.chunks.push(e.data);
+        }
+      };
+
+      this.isRecording = true;
+      this.startTime = Date.now();
+      this.durationSec = 0;
+      this.mediaRecorder.start(250);
+
+      // Update UI to recording state
+      const container = document.getElementById('mic-pulsing-container');
+      const timerRow = document.getElementById('recording-timer-row');
+      const controls = document.getElementById('recording-live-controls');
+      const timerText = document.getElementById('recording-live-timer');
+      const micLabel = document.getElementById('mic-btn-label');
+      const micSub = document.getElementById('mic-btn-sub');
+
+      if (container) container.classList.add('is-recording');
+      if (timerRow) timerRow.style.display = 'flex';
+      if (controls) controls.style.display = 'flex';
+      if (micLabel) micLabel.textContent = 'Đang nghe bạn nói...';
+      if (micSub) micSub.textContent = 'Chạm để dừng';
+
+      clearInterval(this.timerInterval);
+      this.timerInterval = setInterval(() => {
+        this.durationSec = Math.floor((Date.now() - this.startTime) / 1000);
+        if (timerText) {
+          const mm = String(Math.floor(this.durationSec / 60)).padStart(2, '0');
+          const ss = String(this.durationSec % 60).padStart(2, '0');
+          timerText.textContent = `${mm}:${ss} / 00:30`;
+        }
+
+        // Auto-stop after 90 seconds
+        if (this.durationSec >= 90) {
+          handleFinishRecording();
+        }
+      }, 1000);
+    },
+
+    stop() {
+      return new Promise((resolve) => {
+        clearInterval(this.timerInterval);
+        this.isRecording = false;
+
+        const container = document.getElementById('mic-pulsing-container');
+        const timerRow = document.getElementById('recording-timer-row');
+        const controls = document.getElementById('recording-live-controls');
+        const micLabel = document.getElementById('mic-btn-label');
+        const micSub = document.getElementById('mic-btn-sub');
+
+        if (container) container.classList.remove('is-recording');
+        if (timerRow) timerRow.style.display = 'none';
+        if (controls) controls.style.display = 'none';
+        if (micLabel) micLabel.textContent = 'Chạm để nói';
+        if (micSub) micSub.textContent = 'Mục tiêu 30 giây';
+
+        if (!this.mediaRecorder) {
+          resolve(null);
+          return;
+        }
+
+        this.mediaRecorder.onstop = () => {
+          const type = this.mediaRecorder.mimeType || 'audio/webm';
+          const blob = new Blob(this.chunks, { type });
+          const finalDuration = Math.max(1, this.durationSec);
+
+          if (this.stream) {
+            this.stream.getTracks().forEach(t => t.stop());
+            this.stream = null;
+          }
+          this.mediaRecorder = null;
+          resolve({ audioBlob: blob, durationSec: finalDuration });
+        };
+
+        if (this.mediaRecorder.state !== 'inactive') {
+          this.mediaRecorder.stop();
+        } else {
+          resolve(null);
+        }
+      });
+    },
+
+    cancel() {
+      clearInterval(this.timerInterval);
+      this.isRecording = false;
+      if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+        this.mediaRecorder.stop();
+      }
+      if (this.stream) {
+        this.stream.getTracks().forEach(t => t.stop());
+        this.stream = null;
+      }
+      this.mediaRecorder = null;
+      this.chunks = [];
+
+      const container = document.getElementById('mic-pulsing-container');
+      const timerRow = document.getElementById('recording-timer-row');
+      const controls = document.getElementById('recording-live-controls');
+      const micLabel = document.getElementById('mic-btn-label');
+      const micSub = document.getElementById('mic-btn-sub');
+
+      if (container) container.classList.remove('is-recording');
+      if (timerRow) timerRow.style.display = 'none';
+      if (controls) controls.style.display = 'none';
+      if (micLabel) micLabel.textContent = 'Chạm để nói';
+      if (micSub) micSub.textContent = 'Mục tiêu 30 giây';
+    }
+  };
 
   // --- TEST CONNECTION ---
   async function testGeminiKey(key, model) {
@@ -1293,6 +1848,10 @@ Return ONLY a JSON object:
       }
     }
 
+    const driveInput = document.getElementById('speaking-drive-client-id');
+    if (driveInput) driveInput.value = config.driveClientId || '';
+    updateDriveAuthStatusUI();
+
     if (selectLevel) selectLevel.value = config.targetLevel || 'b1';
     if (statusBox) {
       statusBox.style.display = 'none';
@@ -1305,6 +1864,34 @@ Return ONLY a JSON object:
   function closeAISettingsModal() {
     const modal = document.getElementById('modal-speaking-settings');
     if (modal) modal.style.display = 'none';
+  }
+
+  function updateDriveAuthStatusUI() {
+    const authStatusText = document.getElementById('drive-auth-status-text');
+    const authStatusDot = document.querySelector('#drive-auth-status .status-dot-idle, #drive-auth-status .status-dot-live');
+    const btnDriveSync = document.getElementById('btn-toggle-drive-sync');
+    const syncStatusLabel = document.getElementById('drive-sync-status-label');
+
+    const connected = GoogleDriveService.isConnected();
+
+    if (authStatusText) {
+      authStatusText.textContent = connected
+        ? '🟢 Đã kết nối Google Drive (Thư mục: IELTS Speaking Voice)'
+        : 'Chưa kết nối Google Drive';
+    }
+    if (authStatusDot) {
+      authStatusDot.className = connected ? 'status-dot-live' : 'status-dot-idle';
+    }
+
+    if (btnDriveSync && syncStatusLabel) {
+      if (connected) {
+        btnDriveSync.classList.add('is-connected');
+        syncStatusLabel.textContent = '🟢 Google Drive: Đã kết nối';
+      } else {
+        btnDriveSync.classList.remove('is-connected');
+        syncStatusLabel.textContent = 'Kết nối Google Drive';
+      }
+    }
   }
 
   async function handleTestAPIConnection() {
@@ -1347,6 +1934,7 @@ Return ONLY a JSON object:
     const selectModel = document.getElementById('speaking-model-select');
     const customInput = document.getElementById('speaking-custom-model-input');
     const selectLevel = document.getElementById('speaking-target-level');
+    const driveInput = document.getElementById('speaking-drive-client-id');
 
     const key = (inputKey.value || '').trim();
     let model = (selectModel.value || 'gemini-3.8-flash');
@@ -1354,10 +1942,694 @@ Return ONLY a JSON object:
       model = (customInput?.value || '').trim() || 'gemini-3.8-flash';
     }
     const targetLevel = selectLevel.value || 'b1';
+    const driveClientId = (driveInput?.value || '').trim();
 
-    saveConfig({ apiKey: key, model, targetLevel });
+    saveConfig({ apiKey: key, model, targetLevel, driveClientId });
     closeAISettingsModal();
-    showToastMessage(`Đã lưu cấu hình AI! Model đang dùng: ${model}`);
+    showToastMessage(`Đã lưu cấu hình AI & Google Drive!`);
+  }
+
+  // =========================================================================
+  // NÓI NGAY (SPEAK NOW): VOICE HERO & FEEDBACK
+  // =========================================================================
+
+  function renderVoiceStatsBar() {
+    const streakEl = document.getElementById('speak-now-streak');
+    const todayTimeEl = document.getElementById('speak-now-today-time');
+    const totalTimeEl = document.getElementById('speak-now-total-time');
+    const goalCircle = document.getElementById('speak-now-goal-circle');
+
+    const todayStr = getTodayDateString();
+    const todaySec = voiceStats.dailySpokenSec[todayStr] || 0;
+    const targetSec = 120; // 2 minutes goal
+
+    if (streakEl) {
+      streakEl.textContent = `${voiceStats.streakCount || 0} ngày`;
+    }
+
+    if (todayTimeEl) {
+      const mm = String(Math.floor(todaySec / 60)).padStart(2, '0');
+      const ss = String(todaySec % 60).padStart(2, '0');
+      todayTimeEl.textContent = `${mm}:${ss} / 02:00`;
+    }
+
+    if (totalTimeEl) {
+      totalTimeEl.textContent = `${voiceStats.totalSpokenMinutes || 0} phút`;
+    }
+
+    if (goalCircle) {
+      const circumference = 113.1; // 2 * PI * 18
+      const pct = Math.min(1, todaySec / targetSec);
+      const offset = circumference - (pct * circumference);
+      goalCircle.style.strokeDashoffset = offset;
+    }
+  }
+
+  function getStarterPhrasesForQuestion(q, part) {
+    if (part === 1) {
+      return [
+        'Well, to be honest...',
+        'Actually, in my daily life...',
+        'For instance, whenever I have free time...'
+      ];
+    } else if (part === 2) {
+      return [
+        "I'd like to talk about...",
+        'The main reason why is that...',
+        'Looking back on it now...'
+      ];
+    } else {
+      return [
+        'From my perspective...',
+        'One obvious reason is that...',
+        'On the other hand, some people believe...'
+      ];
+    }
+  }
+
+  function renderSpeakNowQuestion() {
+    const q = loadCurrentQuestion();
+    const container = document.getElementById('speak-now-question-card');
+    if (!q || !container) return;
+
+    const starterChips = getStarterPhrasesForQuestion(q, currentPart);
+    let bulletsHtml = '';
+    if (q.bullets && q.bullets.length) {
+      bulletsHtml = `
+        <div class="cue-card-bullets">
+          <div class="cue-card-title">You should say:</div>
+          <ul>
+            ${q.bullets.map(b => `<li>${escapeHtml(b)}</li>`).join('')}
+          </ul>
+        </div>
+      `;
+    }
+
+    container.innerHTML = `
+      <div class="q-meta-badges">
+        <span class="badge-part">Part ${currentPart}</span>
+        <span class="badge-topic">${escapeHtml(q.topic)}</span>
+        <span class="badge-source">${currentSource === 'forecast' ? 'Bộ đề dự đoán' : 'Kinh điển'}</span>
+      </div>
+
+      <h2 class="speak-now-q-title">${escapeHtml(q.question)}</h2>
+      <div class="speak-now-q-vi">${escapeHtml(q.vietnamese)}</div>
+      ${bulletsHtml}
+
+      <div class="starter-chips-wrap">
+        <span class="starter-chips-label">Gợi ý mở đầu:</span>
+        ${starterChips.map(phrase => `
+          <button type="button" class="starter-chip" onclick="window.speakingModule.speak('${escapeJs(phrase)}')">
+            🔊 ${escapeHtml(phrase)}
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="speak-now-q-actions">
+        <button type="button" class="btn-speaking-action btn-speak" onclick="window.speakingModule.speak('${escapeJs(q.question)}')">
+          Nghe câu hỏi
+        </button>
+        <button type="button" class="btn-speaking-action btn-change-q" onclick="window.speakingModule.changeQuestion()">
+          Đổi câu khác
+        </button>
+      </div>
+    `;
+
+    renderVoiceStatsBar();
+  }
+
+  async function handleToggleRecordSpeakNow() {
+    if (VoiceRecorder.isRecording) {
+      await handleFinishRecording();
+    } else {
+      try {
+        await VoiceRecorder.start();
+      } catch (err) {
+        showToastMessage(err.message || 'Không thể mở micro. Vui lòng cho phép quyền truy cập micro trên trình duyệt.');
+      }
+    }
+  }
+
+  function handleCancelRecording() {
+    VoiceRecorder.cancel();
+    showToastMessage('Đã hủy lượt ghi âm.');
+  }
+
+  async function handleFinishRecording() {
+    const loadingBox = document.getElementById('speak-now-loading');
+    const loadingText = document.getElementById('speak-loading-status-text');
+    const feedbackBox = document.getElementById('speak-now-feedback-container');
+
+    if (loadingBox) {
+      loadingBox.style.display = 'flex';
+      if (loadingText) loadingText.textContent = 'AI đang lắng nghe và phân tích bài nói của bạn...';
+    }
+    if (feedbackBox) feedbackBox.style.display = 'none';
+
+    try {
+      const recResult = await VoiceRecorder.stop();
+      if (!recResult || !recResult.audioBlob || recResult.durationSec < 2) {
+        showToastMessage('Bản ghi âm hơi ngắn (dưới 2 giây). Bạn hãy nói thử ít nhất 5-10 giây nhé!');
+        if (loadingBox) loadingBox.style.display = 'none';
+        return;
+      }
+
+      await processVoiceSpeech(recResult.audioBlob, recResult.durationSec);
+    } catch (err) {
+      showToastMessage(err.message || 'Lỗi khi xử lý bài nói. Vui lòng thử lại.');
+    } finally {
+      if (loadingBox) loadingBox.style.display = 'none';
+    }
+  }
+
+  async function processVoiceSpeech(audioBlob, durationSec) {
+    const systemPrompt = `You are an encouraging, expert IELTS Speaking coach evaluating a beginner Vietnamese student (A2-B1 level).
+Listen to the student's audio recording.
+
+CRUCIAL REQUIREMENTS:
+1. "transcript": Transcribe EXACTLY what the student said in English. If the student paused, struggled, or inserted Vietnamese words/phrases (e.g. they said "(đi phượt)" or "(xả stress)"), write those Vietnamese words inside parentheses so they can be identified.
+2. "word_count": Count of total words spoken.
+3. "praise": Exactly 2 warm, encouraging bullet points in Vietnamese praising their effort, clarity, or pronunciation.
+4. "mistakes": Exactly 1 or 2 high-priority mistakes to fix (grammar, prepositions, or Vietnamese words they used). Return array:
+   - "wrong": what they said
+   - "right": natural English correction
+   - "why_vi": short, easy-to-understand explanation in Vietnamese.
+5. "upgraded_version": Rewrite their answer into a natural, fluent IELTS Speaking answer (Band 6.5 - 7.0) keeping the EXACT same ideas and personal feelings they expressed. Wrap 2-4 key high-scoring phrases/collocations inside <mark>...</mark> tags.
+6. "upgraded_phrases": 2 to 3 valuable collocations from the upgraded version:
+   - "en": English phrase
+   - "ipa": phonetic transcription
+   - "vi": clear Vietnamese meaning
+7. "pronunciation_tip": 1 specific word the student said that could be improved, with:
+   - "word": English word
+   - "ipa": phonetic transcription
+   - "tip_vi": friendly advice in Vietnamese on how to pronounce it clearly.
+
+Return ONLY a JSON object:
+{
+  "transcript": "...",
+  "word_count": 0,
+  "praise": ["...", "..."],
+  "mistakes": [{ "wrong": "...", "right": "...", "why_vi": "..." }],
+  "upgraded_version": "...",
+  "upgraded_phrases": [{ "en": "...", "ipa": "...", "vi": "..." }],
+  "pronunciation_tip": { "word": "...", "ipa": "...", "tip_vi": "..." }
+}`;
+
+    const userPrompt = `Student answered IELTS Speaking Part ${currentPart} question: "${currentQuestion.question}". Audio duration: ${durationSec} seconds. Attempt number: ${currentAttemptNum}.`;
+
+    const feedbackData = await callGeminiWithAudio(audioBlob, userPrompt, systemPrompt);
+
+    // Create record
+    const todayStr = getTodayDateString();
+    const recordId = 'voice_' + Date.now();
+    const record = {
+      id: recordId,
+      dateStr: todayStr,
+      part: currentPart,
+      topic: currentQuestion.topic || 'General',
+      questionId: currentQuestion.id,
+      questionText: currentQuestion.question,
+      attempt: currentAttemptNum,
+      durationSec: durationSec,
+      audioBlob: audioBlob,
+      transcript: feedbackData.transcript || '',
+      feedback: feedbackData,
+      syncedToDrive: false,
+      driveFileId: null,
+      timestamp: Date.now()
+    };
+
+    // Save to IndexedDB (local offline-first archive)
+    await VoiceDB.save(record);
+
+    // Update Daily Speaking Stats
+    voiceStats.dailySpokenSec[todayStr] = (voiceStats.dailySpokenSec[todayStr] || 0) + durationSec;
+    voiceStats.totalSpokenMinutes = Math.max(1, Math.round(((voiceStats.totalSpokenMinutes || 0) * 60 + durationSec) / 60));
+
+    // Update streak
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+
+    if (voiceStats.lastSpokenDate !== todayStr) {
+      if (voiceStats.lastSpokenDate === yesterdayStr) {
+        voiceStats.streakCount = (voiceStats.streakCount || 0) + 1;
+      } else {
+        voiceStats.streakCount = 1;
+      }
+      voiceStats.lastSpokenDate = todayStr;
+    }
+    saveVoiceStats();
+
+    // Background upload to Google Drive if connected
+    if (GoogleDriveService.isConnected()) {
+      GoogleDriveService.uploadRecording(record).then(driveId => {
+        if (driveId) {
+          const syncPill = document.getElementById('speak-now-drive-sync-indicator');
+          if (syncPill) {
+            syncPill.innerHTML = '🟢 Đã lưu vào Google Drive & Thiết bị';
+          }
+          renderVoiceDiary();
+        }
+      });
+    }
+
+    // Attempt comparison logic
+    let comparisonData = null;
+    if (currentAttemptNum === 2 && lastAttempt1) {
+      comparisonData = {
+        wordsDiff: (feedbackData.word_count || 0) - (lastAttempt1.wordCount || 0),
+        timeDiff: durationSec - (lastAttempt1.durationSec || 0)
+      };
+    } else {
+      lastAttempt1 = {
+        wordCount: feedbackData.word_count || 0,
+        durationSec: durationSec,
+        audioBlob: audioBlob
+      };
+    }
+
+    renderSpeakNowFeedback(record, comparisonData);
+    renderVoiceDiary();
+  }
+
+  function renderSpeakNowFeedback(record, comparisonData) {
+    const feedbackBox = document.getElementById('speak-now-feedback-container');
+    if (!feedbackBox) return;
+
+    feedbackBox.style.display = 'flex';
+
+    const fb = record.feedback || {};
+    const praiseList = fb.praise || ['Phát âm tự nhiên và tự tin hơn!', 'Nội dung trả lời đúng trọng tâm câu hỏi.'];
+    const mistakes = fb.mistakes || [];
+    const phrases = fb.upgraded_phrases || [];
+    const pron = fb.pronunciation_tip;
+
+    // Create Audio Player for User's Voice
+    const userAudioUrl = URL.createObjectURL(record.audioBlob);
+
+    let mistakesHtml = '';
+    if (mistakes.length) {
+      mistakesHtml = `
+        <div class="fb-card mistakes-fix-card">
+          <div class="fb-card-title">🔧 Sửa ${mistakes.length} Chỗ Cần Nhớ</div>
+          ${mistakes.map(m => `
+            <div class="mistake-fix-row">
+              <div class="mistake-diff-line">
+                <span class="m-wrong">${escapeHtml(m.wrong)}</span>
+                <span class="m-arrow">➔</span>
+                <span class="m-right">${escapeHtml(m.right)}</span>
+              </div>
+              <div class="m-explain-vi">${escapeHtml(m.why_vi)}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    let comparisonBannerHtml = '';
+    if (comparisonData) {
+      const wordsSign = comparisonData.wordsDiff >= 0 ? `+${comparisonData.wordsDiff}` : `${comparisonData.wordsDiff}`;
+      comparisonBannerHtml = `
+        <div class="attempt-compare-banner">
+          <div class="attempt-compare-title">🎉 Tuyệt vời! Bạn vừa hoàn thành Lần Nói Thứ 2</div>
+          <div class="attempt-compare-body">
+            Số từ phát triển: <strong>${wordsSign} từ</strong> so với lần 1. Bạn đã ứng dụng thành công các từ vựng và nói trôi chảy hơn!
+          </div>
+        </div>
+      `;
+    }
+
+    feedbackBox.innerHTML = `
+      ${comparisonBannerHtml}
+
+      <!-- CELEBRATION HEADER -->
+      <div class="celebrate-banner">
+        <div class="celebrate-left">
+          <span class="celebrate-emoji">🎉</span>
+          <div>
+            <div class="celebrate-headline">Bạn vừa nói ${record.durationSec} giây — ${fb.word_count || 0} từ!</div>
+            <div class="celebrate-subtext">Lần nói thứ ${record.attempt || 1} • Câu hỏi Part ${record.part || 1}</div>
+          </div>
+        </div>
+        <span class="celebrate-badge">Hoàn thành xuất sắc</span>
+      </div>
+
+      <!-- CARD 1: USER'S SPEECH & VOICE PLAYBACK -->
+      <div class="fb-card user-speech-card">
+        <div class="fb-card-title">
+          <span>🗣️ Bạn đã nói:</span>
+          <span class="tag-duration">${record.durationSec}s</span>
+        </div>
+        <div class="user-transcript-text">
+          "${escapeHtml(record.transcript)}"
+        </div>
+        <!-- IN-APP AUDIO PLAYER -->
+        <div class="voice-player-inline" id="speak-now-player-wrapper">
+          <button type="button" class="btn-audio-play" id="btn-play-user-rec" title="Nghe lại giọng bạn">
+            ▶
+          </button>
+          <input type="range" class="voice-timeline-slider" id="user-rec-slider" value="0" min="0" max="${record.durationSec}" step="0.1">
+          <span class="voice-time-label" id="user-rec-time">0:00 / 0:${String(record.durationSec).padStart(2, '0')}</span>
+          <audio id="audio-user-rec" src="${userAudioUrl}" preload="metadata"></audio>
+        </div>
+      </div>
+
+      <!-- CARD 2: PRAISE -->
+      <div class="fb-card praise-card">
+        <div class="fb-card-title">👍 Điểm sáng (Làm Tốt)</div>
+        <ul class="praise-list">
+          ${praiseList.map(p => `<li>${escapeHtml(p)}</li>`).join('')}
+        </ul>
+      </div>
+
+      <!-- CARD 3: FIX MISTAKES -->
+      ${mistakesHtml}
+
+      <!-- CARD 4: UPGRADED ANSWER ("Ý CỦA BẠN, NÓI HAY HƠN") -->
+      <div class="fb-card upgraded-speech-card">
+        <div class="fb-card-title">
+          <span>✨ Ý của bạn, nói hay hơn (Band 6.5 - 7.0)</span>
+          <button type="button" class="btn-speaking-action btn-speak" onclick="window.speakingModule.speak('${escapeJs(fb.upgraded_version || '')}', 0.85)">
+            Nghe đọc chậm & nhại
+          </button>
+        </div>
+        <div class="upgraded-text">
+          ${fb.upgraded_version || ''}
+        </div>
+        ${phrases.length ? `
+          <div class="upgraded-actions-row">
+            <span class="starter-chips-label">Cụm từ ghi điểm:</span>
+            ${phrases.map((p, pIdx) => `
+              <button type="button" class="starter-chip" onclick="window.speakingModule.savePhrase(${pIdx}, 'speak_now')">
+                ➕ Lưu "${escapeHtml(p.en)}"
+              </button>
+            `).join('')}
+          </div>
+        ` : ''}
+      </div>
+
+      <!-- CARD 5: PRONUNCIATION TIP -->
+      ${pron && pron.word ? `
+        <div class="fb-card pronounce-card">
+          <div class="fb-card-title">🗣️ Góp ý phát âm:</div>
+          <div class="pronounce-box">
+            <span class="pronounce-word">${escapeHtml(pron.word)}</span>
+            <span class="pronounce-ipa">${escapeHtml(pron.ipa || '')}</span>
+            <span>➔ ${escapeHtml(pron.tip_vi || '')}</span>
+            <button type="button" class="btn-speaking-action btn-speak" onclick="window.speakingModule.speak('${escapeJs(pron.word)}')">Nghe</button>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- ACTION FOOTER: RETRY & NEXT -->
+      <div class="speak-now-action-footer">
+        <button type="button" class="btn-retry-second-attempt" onclick="window.speakingModule.retrySecondAttempt()">
+          🎙️ Nói Lại Lần 2 (Áp dụng bản hay hơn)
+        </button>
+        <div class="footer-secondary-row">
+          <button type="button" class="btn-speaking-action btn-change-q" onclick="window.speakingModule.changeQuestion()">
+            🎲 Thử câu hỏi tiếp theo
+          </button>
+          <span class="sync-saved-pill" id="speak-now-drive-sync-indicator">
+            ${GoogleDriveService.isConnected() ? '🟢 Đã lưu vào Google Drive & Thiết bị' : '💾 Đã lưu vào Nhật ký giọng nói trên máy'}
+          </span>
+        </div>
+      </div>
+    `;
+
+    // Cache current phrases for flashcard addition
+    window.__currentSpeakNowPhrases = phrases;
+
+    // Attach in-app audio player controls
+    bindInlineAudioPlayer('audio-user-rec', 'btn-play-user-rec', 'user-rec-slider', 'user-rec-time');
+
+    feedbackBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function bindInlineAudioPlayer(audioId, btnId, sliderId, labelId) {
+    const audio = document.getElementById(audioId);
+    const btn = document.getElementById(btnId);
+    const slider = document.getElementById(sliderId);
+    const label = document.getElementById(labelId);
+
+    if (!audio || !btn) return;
+
+    btn.addEventListener('click', () => {
+      // Pause any other playing audios
+      document.querySelectorAll('audio').forEach(a => {
+        if (a !== audio && !a.paused) {
+          a.pause();
+          a.dispatchEvent(new Event('pause'));
+        }
+      });
+
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = '⏸';
+      } else {
+        audio.pause();
+        btn.textContent = '▶';
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (slider && !isNaN(audio.duration) && audio.duration > 0) {
+        slider.max = audio.duration;
+        slider.value = audio.currentTime;
+      }
+      if (label && !isNaN(audio.duration)) {
+        const curM = String(Math.floor(audio.currentTime / 60)).padStart(2, '0');
+        const curS = String(Math.floor(audio.currentTime % 60)).padStart(2, '0');
+        const totM = String(Math.floor(audio.duration / 60)).padStart(2, '0');
+        const totS = String(Math.floor(audio.duration % 60)).padStart(2, '0');
+        label.textContent = `${curM}:${curS} / ${totM}:${totS}`;
+      }
+    });
+
+    if (slider) {
+      slider.addEventListener('input', () => {
+        audio.currentTime = parseFloat(slider.value) || 0;
+      });
+    }
+
+    audio.addEventListener('ended', () => {
+      btn.textContent = '▶';
+      if (slider) slider.value = 0;
+    });
+
+    audio.addEventListener('pause', () => {
+      btn.textContent = '▶';
+    });
+  }
+
+  // =========================================================================
+  // NHẬT KÝ GIỌNG NÓI (VOICE DIARY): LIST BY DAY & DRIVE INTEGRATION
+  // =========================================================================
+
+  async function renderVoiceDiary() {
+    const listContainer = document.getElementById('voice-diary-list');
+    const tabCountPill = document.getElementById('diary-tab-count');
+    const journeyCard = document.getElementById('diary-progress-comparison');
+    if (!listContainer) return;
+
+    const allRecordings = await VoiceDB.getAll();
+
+    if (tabCountPill) {
+      tabCountPill.textContent = String(allRecordings.length);
+    }
+
+    if (!allRecordings || allRecordings.length === 0) {
+      listContainer.innerHTML = `
+        <div class="empty-diary-state">
+          <div class="empty-diary-icon">🎙️</div>
+          <div class="empty-diary-text">Bạn chưa có bài nói nào được lưu. Hãy qua tab <strong>"1. Nói Ngay"</strong> và bấm micro để lưu bài đầu tiên nhé!</div>
+        </div>
+      `;
+      if (journeyCard) journeyCard.style.display = 'none';
+      return;
+    }
+
+    // Progress journey card: if user has >= 2 recordings
+    if (journeyCard) {
+      if (allRecordings.length >= 2) {
+        journeyCard.style.display = 'flex';
+      } else {
+        journeyCard.style.display = 'none';
+      }
+    }
+
+    // Group recordings by dateStr
+    const groups = {};
+    allRecordings.forEach(rec => {
+      const d = rec.dateStr || 'Khác';
+      if (!groups[d]) groups[d] = [];
+      groups[d].push(rec);
+    });
+
+    const todayStr = getTodayDateString();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+
+    let html = '';
+    const sortedDateKeys = Object.keys(groups).sort((a, b) => b.localeCompare(a));
+
+    for (const dateKey of sortedDateKeys) {
+      const items = groups[dateKey];
+      let dayTitle = dateKey;
+      if (dateKey === todayStr) {
+        dayTitle = 'Hôm nay (Today)';
+      } else if (dateKey === yesterdayStr) {
+        dayTitle = 'Hôm qua (Yesterday)';
+      } else {
+        const parts = dateKey.split('-');
+        if (parts.length === 3) {
+          dayTitle = `Ngày ${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+      }
+
+      html += `
+        <div class="diary-day-group">
+          <div class="diary-day-heading">
+            <span>📅 ${escapeHtml(dayTitle)}</span>
+            <span class="diary-day-count-badge">${items.length} bài nói</span>
+          </div>
+          <div class="diary-entries-grid">
+            ${items.map(item => renderDiaryEntryCard(item)).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    listContainer.innerHTML = html;
+
+    // Bind audio players for each entry
+    allRecordings.forEach(item => {
+      bindInlineAudioPlayer(
+        `diary-audio-${item.id}`,
+        `diary-play-btn-${item.id}`,
+        `diary-slider-${item.id}`,
+        `diary-time-${item.id}`
+      );
+    });
+  }
+
+  function renderDiaryEntryCard(item) {
+    const audioUrl = item.audioBlob ? URL.createObjectURL(item.audioBlob) : '';
+    const fb = item.feedback || {};
+
+    return `
+      <div class="diary-entry-card" id="diary-card-${item.id}">
+        <div class="diary-entry-top">
+          <div class="diary-meta-left">
+            <span class="tag-part">Part ${item.part || 1}</span>
+            <span class="tag-attempt">Lần ${item.attempt || 1}</span>
+            <span class="tag-duration">${item.durationSec || 0}s</span>
+            ${item.syncedToDrive
+              ? '<span class="tag-cloud-drive" title="Đã lưu an toàn trên Google Drive của bạn">☁️ Google Drive</span>'
+              : '<span class="tag-cloud-local" title="Đã lưu trên máy này">💾 Máy này</span>'}
+          </div>
+          <div class="diary-entry-actions">
+            <button type="button" class="btn-diary-icon" title="Tải file audio về máy" onclick="window.speakingModule.downloadVoice('${item.id}')">
+              ⬇ Tải về
+            </button>
+            <button type="button" class="btn-diary-icon btn-delete" title="Xóa bản ghi này" onclick="window.speakingModule.deleteVoice('${item.id}')">
+              🗑
+            </button>
+          </div>
+        </div>
+
+        <div class="diary-entry-question">${escapeHtml(item.questionText)}</div>
+
+        <!-- In-app player -->
+        <div class="diary-entry-player-row">
+          <div class="voice-player-inline">
+            <button type="button" class="btn-audio-play" id="diary-play-btn-${item.id}" title="Nghe bài nói">
+              ▶
+            </button>
+            <input type="range" class="voice-timeline-slider" id="diary-slider-${item.id}" value="0" min="0" max="${item.durationSec || 30}" step="0.1">
+            <span class="voice-time-label" id="diary-time-${item.id}">0:00 / 0:${String(item.durationSec || 0).padStart(2, '0')}</span>
+            <audio id="diary-audio-${item.id}" src="${audioUrl}" preload="metadata"></audio>
+          </div>
+        </div>
+
+        <div class="diary-entry-bottom">
+          <button type="button" class="btn-toggle-transcript" onclick="window.speakingModule.toggleDiaryTranscript('${item.id}')">
+            📝 Xem lời thoại & bản sửa ▾
+          </button>
+        </div>
+
+        <div class="diary-entry-expanded" id="diary-expanded-${item.id}" style="display: none;">
+          <div class="expanded-section-title">Bạn đã nói:</div>
+          <div class="expanded-section-content">"${escapeHtml(item.transcript)}"</div>
+          ${fb.upgraded_version ? `
+            <div class="expanded-section-title">Bản nói tự nhiên hơn (Band 6.5-7.0):</div>
+            <div class="expanded-section-content">${fb.upgraded_version}</div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  async function handleDownloadVoice(id) {
+    const item = await VoiceDB.get(id);
+    if (!item || !item.audioBlob) {
+      showToastMessage('Không tìm thấy file ghi âm.');
+      return;
+    }
+    const ext = item.audioBlob.type?.includes('mp4') ? 'mp4' : 'webm';
+    const fileName = `IELTS_Speaking_${item.dateStr}_P${item.part}_lan${item.attempt}.${ext}`;
+    const url = URL.createObjectURL(item.audioBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    showToastMessage(`Đang tải file: ${fileName}`);
+  }
+
+  async function handleDeleteVoice(id) {
+    if (confirm('Bạn có chắc chắn muốn xóa bản ghi âm này không?')) {
+      await VoiceDB.delete(id);
+      showToastMessage('Đã xóa bản ghi.');
+      renderVoiceDiary();
+    }
+  }
+
+  function handleToggleDiaryTranscript(id) {
+    const el = document.getElementById(`diary-expanded-${id}`);
+    if (!el) return;
+    el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+
+  async function handlePlayComparisonJourney() {
+    const all = await VoiceDB.getAll();
+    if (all.length < 2) return;
+
+    // Oldest is at end of sorted list
+    const oldest = all[all.length - 1];
+    const newest = all[0];
+
+    showToastMessage(`Đang phát Ngày đầu (${oldest.dateStr})... Tiếp theo sẽ tự động chuyển sang Hôm nay (${newest.dateStr})!`);
+
+    const audioOld = new Audio(URL.createObjectURL(oldest.audioBlob));
+    audioOld.play();
+
+    audioOld.onended = () => {
+      showToastMessage(`Tiếp theo: Lắng nghe giọng bạn ở bài nói mới nhất (${newest.dateStr})!`);
+      const audioNew = new Audio(URL.createObjectURL(newest.audioBlob));
+      audioNew.play();
+    };
+  }
+
+  function handleRetrySecondAttempt() {
+    currentAttemptNum = 2;
+    const stage = document.getElementById('speak-now-stage');
+    if (stage) stage.scrollIntoView({ behavior: 'smooth' });
+    showToastMessage('Sẵn sàng cho Lần 2! Hãy bấm nút micro và áp dụng các cụm từ mới nhé.');
   }
 
   // --- ESCAPING UTILITIES ---
@@ -1385,34 +2657,88 @@ Return ONLY a JSON object:
   function init() {
     bindEvents();
     updateAPIStatusBadge();
+    updateDriveAuthStatusUI();
+    renderVoiceStatsBar();
+    renderSpeakNowQuestion();
+    renderVoiceDiary();
     renderTranslationHistory();
     renderQuestionCard();
     renderDailyHistory();
+
+    // Init Google Identity Services
+    GoogleDriveService.initGIS();
+  }
+
+  function switchTab(tabKey) {
+    currentActiveTab = tabKey;
+    const tabMap = {
+      'speak-now': { btn: 'tab-btn-speak-now', panel: 'speaking-tab-speak-now' },
+      'voice-diary': { btn: 'tab-btn-voice-diary', panel: 'speaking-tab-voice-diary' },
+      'daily': { btn: 'tab-btn-daily', panel: 'speaking-tab-daily' },
+      'translate': { btn: 'tab-btn-translate', panel: 'speaking-tab-translate' }
+    };
+
+    Object.keys(tabMap).forEach(k => {
+      const btn = document.getElementById(tabMap[k].btn);
+      const panel = document.getElementById(tabMap[k].panel);
+      const isActive = k === tabKey;
+      if (btn) btn.classList.toggle('active', isActive);
+      if (panel) panel.style.display = isActive ? 'block' : 'none';
+    });
+
+    if (tabKey === 'speak-now') {
+      renderSpeakNowQuestion();
+    } else if (tabKey === 'voice-diary') {
+      renderVoiceDiary();
+    }
   }
 
   function bindEvents() {
-    // Tab switching inside speaking
-    const tabBtnTranslate = document.getElementById('tab-btn-translate');
+    // 4-Tab Switching
+    const tabBtnSpeakNow = document.getElementById('tab-btn-speak-now');
+    const tabBtnVoiceDiary = document.getElementById('tab-btn-voice-diary');
     const tabBtnDaily = document.getElementById('tab-btn-daily');
-    const panelTranslate = document.getElementById('speaking-tab-translate');
-    const panelDaily = document.getElementById('speaking-tab-daily');
+    const tabBtnTranslate = document.getElementById('tab-btn-translate');
 
-    if (tabBtnTranslate && tabBtnDaily) {
-      tabBtnTranslate.addEventListener('click', () => {
-        currentActiveTab = 'translate';
-        tabBtnTranslate.classList.add('active');
-        tabBtnDaily.classList.remove('active');
-        panelTranslate.style.display = 'block';
-        panelDaily.style.display = 'none';
-      });
+    if (tabBtnSpeakNow) tabBtnSpeakNow.addEventListener('click', () => switchTab('speak-now'));
+    if (tabBtnVoiceDiary) tabBtnVoiceDiary.addEventListener('click', () => switchTab('voice-diary'));
+    if (tabBtnDaily) tabBtnDaily.addEventListener('click', () => switchTab('daily'));
+    if (tabBtnTranslate) tabBtnTranslate.addEventListener('click', () => switchTab('translate'));
 
-      tabBtnDaily.addEventListener('click', () => {
-        currentActiveTab = 'daily';
-        tabBtnDaily.classList.add('active');
-        tabBtnTranslate.classList.remove('active');
-        panelDaily.style.display = 'block';
-        panelTranslate.style.display = 'none';
+    // Speak Now Record Controls
+    const btnRecordSpeakNow = document.getElementById('btn-record-speak-now');
+    const btnFinishRecording = document.getElementById('btn-finish-recording');
+    const btnCancelRecording = document.getElementById('btn-cancel-recording');
+
+    if (btnRecordSpeakNow) btnRecordSpeakNow.addEventListener('click', handleToggleRecordSpeakNow);
+    if (btnFinishRecording) btnFinishRecording.addEventListener('click', handleFinishRecording);
+    if (btnCancelRecording) btnCancelRecording.addEventListener('click', handleCancelRecording);
+
+    // Google Drive Sync Button in Voice Diary
+    const btnDriveSync = document.getElementById('btn-toggle-drive-sync');
+    if (btnDriveSync) {
+      btnDriveSync.addEventListener('click', () => {
+        GoogleDriveService.requestToken();
       });
+    }
+
+    // Google Drive Connect Button in Settings Modal
+    const btnConnectDriveModal = document.getElementById('btn-connect-google-drive');
+    if (btnConnectDriveModal) {
+      btnConnectDriveModal.addEventListener('click', () => {
+        const driveInput = document.getElementById('speaking-drive-client-id');
+        if (driveInput) {
+          config.driveClientId = driveInput.value.trim();
+          saveConfig({ driveClientId: config.driveClientId });
+        }
+        GoogleDriveService.requestToken();
+      });
+    }
+
+    // Progress Comparison Button in Voice Diary
+    const btnCompareJourney = document.getElementById('btn-play-compare-journey');
+    if (btnCompareJourney) {
+      btnCompareJourney.addEventListener('click', handlePlayComparisonJourney);
     }
 
     // Quick translate tag clicks
@@ -1441,13 +2767,14 @@ Return ONLY a JSON object:
       });
     }
 
-    // Part switcher
+    // Part switcher (Daily Tab)
     document.querySelectorAll('.part-switch-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.part-switch-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentPart = parseInt(btn.getAttribute('data-part'), 10) || 1;
         renderQuestionCard();
+        renderSpeakNowQuestion();
       });
     });
 
@@ -1458,6 +2785,7 @@ Return ONLY a JSON object:
         btn.classList.add('active');
         currentSource = btn.getAttribute('data-source') || 'classic';
         renderQuestionCard();
+        renderSpeakNowQuestion();
       });
     });
 
@@ -1559,11 +2887,18 @@ Return ONLY a JSON object:
 
     onActivate: function () {
       updateAPIStatusBadge();
-      renderQuestionCard();
+      updateDriveAuthStatusUI();
+      renderVoiceStatsBar();
+      renderSpeakNowQuestion();
+      renderVoiceDiary();
     },
 
     savePhrase: function (index, source) {
-      const list = source === 'translate' ? window.__currentTranslatePhrases : window.__currentDailyPhrases;
+      let list = [];
+      if (source === 'translate') list = window.__currentTranslatePhrases;
+      else if (source === 'speak_now') list = window.__currentSpeakNowPhrases;
+      else list = window.__currentDailyPhrases;
+
       if (!list || !list[index]) return;
       saveToFlashcardCollocation(list[index]);
     },
@@ -1582,7 +2917,18 @@ Return ONLY a JSON object:
       state.skipOffsets[offsetKey] = (state.skipOffsets[offsetKey] || 0) + 1;
       saveState();
       renderQuestionCard();
+      renderSpeakNowQuestion();
+      currentAttemptNum = 1;
+      lastAttempt1 = null;
+      const feedbackBox = document.getElementById('speak-now-feedback-container');
+      if (feedbackBox) feedbackBox.style.display = 'none';
     },
+
+    retrySecondAttempt: handleRetrySecondAttempt,
+    downloadVoice: handleDownloadVoice,
+    deleteVoice: handleDeleteVoice,
+    toggleDiaryTranscript: handleToggleDiaryTranscript,
+    playComparisonJourney: handlePlayComparisonJourney,
 
     toggleHints: handleToggleHints,
 
@@ -1621,7 +2967,6 @@ Return ONLY a JSON object:
       currentPart = item.part;
       currentSource = item.source || 'classic';
 
-      // Switch to part
       document.querySelectorAll('.part-switch-btn').forEach(b => {
         b.classList.toggle('active', parseInt(b.getAttribute('data-part'), 10) === currentPart);
       });
@@ -1630,6 +2975,7 @@ Return ONLY a JSON object:
       });
 
       renderQuestionCard();
+      renderSpeakNowQuestion();
       const textarea = document.getElementById('daily-user-answer');
       if (textarea) {
         textarea.value = item.answer;

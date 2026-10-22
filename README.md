@@ -30,8 +30,15 @@
    - Tông màu dịu mắt: Warm Alabaster, Sage & Slate, font chữ Plus Jakarta Sans hiện đại.
    - Hỗ trợ đổi sang giao diện trung tính tối (Dark mode).
 
-6. **Độc lập & Bảo mật dữ liệu:**
-   - Tự động lưu trên trình duyệt (`localStorage`) + đồng bộ đám mây Firebase.
+6. **🎙️ IELTS Speaking AI Coach & Nhật Ký Giọng Nói (Google Drive Sync):**
+   - **🎙️ Nói Ngay (Voice AI):** 1 chạm nói ngay vào micro 30 giây (không cần gõ phím), Gemini AI phân tích giọng nói trực tiếp, sửa tối đa 2 lỗi thực chiến, cung cấp bản nói Band 6.5–7.0 nâng cấp từ chính ý của bạn.
+   - **Nói lại lần 2 (So sánh tiến bộ):** So sánh số từ và độ lưu loát giữa lần 1 và lần 2.
+   - **Mục tiêu 2 phút mỗi ngày & Chuỗi ngày (🔥):** Vòng tiến độ trực quan, đo bằng thời gian nói thật.
+   - **🎧 Nhật ký giọng nói lưu vào Google Drive:** Nghe lại giọng bạn theo từng ngày ngay trong web, tự động sao lưu lên thư mục `IELTS Speaking Voice` trên Google Drive cá nhân, hỗ trợ nghe lại trên cả Điện thoại và Máy tính!
+   - **💬 Dịch câu đời thường & ✍️ Luyện viết đề:** Chuyển đổi khẩu ngữ tự nhiên và kho đề IELTS đa dạng (Part 1, 2, 3).
+
+7. **Độc lập & Bảo mật dữ liệu:**
+   - Tự động lưu trên trình duyệt (`localStorage` + `IndexedDB`) + đồng bộ đám mây Firebase & Google Drive.
    - Hỗ trợ **Xuất file JSON** (Export) để sao lưu hoặc chuyển đổi sang điện thoại/máy tính khác.
    - Hỗ trợ **Nhập file JSON** (Import) và khôi phục bộ thẻ mẫu bất kỳ lúc nào.
 

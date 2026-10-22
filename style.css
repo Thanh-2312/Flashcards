@@ -2915,3 +2915,1106 @@ body.dark-mode .corrected-text-box mark {
   border: 1px solid var(--status-danger-border);
 }
 
+/* ==========================================================================
+   VOICE SPEAKING: NÓI NGAY (SPEAK NOW) & NHẬT KÝ GIỌNG NÓI (VOICE ARCHIVE)
+   ========================================================================== */
+
+/* Tab count badge */
+.diary-count-pill {
+  display: inline-block;
+  background: var(--accent-sage);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+
+/* Top Stats Bar */
+.speak-now-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.speak-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.speak-stat-card:hover {
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+.stat-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.stat-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+/* Goal Ring SVG */
+.goal-ring-wrapper {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.goal-ring-svg {
+  transform: rotate(-90deg);
+  width: 46px;
+  height: 46px;
+}
+
+.goal-ring-bg {
+  fill: none;
+  stroke: var(--border-light);
+}
+
+.goal-ring-progress {
+  fill: none;
+  stroke: #10B981;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.goal-ring-center-icon {
+  position: absolute;
+  font-size: 0.9rem;
+}
+
+/* Question Cue Card in Speak Now */
+.speak-now-question-box {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 22px 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.speak-now-question-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6366F1, #EC4899, #F59E0B);
+}
+
+.q-meta-badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.speak-now-q-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.speak-now-q-vi {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* Starter ideas chips */
+.starter-chips-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-light);
+}
+
+.starter-chips-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  margin-right: 4px;
+}
+
+.starter-chip {
+  padding: 5px 11px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.starter-chip:hover {
+  background-color: var(--accent-sage-soft);
+  color: var(--accent-sage);
+  border-color: var(--accent-sage);
+}
+
+/* Question Action Bar */
+.speak-now-q-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* ==========================================================================
+   GIANT GLOWING RECORDING STAGE
+   ========================================================================== */
+.speak-now-recording-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 20px 24px;
+  margin: 16px 0 28px;
+  background: radial-gradient(circle at center, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-light);
+  position: relative;
+}
+
+body.dark-mode .speak-now-recording-stage {
+  background: radial-gradient(circle at center, rgba(129, 140, 248, 0.12) 0%, transparent 70%);
+}
+
+.mic-pulsing-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 170px;
+  margin-bottom: 16px;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(236, 72, 153, 0.35);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pulse-ring.ring-2 {
+  animation-delay: 0.75s;
+}
+
+/* Active Recording Pulse Animation */
+.mic-pulsing-wrapper.is-recording .pulse-ring {
+  animation: pulseRadar 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes pulseRadar {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+    border-color: #EF4444;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+    border-color: #F43F5E;
+  }
+}
+
+.btn-giant-mic {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4), 0 8px 10px -6px rgba(236, 72, 153, 0.3);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  z-index: 2;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-giant-mic:hover {
+  transform: scale(1.06);
+  box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.5), 0 10px 15px -5px rgba(236, 72, 153, 0.4);
+}
+
+.btn-giant-mic:active {
+  transform: scale(0.96);
+}
+
+.mic-pulsing-wrapper.is-recording .btn-giant-mic {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 50%, #B91C1C 100%);
+  box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.25), 0 12px 28px rgba(239, 68, 68, 0.45);
+  animation: micBreathing 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes micBreathing {
+  from { transform: scale(1); }
+  to { transform: scale(1.04); }
+}
+
+.mic-btn-label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  margin-top: 6px;
+  letter-spacing: -0.01em;
+}
+
+.mic-btn-sub {
+  font-size: 0.68rem;
+  opacity: 0.85;
+  font-weight: 500;
+}
+
+.recording-timer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.recording-live-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #EF4444;
+  animation: blinkDot 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes blinkDot {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+.recording-timer-text {
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-main);
+}
+
+.recording-live-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.btn-cancel-rec {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.btn-finish-rec {
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #10B981, #059669);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.mic-sub-hint {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* Loading Wave Animation */
+.speak-loading-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.speaking-wave-bars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+}
+
+.speaking-wave-bars .bar {
+  display: inline-block;
+  width: 5px;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #6366F1, #EC4899);
+  animation: waveBar 1s ease-in-out infinite;
+}
+
+.speaking-wave-bars .bar-1 { animation-delay: 0.1s; }
+.speaking-wave-bars .bar-2 { animation-delay: 0.25s; }
+.speaking-wave-bars .bar-3 { animation-delay: 0.4s; }
+.speaking-wave-bars .bar-4 { animation-delay: 0.2s; }
+.speaking-wave-bars .bar-5 { animation-delay: 0.35s; }
+
+@keyframes waveBar {
+  0%, 100% { height: 8px; }
+  50% { height: 28px; }
+}
+
+.speak-loading-text {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   AI FEEDBACK AFTER SPEAKING (SPEAK NOW FEEDBACK)
+   ========================================================================== */
+.speak-feedback-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Celebration banner */
+.celebrate-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(236, 72, 153, 0.12));
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.celebrate-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.celebrate-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.celebrate-headline {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.celebrate-subtext {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.celebrate-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--accent-sage);
+  color: #ffffff;
+}
+
+/* Feedback Cards */
+.fb-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.fb-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.94rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+/* User's Voice Playback Card */
+.user-speech-card {
+  border-left: 4px solid #6366F1;
+}
+
+.user-transcript-text {
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--text-main);
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--border-light);
+}
+
+/* Custom In-App Voice Player */
+.voice-player-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-audio-play {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn-audio-play:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.voice-timeline-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  accent-color: #6366F1;
+  cursor: pointer;
+}
+
+.voice-time-label {
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+  font-weight: 600;
+  min-width: 65px;
+  text-align: right;
+}
+
+/* Praise Card */
+.praise-card {
+  border-left: 4px solid #10B981;
+  background: linear-gradient(to right, rgba(16, 185, 129, 0.05), transparent);
+}
+
+.praise-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Fix 2 Mistakes Card */
+.mistakes-fix-card {
+  border-left: 4px solid #F59E0B;
+}
+
+.mistake-fix-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+}
+
+.mistake-fix-row:last-child {
+  margin-bottom: 0;
+}
+
+.mistake-diff-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+}
+
+.m-wrong {
+  color: #DC2626;
+  text-decoration: line-through;
+  font-weight: 600;
+}
+
+.m-arrow {
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+}
+
+.m-right {
+  color: #059669;
+  font-weight: 700;
+}
+
+.m-explain-vi {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Upgraded Model Answer Card ("Ý của bạn, nói hay hơn") */
+.upgraded-speech-card {
+  border: 1.5px solid #8B5CF6;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.04), rgba(236, 72, 153, 0.04));
+  position: relative;
+}
+
+.upgraded-text {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--text-main);
+  margin-bottom: 16px;
+}
+
+.upgraded-text mark {
+  background-color: rgba(139, 92, 246, 0.18);
+  color: var(--text-main);
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+body.dark-mode .upgraded-text mark {
+  background-color: rgba(139, 92, 246, 0.35);
+  color: #E0E7FF;
+}
+
+.upgraded-actions-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border-light);
+}
+
+/* Pronunciation Card */
+.pronounce-card {
+  border-left: 4px solid #06B6D4;
+}
+
+.pronounce-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.pronounce-word {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0891B2;
+}
+
+.pronounce-ipa {
+  font-family: monospace;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+/* Retry & Next Action Buttons Footer */
+.speak-now-action-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn-retry-second-attempt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: var(--radius-pill);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #EC4899 0%, #8B5CF6 50%, #6366F1 100%);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
+  transition: all var(--transition-fast);
+}
+
+.btn-retry-second-attempt:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(139, 92, 246, 0.45);
+}
+
+.footer-secondary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sync-saved-pill {
+  font-size: 0.78rem;
+  color: #059669;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+/* Comparison banner between Attempt 1 & 2 */
+.attempt-compare-banner {
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background-color: var(--status-success-bg);
+  border: 1px solid var(--status-success-border);
+  color: var(--status-success);
+  margin-bottom: 16px;
+}
+
+.attempt-compare-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.attempt-compare-body {
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   TAB 2: NHẬT KÝ GIỌNG NÓI (VOICE DIARY)
+   ========================================================================== */
+.voice-diary-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.diary-title-group h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.diary-title-group p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.btn-drive-sync {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-drive-sync:hover {
+  background-color: var(--bg-hover);
+  border-color: #6366F1;
+}
+
+.btn-drive-sync.is-connected {
+  border-color: var(--status-success-border);
+  color: var(--status-success);
+  background-color: var(--status-success-bg);
+}
+
+/* Comparison Journey Card */
+.diary-compare-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(236, 72, 153, 0.08));
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  margin-bottom: 24px;
+  gap: 14px;
+}
+
+.compare-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6366F1;
+  letter-spacing: 0.05em;
+}
+
+.compare-card-left h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 2px 0 4px;
+}
+
+.compare-card-left p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.btn-compare-play {
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+/* Day Groups */
+.diary-day-group {
+  margin-bottom: 26px;
+}
+
+.diary-day-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--border-light);
+}
+
+.diary-day-count-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+}
+
+.diary-entries-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Individual Recording Entry */
+.diary-entry-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.diary-entry-card:hover {
+  border-color: var(--border-medium);
+}
+
+.diary-entry-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.diary-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag-part {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: #6366F1;
+  color: #ffffff;
+}
+
+.tag-attempt {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+}
+
+.tag-duration {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.tag-cloud-drive {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #059669;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: var(--status-success-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tag-cloud-local {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  background-color: var(--bg-subtle);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.diary-entry-question {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.diary-entry-player-row {
+  margin-bottom: 10px;
+}
+
+.diary-entry-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-light);
+}
+
+.btn-toggle-transcript {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6366F1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.diary-entry-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-diary-icon {
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color var(--transition-fast);
+}
+
+.btn-diary-icon:hover {
+  color: var(--text-main);
+}
+
+.btn-diary-icon.btn-delete:hover {
+  color: #EF4444;
+}
+
+.diary-entry-expanded {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  border: 1px solid var(--border-light);
+}
+
+.expanded-section-title {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.expanded-section-content {
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+/* Empty State in Voice Diary */
+.empty-diary-state {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-diary-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.empty-diary-text {
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+/* Drive Auth Pill in Settings Modal */
+.drive-settings-row {
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-light);
+}
+
+.btn-connect-drive {
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.drive-auth-status-pill {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot-live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10B981;
+}
+
+.status-dot-idle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #9CA3AF;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .mic-pulsing-wrapper {
+    width: 140px;
+    height: 140px;
+  }
+  .btn-giant-mic {
+    width: 110px;
+    height: 110px;
+  }
+  .speak-now-q-title {
+    font-size: 1.15rem;
+  }
+  .celebrate-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .speak-now-stats-bar {
+    grid-template-columns: 1fr;
+  }
+}
+

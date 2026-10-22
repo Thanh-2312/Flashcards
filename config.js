@@ -35,5 +35,15 @@ window.APP_CONFIG = {
   GEMINI_MODEL: "gemini-3.8-flash",
 
   // Trình độ mục tiêu mặc định: 'b1' (cơ bản/vừa sức), 'a2', hoặc 'b2'
-  TARGET_LEVEL: "b1"
+  TARGET_LEVEL: "b1",
+
+  // -----------------------------------------------------------------------
+  // 3. CẤU HÌNH GOOGLE DRIVE CHO NHẬT KÝ GIỌNG NÓI (VOICE ARCHIVE)
+  // -----------------------------------------------------------------------
+  // Bạn có thể dán Google OAuth Client ID vào đây (không phải bí mật, commit được)
+  // Nếu để trống, bạn vẫn có thể nhập trực tiếp trong giao diện "Cài đặt AI & Drive".
+  GOOGLE_DRIVE: {
+    CLIENT_ID: "", // Ví dụ: "123456789-abcdef.apps.googleusercontent.com"
+    FOLDER_NAME: "IELTS Speaking Voice"
+  }
 };
