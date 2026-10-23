@@ -36,6 +36,7 @@
    - **Mục tiêu 2 phút mỗi ngày & Chuỗi ngày (🔥):** Vòng tiến độ trực quan, đo bằng thời gian nói thật.
    - **🎧 Nhật ký giọng nói lưu vào Google Drive:** Nghe lại giọng bạn theo từng ngày ngay trong web, tự động sao lưu lên thư mục `IELTS Speaking Voice` trên Google Drive cá nhân, hỗ trợ nghe lại trên cả Điện thoại và Máy tính!
    - **💬 Dịch câu đời thường & ✍️ Luyện viết đề:** Chuyển đổi khẩu ngữ tự nhiên và kho đề IELTS đa dạng (Part 1, 2, 3).
+   - **🎭 Nhập Vai Đời Thường & Phim Ảnh (Roleplay AI):** Hơn 14 tình huống vui nhộn (mua đũa phép ở Hẻm Xéo, bị Sherlock thẩm vấn, sống sót giữa đại dịch zombie, gọi cà phê, phỏng vấn xin việc,...) hoặc tự tạo kịch bản tùy ý. AI đóng vai tương tác trực tiếp bằng giọng nói hoặc gõ, sửa cách diễn đạt tự nhiên hơn sau mỗi lượt và tổng kết điểm/nhiệm vụ kèm lưu từ vựng vào Flashcard.
 
 7. **Độc lập & Bảo mật dữ liệu:**
    - Tự động lưu trên trình duyệt (`localStorage` + `IndexedDB`) + đồng bộ đám mây Firebase & Google Drive.

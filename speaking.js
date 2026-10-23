@@ -1015,7 +1015,7 @@
 
         // Auto-stop after 90 seconds
         if (this.durationSec >= 90) {
-          handleFinishRecording();
+          (this.onLimit || handleFinishRecording)();
         }
       }, 1000);
     },
@@ -2675,7 +2675,8 @@ Return ONLY a JSON object:
       'speak-now': { btn: 'tab-btn-speak-now', panel: 'speaking-tab-speak-now' },
       'voice-diary': { btn: 'tab-btn-voice-diary', panel: 'speaking-tab-voice-diary' },
       'daily': { btn: 'tab-btn-daily', panel: 'speaking-tab-daily' },
-      'translate': { btn: 'tab-btn-translate', panel: 'speaking-tab-translate' }
+      'translate': { btn: 'tab-btn-translate', panel: 'speaking-tab-translate' },
+      'roleplay': { btn: 'tab-btn-roleplay', panel: 'speaking-tab-roleplay' }
     };
 
     Object.keys(tabMap).forEach(k => {
@@ -2704,6 +2705,8 @@ Return ONLY a JSON object:
     if (tabBtnVoiceDiary) tabBtnVoiceDiary.addEventListener('click', () => switchTab('voice-diary'));
     if (tabBtnDaily) tabBtnDaily.addEventListener('click', () => switchTab('daily'));
     if (tabBtnTranslate) tabBtnTranslate.addEventListener('click', () => switchTab('translate'));
+    const tabBtnRoleplay = document.getElementById('tab-btn-roleplay');
+    if (tabBtnRoleplay) tabBtnRoleplay.addEventListener('click', () => switchTab('roleplay'));
 
     // Speak Now Record Controls
     const btnRecordSpeakNow = document.getElementById('btn-record-speak-now');
@@ -2984,6 +2987,18 @@ Return ONLY a JSON object:
       if (item.feedback) {
         renderFeedbackResult(item.answer, item.feedback);
       }
+    }
+  };
+
+  // Bridge for roleplay.js (reuses recorder, Gemini callers & helpers)
+  window.SpeakingCore = {
+    callGemini, callGeminiWithAudio, VoiceRecorder, speak, escapeHtml,
+    showToast: showToastMessage,
+    saveFlashcard: saveToFlashcardCollocation,
+    addSpokenSeconds(sec) {
+      const today = getTodayDateString();
+      voiceStats.dailySpokenSec[today] = (voiceStats.dailySpokenSec[today] || 0) + sec;
+      saveVoiceStats();
     }
   };
 

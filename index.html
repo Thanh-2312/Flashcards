@@ -404,6 +404,62 @@
         <button type="button" id="tab-btn-translate" class="speaking-tab-btn" role="tab" aria-selected="false">
           <span class="tab-title">💬 4. Dịch Câu Đời Thường</span>
         </button>
+        <button type="button" id="tab-btn-roleplay" class="speaking-tab-btn" role="tab" aria-selected="false">
+          <span class="tab-title">🎭 5. Nhập Vai</span>
+        </button>
+      </div>
+
+      <!-- ================= TAB 5: NHẬP VAI (ROLEPLAY) ================= -->
+      <div id="speaking-tab-roleplay" class="speaking-tab-content" style="display: none;">
+        <div class="speaking-card-panel rp-panel">
+          <!-- Scenario picker -->
+          <div id="rp-picker">
+            <div class="panel-header-desc">
+              <h3>🎭 Nhập vai & nói chuyện như thật</h3>
+              <p>Chọn một tình huống, AI sẽ đóng vai nhân vật và trò chuyện với bạn. Cứ nói thoải mái — được chêm tiếng Việt, AI sẽ gợi ý cách nói tự nhiên hơn sau mỗi lượt.</p>
+            </div>
+            <div class="rp-filter-row" id="rp-filter-row"></div>
+            <div class="rp-scenario-grid" id="rp-scenario-grid"></div>
+            <div class="rp-custom-box">
+              <label for="rp-custom-input" class="rp-custom-label">✨ Hoặc tự nghĩ ra tình huống của bạn</label>
+              <div class="rp-custom-row">
+                <input type="text" id="rp-custom-input" class="speaking-textarea rp-custom-input" placeholder="VD: Tôi là khách mua iPhone, AI là người bán hàng khó tính...">
+                <button type="button" id="rp-custom-start" class="btn-primary">Bắt đầu</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat stage -->
+          <div id="rp-stage" style="display: none;">
+            <div class="rp-stage-header">
+              <button type="button" id="rp-back" class="btn-subtle">← Đổi cảnh</button>
+              <div class="rp-char">
+                <span class="rp-char-avatar" id="rp-char-avatar">🎭</span>
+                <div>
+                  <div class="rp-char-name" id="rp-char-name"></div>
+                  <div class="rp-char-scene" id="rp-char-scene"></div>
+                </div>
+              </div>
+              <button type="button" id="rp-end" class="btn-subtle rp-end-btn">🏁 Kết thúc & nhận xét</button>
+            </div>
+            <div class="rp-mission" id="rp-mission"></div>
+
+            <div class="rp-chat" id="rp-chat" aria-live="polite"></div>
+
+            <div class="rp-hints" id="rp-hints"></div>
+
+            <div class="rp-input-bar">
+              <button type="button" id="rp-mic" class="rp-mic-btn" title="Chạm để nói, chạm lần nữa để gửi">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line></svg>
+              </button>
+              <input type="text" id="rp-text" class="speaking-textarea rp-text-input" placeholder="Bấm 🎙️ để nói, hoặc gõ câu trả lời rồi Enter..." autocomplete="off">
+              <button type="button" id="rp-send" class="btn-primary rp-send-btn">Gửi</button>
+            </div>
+            <div class="rp-rec-status" id="rp-rec-status"></div>
+
+            <div id="rp-summary" class="rp-summary" style="display: none;"></div>
+          </div>
+        </div>
       </div>
 
       <!-- ================= TAB 1: NÓI NGAY (HERO VOICE COACH) ================= -->
@@ -1016,6 +1072,7 @@
   <script src="config.js" onerror="/* config.js is private in .gitignore */"></script>
   <script src="app.js"></script>
   <script src="speaking.js"></script>
+  <script src="roleplay.js"></script>
 </body>
 
 </html>
