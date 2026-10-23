@@ -413,6 +413,27 @@
       const raw = localStorage.getItem(STORAGE_CONFIG_KEY);
       let cfg = raw ? { ...DEFAULT_CONFIG, ...JSON.parse(raw) } : { ...DEFAULT_CONFIG };
 
+      // Auto-setup via #setup= or ?setup=
+      let setupRaw = '';
+      if (window.location.hash && window.location.hash.includes('setup=')) {
+        setupRaw = window.location.hash.split('setup=')[1];
+      } else {
+        const urlParams = new URLSearchParams(window.location.search);
+        setupRaw = urlParams.get('setup') || '';
+      }
+      if (setupRaw) {
+        try {
+          const decoded = JSON.parse(atob(decodeURIComponent(setupRaw)));
+          if (decoded.gemini || decoded.apiKey) {
+            cfg.apiKey = (decoded.gemini || decoded.apiKey || '').trim();
+          }
+          if (decoded.model) cfg.model = decoded.model;
+          if (decoded.level) cfg.targetLevel = decoded.level;
+          if (decoded.drive) cfg.driveClientId = decoded.drive;
+          localStorage.setItem(STORAGE_CONFIG_KEY, JSON.stringify(cfg));
+        } catch (e) {}
+      }
+
       // Auto-load from config.js (window.APP_CONFIG)
       if (window.APP_CONFIG) {
         if (window.APP_CONFIG.GEMINI_API_KEY && typeof window.APP_CONFIG.GEMINI_API_KEY === 'string') {

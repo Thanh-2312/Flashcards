@@ -3817,7 +3817,58 @@
         }
       }
 
-      // Fast auto-setup via URL query param when opening on phone
+      // Universal 1-Tap Auto-Setup for Phone / New Devices (#setup=... or ?setup=...)
+      let setupRaw = '';
+      if (window.location.hash && window.location.hash.includes('setup=')) {
+        setupRaw = window.location.hash.split('setup=')[1];
+      } else {
+        const urlParams = new URLSearchParams(window.location.search);
+        setupRaw = urlParams.get('setup') || '';
+      }
+
+      if (setupRaw) {
+        try {
+          const decoded = JSON.parse(atob(decodeURIComponent(setupRaw)));
+          let changed = false;
+
+          // 1. Firebase setup
+          if (decoded.fb) {
+            this.config.firebaseRaw = decoded.fb;
+            this.parseFirebaseConfig(decoded.fb);
+            if (decoded.uid) this.config.userId = decoded.uid;
+            this.saveConfig();
+            changed = true;
+          }
+
+          // 2. Gemini Speaking & Drive setup
+          if (decoded.gemini || decoded.apiKey) {
+            const speakingKey = 'speaking_ai_config_v2';
+            let curSpeaking = {};
+            try {
+              const curRaw = localStorage.getItem(speakingKey);
+              if (curRaw) curSpeaking = JSON.parse(curRaw);
+            } catch (e) {}
+            const newSpeaking = {
+              ...curSpeaking,
+              apiKey: (decoded.gemini || decoded.apiKey || '').trim(),
+              model: decoded.model || curSpeaking.model || 'gemini-3.8-flash',
+              targetLevel: decoded.level || curSpeaking.targetLevel || 'b1',
+              driveClientId: decoded.drive || curSpeaking.driveClientId || ''
+            };
+            localStorage.setItem(speakingKey, JSON.stringify(newSpeaking));
+            changed = true;
+          }
+
+          if (changed) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+            setTimeout(() => showToast('🎉 Đã tự động kích hoạt Firebase & Gemini AI thành công cho thiết bị này!'), 800);
+          }
+        } catch (e) {
+          console.warn('Lỗi đọc link tự động cấu hình:', e);
+        }
+      }
+
+      // Legacy fallback: Fast auto-setup via URL query param when opening on phone
       const urlParams = new URLSearchParams(window.location.search);
       const cfgParam = urlParams.get('sync_cfg');
       const userParam = urlParams.get('sync_id');
@@ -4075,11 +4126,44 @@
 
       if (hasConfig && el.syncShareBox && el.syncShareUrlInput) {
         el.syncShareBox.style.display = 'block';
-        const rawJson = this.config.firebaseRaw || JSON.stringify(this.config.firebaseConfig);
-        const encodedCfg = encodeURIComponent(btoa(rawJson));
-        const encodedId = encodeURIComponent(this.config.userId || 'thanh_flashcards_2312');
+
+        let geminiKey = '';
+        let geminiModel = 'gemini-3.8-flash';
+        let targetLevel = 'b1';
+        let driveClientId = '';
+
+        if (window.APP_CONFIG) {
+          geminiKey = window.APP_CONFIG.GEMINI_API_KEY || '';
+          geminiModel = window.APP_CONFIG.GEMINI_MODEL || geminiModel;
+          targetLevel = window.APP_CONFIG.TARGET_LEVEL || targetLevel;
+          if (window.APP_CONFIG.GOOGLE_DRIVE) {
+            driveClientId = window.APP_CONFIG.GOOGLE_DRIVE.CLIENT_ID || '';
+          }
+        }
+        try {
+          const spkRaw = localStorage.getItem('speaking_ai_config_v2');
+          if (spkRaw) {
+            const parsed = JSON.parse(spkRaw);
+            if (parsed.apiKey) geminiKey = parsed.apiKey;
+            if (parsed.model) geminiModel = parsed.model;
+            if (parsed.targetLevel) targetLevel = parsed.targetLevel;
+            if (parsed.driveClientId) driveClientId = parsed.driveClientId;
+          }
+        } catch (e) {}
+
+        const rawJson = this.config.firebaseRaw || (this.config.firebaseConfig ? (this.config.firebaseConfig.databaseURL || JSON.stringify(this.config.firebaseConfig)) : '');
+        const payload = {
+          fb: rawJson,
+          uid: this.config.userId || 'thanh_flashcards_2312'
+        };
+        if (geminiKey) payload.gemini = geminiKey;
+        if (geminiModel) payload.model = geminiModel;
+        if (targetLevel) payload.level = targetLevel;
+        if (driveClientId) payload.drive = driveClientId;
+
+        const encodedSetup = encodeURIComponent(btoa(JSON.stringify(payload)));
         const origin = window.location.origin + window.location.pathname;
-        el.syncShareUrlInput.value = `${origin}?sync_id=${encodedId}&sync_cfg=${encodedCfg}`;
+        el.syncShareUrlInput.value = `${origin}#setup=${encodedSetup}`;
       } else if (el.syncShareBox) {
         el.syncShareBox.style.display = 'none';
       }
