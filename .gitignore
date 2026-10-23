@@ -5,3 +5,9 @@ Thumbs.db
 .idea/
 __pycache__/
 *.pyc
+
+# Private config containing API Keys, Client IDs & Secrets
+config.js
+.env
+*.env
+*.env.*

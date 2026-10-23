@@ -1009,7 +1009,11 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
   <!-- SCRIPTS -->
-  <script src="config.js"></script>
+  <script>
+    // Khởi tạo APP_CONFIG rỗng phòng trường hợp config.js được ẩn trong .gitignore
+    window.APP_CONFIG = window.APP_CONFIG || {};
+  </script>
+  <script src="config.js" onerror="/* config.js is private in .gitignore */"></script>
   <script src="app.js"></script>
   <script src="speaking.js"></script>
 </body>
