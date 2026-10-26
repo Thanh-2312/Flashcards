@@ -1,0 +1,1239 @@
+{
+  "section_id": "section1",
+  "title": "Section 1: Self-Drive Tours in California",
+  "audio_file": "Cam10-Test1-Section1.mp3",
+  "vocabulary": [
+    {
+      "word": "World Tours",
+      "matched_text": "World Tours",
+      "start": 1.43347,
+      "end": 1.44207,
+      "ipa": "/wɜːld tʊərz/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "Tên công ty du lịch \"World Tours\"",
+      "context": "Good morning. World Tours. My name is Jamie. How can I help you?",
+      "tip": "Một cụm danh từ riêng chỉ tên công ty."
+    },
+    {
+      "word": "Jamie",
+      "matched_text": "Jamie",
+      "start": 1.44977,
+      "end": 1.45407,
+      "ipa": "/ˈdʒeɪmi/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "Jamie (tên người)",
+      "context": "My name is Jamie. How can I help you?",
+      "tip": "Tên của nhân viên tư vấn."
+    },
+    {
+      "word": "information",
+      "matched_text": "information",
+      "start": 1.48337,
+      "end": 1.49037,
+      "ipa": "/ˌɪn.fəˈmeɪ.ʃən/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "thông tin",
+      "context": "I want some information on self-drive tours in the USA.",
+      "tip": "Hay dùng khi tìm kiếm thông tin về dịch vụ du lịch."
+    },
+    {
+      "word": "self-drive tours",
+      "matched_text": "self-drive tours",
+      "start": 1.49497,
+      "end": 1.50627,
+      "ipa": "/ˌself ˈdraɪv tʊərz/",
+      "type": "phrase",
+      "level": "B2",
+      "meaning": "chuyến du lịch tự lái",
+      "context": "I want some information on self-drive tours in the USA.",
+      "tip": "Cụm từ khóa cho chủ đề chuyến đi tự lái."
+    },
+    {
+      "word": "brochure",
+      "matched_text": "brochure",
+      "start": 1.52797,
+      "end": 1.53387,
+      "ipa": "/ˈbrəʊ.ʃər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "tập quảng cáo, sách quảng cáo",
+      "context": "Could you send me a brochure?",
+      "tip": "Phát âm /'brəʊʃər/."
+    },
+    {
+      "word": "Of course",
+      "matched_text": "Of course",
+      "start": 1.53847,
+      "end": 1.54297,
+      "ipa": "/əv kɔːrs/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "Chắc chắn rồi, đương nhiên rồi",
+      "context": "Of course. Could you I have your name please?",
+      "tip": "Diễn đạt sự sẵn lòng giúp đỡ."
+    },
+    {
+      "word": "Andrea Brown",
+      "matched_text": "Andrea Brown",
+      "start": 1.56637,
+      "end": 1.57437,
+      "ipa": "/ˌæn.dri.ə braʊn/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "Andrea Brown (tên người)",
+      "context": "Andrea Brown.",
+      "tip": "Tên của khách hàng."
+    },
+    {
+      "word": "address",
+      "matched_text": "address",
+      "start": 1.59577,
+      "end": 2.00007,
+      "ipa": "/əˈdres/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "địa chỉ",
+      "context": "Thank you. And your address?",
+      "tip": "Thông tin cá nhân cơ bản, thường được hỏi sau tên."
+    },
+    {
+      "word": "Ardleigh Road",
+      "matched_text": "Ardleigh Road",
+      "start": 2.01377,
+      "end": 2.02827,
+      "ipa": "/ˈɑːrdli rəʊd/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "Tên đường (Ardleigh Road)",
+      "context": "24, Ardleigh Road.",
+      "tip": "Tên riêng của đường, thường cần đánh vần."
+    },
+    {
+      "word": "spell",
+      "matched_text": "spell",
+      "start": 2.03627,
+      "end": 2.03957,
+      "ipa": "/spel/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "đánh vần",
+      "context": "Can you spell that?",
+      "tip": "Cụm từ thường dùng để yêu cầu đánh vần một từ hoặc tên."
+    },
+    {
+      "word": "Postcode",
+      "matched_text": "Postcode",
+      "start": 2.09917,
+      "end": 2.10297,
+      "ipa": "/ˈpəʊst.kəʊd/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "mã bưu điện",
+      "context": "Postcode?",
+      "tip": "Từ đồng nghĩa với Zip code (Mỹ)."
+    },
+    {
+      "word": "phone number",
+      "matched_text": "phone number",
+      "start": 2.16097,
+      "end": 2.16897,
+      "ipa": "/ˈfəʊn ˌnʌm.bər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "số điện thoại",
+      "context": "And can I have your phone number?",
+      "tip": "Một thông tin liên hệ cơ bản."
+    },
+    {
+      "word": "mobile",
+      "matched_text": "mobile",
+      "start": 2.17587,
+      "end": 2.18067,
+      "ipa": "/ˈməʊ.baɪl/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "điện thoại di động",
+      "context": "Is a mobile alright?",
+      "tip": "Từ thông dụng ở Anh, Mỹ dùng \"cell phone\"."
+    },
+    {
+      "word": "heard about",
+      "matched_text": "heard about",
+      "start": 2.28927,
+      "end": 2.29567,
+      "ipa": "/hɜːrd əˈbaʊt/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "nghe nói về",
+      "context": "And can I ask you where you heard about World Tours?",
+      "tip": "Câu hỏi thường gặp để biết nguồn thông tin khách hàng."
+    },
+    {
+      "word": "advert",
+      "matched_text": "advert",
+      "start": 2.32147,
+      "end": 2.32617,
+      "ipa": "/ˈæd.vɜːt/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "quảng cáo",
+      "context": "From a friend? Or did you see an advert somewhere?",
+      "tip": "Viết tắt của \"advertisement\"."
+    },
+    {
+      "word": "newspaper",
+      "matched_text": "newspaper",
+      "start": 2.34307,
+      "end": 2.35037,
+      "ipa": "/ˈnjuːzˌpeɪ.pər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "báo chí",
+      "context": "No, I read about you in the newspaper.",
+      "tip": "Một kênh truyền thông truyền thống."
+    },
+    {
+      "word": "brochures",
+      "matched_text": "brochures",
+      "start": 2.37037,
+      "end": 2.37587,
+      "ipa": "/ˈbrəʊ.ʃərz/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "tập quảng cáo, sách quảng cáo (số nhiều)",
+      "context": "OK, I’ll get the brochures in the post to you but can I give you some information over the phone.",
+      "tip": "Số nhiều của brochure."
+    },
+    {
+      "word": "in the post",
+      "matched_text": "in the post",
+      "start": 2.37777,
+      "end": 2.38257,
+      "ipa": "/ɪn ðə pəʊst/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "qua đường bưu điện",
+      "context": "I’ll get the brochures in the post to you but can I give you some information over the phone.",
+      "tip": "Diễn đạt cách gửi thư từ ở Anh."
+    },
+    {
+      "word": "information over the phone",
+      "matched_text": "information over the phone",
+      "start": 2.39547,
+      "end": 2.40597,
+      "ipa": "/ˌɪn.fəˈmeɪ.ʃən ˌəʊvər ðə ˈfəʊn/",
+      "type": "phrase",
+      "level": "B2",
+      "meaning": "thông tin qua điện thoại",
+      "context": "but can I give you some information over the phone.",
+      "tip": "Cách cung cấp thông tin trực tiếp."
+    },
+    {
+      "word": "holiday",
+      "matched_text": "holiday",
+      "start": 2.43127,
+      "end": 2.43687,
+      "ipa": "/ˈhɒl.ə.deɪ/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "kỳ nghỉ",
+      "context": "What kinds of things do you want to do on your holiday?",
+      "tip": "Từ phổ biến cho chuyến đi chơi."
+    },
+    {
+      "word": "California",
+      "matched_text": "California",
+      "start": 2.45397,
+      "end": 2.46067,
+      "ipa": "/ˌkæl.ɪˈfɔːr.njə/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "California (bang ở Mỹ)",
+      "context": "I’m interested in going to California with my family.",
+      "tip": "Tên riêng của một địa điểm du lịch phổ biến."
+    },
+    {
+      "word": "hire a car",
+      "matched_text": "hire a car",
+      "start": 2.50287,
+      "end": 2.50847,
+      "ipa": "/ˈhaɪər ə kɑːr/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "thuê xe hơi",
+      "context": "I’ve got two children and we want to hire a car.",
+      "tip": "Từ đồng nghĩa với \"rent a car\"."
+    },
+    {
+      "word": "places of interest",
+      "matched_text": "places of interest",
+      "start": 2.54917,
+      "end": 2.55947,
+      "ipa": "/ˈpleɪ.sɪz əv ˈɪn.trəst/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "những địa điểm thú vị/thu hút",
+      "context": "visiting different places of interest in California.",
+      "tip": "Cụm từ để nói về các điểm tham quan du lịch."
+    },
+    {
+      "word": "Los Angeles",
+      "matched_text": "Los Angeles",
+      "start": 2.58267,
+      "end": 2.58997,
+      "ipa": "/lɒs ˈæn.dʒə.ləs/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "Los Angeles (thành phố ở Mỹ)",
+      "context": "The first one begins in Los Angeles and there’s plenty of time to visit some of the theme parks there.",
+      "tip": "Tên riêng của một thành phố lớn."
+    },
+    {
+      "word": "plenty of time",
+      "matched_text": "plenty of time",
+      "start": 3.00177,
+      "end": 3.00917,
+      "ipa": "/ˈplen.ti əv taɪm/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "nhiều thời gian",
+      "context": "and there’s plenty of time to visit some of the theme parks there.",
+      "tip": "Diễn đạt có đủ hoặc nhiều thời gian."
+    },
+    {
+      "word": "theme parks",
+      "matched_text": "theme parks",
+      "start": 3.01697,
+      "end": 3.02397,
+      "ipa": "/ˈθiːm pɑːrks/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "công viên giải trí",
+      "context": "to visit some of the theme parks there.",
+      "tip": "Từ khóa IELTS, thường xuất hiện trong chủ đề du lịch/giải trí."
+    },
+    {
+      "word": "children's list",
+      "matched_text": "children’s list",
+      "start": 3.04287,
+      "end": 3.05007,
+      "ipa": "/ˈtʃɪl.drənz lɪst/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "danh sách của trẻ em",
+      "context": "That’s something on my children’s list, so I’d want to include that.",
+      "tip": "Danh sách những điều mong muốn của trẻ nhỏ."
+    },
+    {
+      "word": "include",
+      "matched_text": "include",
+      "start": 3.05797,
+      "end": 3.06277,
+      "ipa": "/ɪnˈkluːd/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "bao gồm",
+      "context": "so I’d want to include that.",
+      "tip": "Thường dùng để thêm một mục vào danh sách hoặc kế hoạch."
+    },
+    {
+      "word": "San Francisco",
+      "matched_text": "San Francisco",
+      "start": 3.08707,
+      "end": 3.09437,
+      "ipa": "/sæn frænˈsɪs.kəʊ/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "San Francisco (thành phố ở Mỹ)",
+      "context": "Then you drive to San Francisco.",
+      "tip": "Tên riêng của một thành phố lớn khác."
+    },
+    {
+      "word": "Yosemite Park",
+      "matched_text": "Yosemite Park",
+      "start": 3.12187,
+      "end": 3.12987,
+      "ipa": "/joʊˈsem.ɪ.ti pɑːrk/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "Công viên Yosemite (công viên quốc gia)",
+      "context": "From San Francisco you can drive to Yosemite Park where you spend a couple of nights.",
+      "tip": "Tên riêng của một công viên quốc gia nổi tiếng."
+    },
+    {
+      "word": "lodge",
+      "matched_text": "lodge",
+      "start": 3.16487,
+      "end": 3.16897,
+      "ipa": "/lɒdʒ/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "nhà nghỉ",
+      "context": "You can choose to stay in a lodge or on the campsite.",
+      "tip": "Loại hình chỗ ở nhỏ, thường ở vùng nông thôn hoặc núi."
+    },
+    {
+      "word": "campsite",
+      "matched_text": "campsite",
+      "start": 3.17657,
+      "end": 3.18177,
+      "ipa": "/ˈkæmp.saɪt/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "khu cắm trại",
+      "context": "You can choose to stay in a lodge or on the campsite.",
+      "tip": "Khu vực được chỉ định để cắm trại."
+    },
+    {
+      "word": "tent",
+      "matched_text": "tent",
+      "start": 3.20737,
+      "end": 3.21057,
+      "ipa": "/tent/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "lều",
+      "context": "I don’t like the idea of staying in a tent.",
+      "tip": "Nơi ở tạm bợ khi cắm trại."
+    },
+    {
+      "word": "Las Vegas",
+      "matched_text": "Las Vegas",
+      "start": 3.24967,
+      "end": 3.25687,
+      "ipa": "/lɑːs ˈveɪ.ɡəs/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "Las Vegas (thành phố ở Mỹ)",
+      "context": "And the tour ends in Las Vegas.",
+      "tip": "Tên thành phố nổi tiếng về giải trí và sòng bạc."
+    },
+    {
+      "word": "arrange",
+      "matched_text": "arrange",
+      "start": 3.28187,
+      "end": 3.28587,
+      "ipa": "/əˈreɪndʒ/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "sắp xếp, tổ chức",
+      "context": "The other trip we can arrange is slightly different.",
+      "tip": "Từ thường dùng khi nói về việc lên kế hoạch du lịch."
+    },
+    {
+      "word": "slightly different",
+      "matched_text": "slightly different",
+      "start": 3.29357,
+      "end": 3.30097,
+      "ipa": "/ˈslaɪt.li ˈdɪf.rənt/",
+      "type": "phrase",
+      "level": "B2",
+      "meaning": "hơi khác một chút",
+      "context": "The other trip we can arrange is slightly different.",
+      "tip": "Diễn tả sự khác biệt nhỏ."
+    },
+    {
+      "word": "Cambria",
+      "matched_text": "Cambria",
+      "start": 3.33457,
+      "end": 3.34027,
+      "ipa": "/ˈkæm.bri.ə/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "Cambria (tên thị trấn)",
+      "context": "Then you drive south to Cambria.",
+      "tip": "Tên riêng của một địa điểm."
+    },
+    {
+      "word": "castle",
+      "matched_text": "castle",
+      "start": 3.36007,
+      "end": 3.36467,
+      "ipa": "/ˈkɑː.səl/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "lâu đài",
+      "context": "Someone told me there’s a really nice castle near Cambria.",
+      "tip": "Tên của một công trình kiến trúc cổ."
+    },
+    {
+      "word": "Hearst Castle",
+      "matched_text": "Hearst Castle",
+      "start": 3.40167,
+      "end": 3.40927,
+      "ipa": "/hɜːrst ˈkɑː.səl/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "Lâu đài Hearst (tên riêng)",
+      "context": "Hearst Castle is on that road so you could stop there.",
+      "tip": "Tên riêng của một lâu đài nổi tiếng."
+    },
+    {
+      "word": "desert",
+      "matched_text": "desert",
+      "start": 3.46907,
+      "end": 3.47347,
+      "ipa": "/ˈdez.ət/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "sa mạc",
+      "context": "Does this trip also go into the desert?",
+      "tip": "Địa hình khô cằn."
+    },
+    {
+      "word": "Santa Monica",
+      "matched_text": "Santa Monica",
+      "start": 3.49197,
+      "end": 3.49907,
+      "ipa": "/ˌsæn.tə ˈmɒn.ɪ.kə/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "Santa Monica (thành phố ở Mỹ)",
+      "context": "No, it continues to Santa Monica where most people like to stop and do some shopping.",
+      "tip": "Thành phố ven biển nổi tiếng ở California."
+    },
+    {
+      "word": "shopping",
+      "matched_text": "shopping",
+      "start": 3.51687,
+      "end": 3.52277,
+      "ipa": "/ˈʃɒp.ɪŋ/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "mua sắm",
+      "context": "where most people like to stop and do some shopping.",
+      "tip": "Hoạt động giải trí phổ biến."
+    },
+    {
+      "word": "have enough of",
+      "matched_text": "have enough of",
+      "start": 3.53307,
+      "end": 3.54027,
+      "ipa": "/hæv ɪˈnʌf əv/",
+      "type": "idiom",
+      "level": "B2",
+      "meaning": "đã quá đủ, chán ngấy",
+      "context": "We have enough of that at home so that doesn’t interest us.",
+      "tip": "Thành ngữ để diễn đạt sự chán ghét hoặc không muốn thêm nữa."
+    },
+    {
+      "word": "interest",
+      "matched_text": "interest",
+      "start": 3.55517,
+      "end": 3.55937,
+      "ipa": "/ˈɪn.trəst/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "làm cho ai đó quan tâm",
+      "context": "so that doesn’t interest us.",
+      "tip": "Đối lập với \"be interested in\"."
+    },
+    {
+      "word": "straight on",
+      "matched_text": "straight on",
+      "start": 3.58747,
+      "end": 3.59227,
+      "ipa": "/streɪt ɒn/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "đi thẳng",
+      "context": "Well you could go straight on to San Diego.",
+      "tip": "Chỉ hướng đi thẳng."
+    },
+    {
+      "word": "San Diego",
+      "matched_text": "San Diego",
+      "start": 3.59427,
+      "end": 4.00087,
+      "ipa": "/ˌsæn diˈeɪ.ɡəʊ/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "San Diego (thành phố ở Mỹ)",
+      "context": "Well you could go straight on to San Diego.",
+      "tip": "Tên riêng của thành phố ven biển ở California."
+    },
+    {
+      "word": "beaches",
+      "matched_text": "beaches",
+      "start": 4.01377,
+      "end": 4.01837,
+      "ipa": "/biːtʃɪz/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "bãi biển",
+      "context": "That’s good for beaches isn’t it?",
+      "tip": "Địa điểm du lịch biển."
+    },
+    {
+      "word": "relax",
+      "matched_text": "relax",
+      "start": 4.04687,
+      "end": 4.05047,
+      "ipa": "/rɪˈlæks/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "thư giãn",
+      "context": "That’s a good place to relax and your children might like to visit the zoo before flying home.",
+      "tip": "Một hoạt động chính trong kỳ nghỉ."
+    },
+    {
+      "word": "zoo",
+      "matched_text": "zoo",
+      "start": 4.07127,
+      "end": 4.07417,
+      "ipa": "/zuː/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "sở thú",
+      "context": "and your children might like to visit the zoo before flying home.",
+      "tip": "Địa điểm giải trí phổ biến cho trẻ em."
+    },
+    {
+      "word": "flying home",
+      "matched_text": "flying home",
+      "start": 4.07967,
+      "end": 4.08527,
+      "ipa": "/ˈflaɪ.ɪŋ həʊm/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "bay về nhà",
+      "context": "before flying home.",
+      "tip": "Cụm từ chỉ hành trình về."
+    },
+    {
+      "word": "sunbathing",
+      "matched_text": "sunbathing",
+      "start": 4.11377,
+      "end": 4.12167,
+      "ipa": "/ˈsʌnˌbeɪ.ðɪŋ/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "tắm nắng",
+      "context": "We want some time for sunbathing and swimming.",
+      "tip": "Hoạt động thư giãn trên bãi biển."
+    },
+    {
+      "word": "swimming",
+      "matched_text": "swimming",
+      "start": 4.12507,
+      "end": 4.13067,
+      "ipa": "/ˈswɪm.ɪŋ/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "bơi lội",
+      "context": "We want some time for sunbathing and swimming.",
+      "tip": "Hoạt động dưới nước, phổ biến ở biển."
+    },
+    {
+      "word": "how much do they cost",
+      "matched_text": "how much do they cost",
+      "start": 4.53077,
+      "end": 4.53947,
+      "ipa": "/haʊ mʌtʃ duː ðeɪ kɒst/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "giá bao nhiêu",
+      "context": "So, how many days are the trips and how much do they cost?",
+      "tip": "Câu hỏi quan trọng khi mua sắm hoặc thuê dịch vụ."
+    },
+    {
+      "word": "lasts",
+      "matched_text": "lasts",
+      "start": 4.59737,
+      "end": 5.00087,
+      "ipa": "/lɑːsts/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "kéo dài",
+      "context": "The first one I told you about is a self-drive tour through California which lasts twelve days and covers 2,020 kilometres.",
+      "tip": "Từ dùng để diễn tả thời lượng."
+    },
+    {
+      "word": "covers",
+      "matched_text": "covers",
+      "start": 5.01407,
+      "end": 5.01817,
+      "ipa": "/ˈkʌv.ərz/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "bao phủ, đi qua",
+      "context": "which lasts twelve days and covers 2,020 kilometres.",
+      "tip": "Có nghĩa là đi qua một quãng đường nhất định."
+    },
+    {
+      "word": "kilometres",
+      "matched_text": "kilometres",
+      "start": 5.02837,
+      "end": 5.03387,
+      "ipa": "/ˈkɪl.əˌmiː.tərz/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "kilômét",
+      "context": "and covers 2,020 kilometres.",
+      "tip": "Đơn vị đo khoảng cách."
+    },
+    {
+      "word": "shortest journey",
+      "matched_text": "shortest journey",
+      "start": 5.04817,
+      "end": 5.05747,
+      "ipa": "/ˈʃɔːt.ɪst ˈdʒɜː.ni/",
+      "type": "phrase",
+      "level": "B2",
+      "meaning": "hành trình ngắn nhất",
+      "context": "The shortest journey is 206 kilometres and the longest is 632 kilometres.",
+      "tip": "So sánh hơn nhất của \"short\"."
+    },
+    {
+      "word": "longest",
+      "matched_text": "longest",
+      "start": 5.08207,
+      "end": 5.08707,
+      "ipa": "/ˈlɒŋ.ɡɪst/",
+      "type": "adjective",
+      "level": "B1",
+      "meaning": "dài nhất",
+      "context": "and the longest is 632 kilometres.",
+      "tip": "So sánh hơn nhất của \"long\"."
+    },
+    {
+      "word": "per person",
+      "matched_text": "per person",
+      "start": 5.13317,
+      "end": 5.14217,
+      "ipa": "/pɜːr ˈpɜː.sən/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "mỗi người",
+      "context": "The cost is £525 per person.",
+      "tip": "Cách tính giá cho mỗi cá nhân."
+    },
+    {
+      "word": "includes",
+      "matched_text": "includes",
+      "start": 5.15357,
+      "end": 5.15827,
+      "ipa": "/ɪnˈkluːdz/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "bao gồm",
+      "context": "That includes accommodation, car rental and a flight but no meals.",
+      "tip": "Liệt kê các thành phần của gói dịch vụ."
+    },
+    {
+      "word": "accommodation",
+      "matched_text": "accommodation",
+      "start": 5.15997,
+      "end": 5.16897,
+      "ipa": "/əˌkɒm.əˈdeɪ.ʃən/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "chỗ ở",
+      "context": "That includes accommodation, car rental and a flight but no meals.",
+      "tip": "Từ học thuật hơn \"place to stay\"."
+    },
+    {
+      "word": "car rental",
+      "matched_text": "car rental",
+      "start": 5.16997,
+      "end": 5.17657,
+      "ipa": "/ˈkɑːr ˈren.təl/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "thuê xe hơi",
+      "context": "accommodation, car rental and a flight but no meals.",
+      "tip": "Một dịch vụ cần thiết cho self-drive tours."
+    },
+    {
+      "word": "flight",
+      "matched_text": "flight",
+      "start": 5.17917,
+      "end": 5.18307,
+      "ipa": "/flaɪt/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "chuyến bay",
+      "context": "car rental and a flight but no meals.",
+      "tip": "Di chuyển bằng máy bay."
+    },
+    {
+      "word": "meals",
+      "matched_text": "meals",
+      "start": 5.18667,
+      "end": 5.18997,
+      "ipa": "/miːlz/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "bữa ăn",
+      "context": "and a flight but no meals.",
+      "tip": "Thường đề cập đến bữa ăn trong gói du lịch."
+    },
+    {
+      "word": "on the road",
+      "matched_text": "on the road",
+      "start": 5.24787,
+      "end": 5.25567,
+      "ipa": "/ɒn ðə rəʊd/",
+      "type": "idiom",
+      "level": "B2",
+      "meaning": "đang đi trên đường (du lịch)",
+      "context": "That lasts nine days but you spend only three days on the road.",
+      "tip": "Thành ngữ chỉ việc đang di chuyển hoặc đi du lịch."
+    },
+    {
+      "word": "altogether",
+      "matched_text": "altogether",
+      "start": 5.28277,
+      "end": 5.28947,
+      "ipa": "/ˌɔːl.təˈɡeð.ər/",
+      "type": "adverb",
+      "level": "B1",
+      "meaning": "tổng cộng",
+      "context": "You cover about 980 kilometres altogether.",
+      "tip": "Từ dùng để tóm tắt tổng số."
+    },
+    {
+      "word": "cheaper",
+      "matched_text": "cheaper",
+      "start": 5.30147,
+      "end": 5.30597,
+      "ipa": "/ˈtʃiː.pər/",
+      "type": "adjective",
+      "level": "B1",
+      "meaning": "rẻ hơn",
+      "context": "So is that cheaper then?",
+      "tip": "So sánh hơn của \"cheap\"."
+    },
+    {
+      "word": "almost",
+      "matched_text": "almost",
+      "start": 5.31867,
+      "end": 5.32337,
+      "ipa": "/ˈɔːl.məʊst/",
+      "type": "adverb",
+      "level": "B1",
+      "meaning": "hầu như, gần như",
+      "context": "Yes, it’s almost a hundred pounds cheaper.",
+      "tip": "Diễn tả sự gần đúng."
+    },
+    {
+      "word": "£429",
+      "matched_text": "429 pounds",
+      "start": 5.33807,
+      "end": 5.35037,
+      "ipa": "/fɔːr ˈhʌn.drəd ˈtwen.ti naɪn paʊndz/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "429 bảng Anh",
+      "context": "It’s £429 per person, which is a good deal.",
+      "tip": "Số tiền, cần chú ý đơn vị tiền tệ."
+    },
+    {
+      "word": "good deal",
+      "matched_text": "good deal",
+      "start": 5.36037,
+      "end": 5.36567,
+      "ipa": "/ɡʊd diːl/",
+      "type": "phrase",
+      "level": "B2",
+      "meaning": "một món hời, ưu đãi tốt",
+      "context": "which is a good deal.",
+      "tip": "Cụm từ thông dụng để nói về giá tốt."
+    },
+    {
+      "word": "covers",
+      "matched_text": "covers",
+      "start": 5.37937,
+      "end": 5.38297,
+      "ipa": "/ˈkʌv.ərz/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "bao gồm",
+      "context": "So that covers accommodation and car hire.",
+      "tip": "Từ đồng nghĩa với \"includes\"."
+    },
+    {
+      "word": "car hire",
+      "matched_text": "car hire",
+      "start": 5.39537,
+      "end": 5.40107,
+      "ipa": "/ˈkɑːr haɪər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "thuê xe hơi",
+      "context": "So that covers accommodation and car hire.",
+      "tip": "Đồng nghĩa với \"car rental\", phổ biến ở Anh."
+    },
+    {
+      "word": "flights",
+      "matched_text": "flights",
+      "start": 5.41137,
+      "end": 5.41567,
+      "ipa": "/flaɪts/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "các chuyến bay",
+      "context": "What about flights?",
+      "tip": "Số nhiều của \"flight\"."
+    },
+    {
+      "word": "included",
+      "matched_text": "included",
+      "start": 5.42847,
+      "end": 5.43237,
+      "ipa": "/ɪnˈkluːdɪd/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "được bao gồm",
+      "context": "They aren’t included.",
+      "tip": "Dạng bị động của \"include\"."
+    },
+    {
+      "word": "offer",
+      "matched_text": "offer",
+      "start": 5.44297,
+      "end": 5.44577,
+      "ipa": "/ˈɒf.ər/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "cung cấp",
+      "context": "But these hotels offer dinner in the price.",
+      "tip": "Từ dùng khi nói về dịch vụ bổ sung."
+    },
+    {
+      "word": "dinner",
+      "matched_text": "dinner",
+      "start": 5.44887,
+      "end": 5.45247,
+      "ipa": "/ˈdɪn.ər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "bữa tối",
+      "context": "But these hotels offer dinner in the price.",
+      "tip": "Một bữa ăn chính trong ngày."
+    },
+    {
+      "word": "in touch",
+      "matched_text": "in touch",
+      "start": 5.49257,
+      "end": 5.49677,
+      "ipa": "/ɪn tʌtʃ/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "liên lạc, giữ liên lạc",
+      "context": "I’ll be in touch when I’ve had a chance to look at the brochure.",
+      "tip": "Thành ngữ phổ biến để nói về việc giữ liên lạc."
+    },
+    {
+      "word": "had a chance",
+      "matched_text": "had a chance",
+      "start": 5.50297,
+      "end": 5.50817,
+      "ipa": "/hæd ə tʃɑːns/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "có cơ hội",
+      "context": "when I’ve had a chance to look at the brochure.",
+      "tip": "Diễn đạt có dịp làm gì đó."
+    },
+    {
+      "word": "brochure",
+      "matched_text": "brochure",
+      "start": 5.50997,
+      "end": 5.51347,
+      "ipa": "/ˈbrəʊ.ʃər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "tập quảng cáo, sách quảng cáo",
+      "context": "to look at the brochure.",
+      "tip": "Từ khóa trong ngữ cảnh tìm kiếm thông tin du lịch."
+    },
+    {
+      "word": "pleased to help",
+      "matched_text": "pleased to help",
+      "start": 5.51987,
+      "end": 5.52657,
+      "ipa": "/pliːzd tuː help/",
+      "type": "phrase",
+      "level": "B1",
+      "meaning": "rất vui được giúp đỡ",
+      "context": "I’m pleased to help.",
+      "tip": "Cách diễn đạt lịch sự khi kết thúc dịch vụ."
+    }
+  ],
+  "segments": [
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 1.42507,
+      "end": 1.46687,
+      "text": "Good morning. World Tours. My name is Jamie. How can I help you?"
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 1.47347,
+      "end": 1.53387,
+      "text": "Good morning. I want some information on self-drive tours in the USA. Could you send me a brochure?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 1.53847,
+      "end": 1.55857,
+      "text": "Of course. Could you I have your name please?"
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 1.56637,
+      "end": 1.57437,
+      "text": "Andrea Brown."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 1.58217,
+      "end": 2.00007,
+      "text": "Thank you. And your address?"
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 2.00737,
+      "end": 2.02827,
+      "text": "24, Ardleigh Road."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 2.03357,
+      "end": 2.03957,
+      "text": "Can you spell that?"
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 2.04467,
+      "end": 2.08977,
+      "text": "A-R-D-L-E-I-G-H Road."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 2.09917,
+      "end": 2.10297,
+      "text": "Postcode?"
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 2.10967,
+      "end": 2.13797,
+      "text": "BH5 2OP"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 2.14547,
+      "end": 2.16897,
+      "text": "Thanks. And can I have your phone number?"
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 2.17367,
+      "end": 2.18067,
+      "text": "Is a mobile alright?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 2.18497,
+      "end": 2.18737,
+      "text": "Fine."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 2.19647,
+      "end": 2.25997,
+      "text": "It’s 07786643091."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 2.26797,
+      "end": 2.32847,
+      "text": "Thank you. And can I ask you where you heard about World Tours? From a friend? Or did you see an advert somewhere?"
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 2.33407,
+      "end": 2.35037,
+      "text": "No, I read about you in the newspaper."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 2.36037,
+      "end": 2.43687,
+      "text": "OK, I’ll get the brochures in the post to you but can I give you some information over the phone. What kinds of things do you want to do on your holiday?"
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 2.44397,
+      "end": 2.50847,
+      "text": "I’m interested in going to California with my family. I’ve got two children and we want to hire a car."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 2.51527,
+      "end": 3.02837,
+      "text": "OK. We have a couple of self-drive tours there visiting different places of interest in California. The first one begins in Los Angeles and there’s plenty of time to visit some of the theme parks there."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 3.03247,
+      "end": 3.06277,
+      "text": "Ah, that’s something on my children’s list, so I’d want to include that."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 3.07037,
+      "end": 3.18597,
+      "text": "Good. Then you drive to San Francisco. From San Francisco you can drive to Yosemite Park where you spend a couple of nights. You can choose to stay in a lodge or on the campsite."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 3.19007,
+      "end": 3.22757,
+      "text": "I don’t like the idea of staying in a tent. It’d be too hot."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 3.23277,
+      "end": 3.25687,
+      "text": "Right. And the tour ends in Las Vegas."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 3.26247,
+      "end": 3.26477,
+      "text": "OK."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 3.27427,
+      "end": 3.34027,
+      "text": "The other trip we can arrange is slightly different. It starts in San Francisco. Then you drive south to Cambria."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 3.34617,
+      "end": 3.39087,
+      "text": "Someone told me there’s a really nice castle near Cambria. Will we go near that?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 3.39807,
+      "end": 3.42537,
+      "text": "Hearst Castle is on that road so you could stop there."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 3.43347,
+      "end": 3.47347,
+      "text": "Good. I’d like to do that. Does this trip also go into the desert?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 3.47957,
+      "end": 3.52277,
+      "text": "No, it continues to Santa Monica where most people like to stop and do some shopping."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 3.52927,
+      "end": 3.56037,
+      "text": "We have enough of that at home so that doesn’t interest us."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 3.56967,
+      "end": 4.00087,
+      "text": "OK. Well you could go straight on to San Diego."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 4.00747,
+      "end": 4.02597,
+      "text": "That’s good for beaches isn’t it?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 4.03187,
+      "end": 4.08527,
+      "text": "That’s right, that’s a good place to relax and your children might like to visit the zoo before flying home."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 4.09137,
+      "end": 4.13067,
+      "text": "I don’t think so. We want some time for sunbathing and swimming."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 4.50937,
+      "end": 4.53947,
+      "text": "So, how many days are the trips and how much do they cost?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 4.54607,
+      "end": 5.18997,
+      "text": "The first one I told you about is a self-drive tour through California which lasts twelve days and covers 2,020 kilometres. The shortest journey is 206 kilometres and the longest is 632 kilometres. The cost is £525 per person. That includes accommodation, car rental and a flight but no meals."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 5.19727,
+      "end": 5.21057,
+      "text": "OK. And the other trip?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 5.21907,
+      "end": 5.28947,
+      "text": "That lasts nine days but you spend only three days on the road. You cover about 980 kilometres altogether."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 5.29627,
+      "end": 5.30597,
+      "text": "So is that cheaper then?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 5.31397,
+      "end": 5.36567,
+      "text": "Yes, it’s almost a hundred pounds cheaper. It’s £429 per person, which is a good deal."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 5.37567,
+      "end": 5.41567,
+      "text": "So that covers accommodation and car hire. What about flights?"
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 5.42227,
+      "end": 5.45967,
+      "text": "They aren’t included. But these hotels offer dinner in the price."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 5.46687,
+      "end": 5.51347,
+      "text": "OK. Well, thank you very much. I’ll be in touch when I’ve had a chance to look at the brochure."
+    },
+    {
+      "speaker": "TRAVEL AGENT",
+      "start": 5.51867,
+      "end": 5.53077,
+      "text": "I’m pleased to help. Goodbye."
+    },
+    {
+      "speaker": "ANDREA",
+      "start": 5.53687,
+      "end": 5.54067,
+      "text": "Goodbye."
+    }
+  ]
+}

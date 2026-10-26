@@ -81,6 +81,38 @@
           </div>
           <span class="count-pill count-pill-ai" id="speaking-preview-badge">AI Coach</span>
         </button>
+
+        <button type="button" class="type-select-btn" data-category="listening" id="btn-select-listening">
+          <div class="type-icon-box" style="color: #0284c7;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+              <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+            </svg>
+          </div>
+          <div class="type-info">
+            <div class="type-name">IELTS Listening Focus</div>
+            <div class="type-sub">Nghe audio & chỉ hiện từ vựng khó theo thời gian thực (Cam 10 Test 1)</div>
+          </div>
+          <span class="count-pill count-pill-listening" id="listening-preview-badge">Audio Sync</span>
+        </button>
+
+        <button type="button" class="type-select-btn" data-category="cambridge" id="btn-select-cambridge">
+          <div class="type-icon-box" style="color: #059669;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+              <path d="M6 6h10"></path>
+              <path d="M6 10h10"></path>
+              <path d="M6 14h6"></path>
+            </svg>
+          </div>
+          <div class="type-info">
+            <div class="type-name">Cambridge IELTS Test & Vocab Hub</div>
+            <div class="type-sub">Luyện đề Listening & Reading (Cam 10-20), chấm điểm Band 9.0, chỉ lỗi sai & phát lại câu dẫn chứng, lọc từ B2-C2 theo 8 chủ đề</div>
+          </div>
+          <span class="count-pill count-pill-cambridge" id="cambridge-preview-badge">Full Tests & Vocab</span>
+        </button>
       </div>
 
       <div class="selection-footer">
@@ -109,9 +141,24 @@
       </div>
 
       <div class="header-right">
-        <!-- Quick Nav to Speaking AI -->
+        <!-- Quick Nav to Listening & Speaking AI -->
+        <button id="btn-nav-listening" class="nav-listening-pill-btn" title="Mở tính năng luyện IELTS Listening Real-time (Cam 10 Test 1)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-right: 4px;">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+          </svg>
+          <span>Listening</span>
+        </button>
+
         <button id="btn-nav-speaking" class="nav-speaking-pill-btn" title="Mở tính năng luyện IELTS Speaking AI">
           <span>Speaking AI</span>
+        </button>
+
+        <button id="btn-nav-cambridge" class="nav-cambridge-pill-btn" title="Mở Cambridge IELTS Hub (Luyện đề, Chấm điểm, Phát lại dẫn chứng, Lọc từ B2-C2)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-right: 4px;">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+          </svg>
+          <span>Cambridge IELTS</span>
         </button>
 
         <!-- Interactive Mode Switcher -->
@@ -702,6 +749,422 @@
       </div>
     </section>
 
+    <!-- IELTS LISTENING REAL-TIME AUDIO-SYNC WORKSPACE -->
+    <section class="listening-workspace" id="listening-view" style="display: none;">
+      <!-- Hidden Audio Player Element -->
+      <audio id="listening-audio-element" preload="auto"></audio>
+
+      <!-- TOP BAR: TEST & PART SWITCHER -->
+      <div class="listening-top-card">
+        <div class="listening-test-header">
+          <div class="listening-title-box">
+            <div class="listening-breadcrumbs">
+              <span class="listening-pill-test">Cambridge IELTS 10</span>
+              <span class="listening-sep">•</span>
+              <span class="listening-pill-badge" id="listening-section-meta-badge">4 Part • 232 từ khó</span>
+            </div>
+            <h1 class="listening-section-title" id="listening-section-title">Section 1: Self-Drive Tours in California</h1>
+            <p class="listening-section-desc" id="listening-section-desc">Nghe audio và chỉ hiển thị từ vựng khó ngay khi người nói phát âm đến.</p>
+          </div>
+
+          <!-- 3 Mode Switcher Tabs as requested by user -->
+          <div class="listening-mode-switch" role="tablist">
+            <button type="button" class="listening-mode-tab-btn active" data-mode="detailed" id="tab-mode-detailed" title="Thẻ chi tiết đầy đủ phiên âm, nghĩa tiếng Việt, câu ngữ cảnh và mẹo">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <path d="M7 8h10M7 12h10M7 16h6"></path>
+              </svg>
+              <span>1. Thẻ chi tiết</span>
+            </button>
+            <button type="button" class="listening-mode-tab-btn" data-mode="minimal" id="tab-mode-minimal" title="Chỉ hiện mỗi từ tiếng Anh to ở giữa màn hình để bạn tập trung 100% vào việc nghe">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <span>2. Chỉ hiện từ (Tập trung nghe)</span>
+            </button>
+            <button type="button" class="listening-mode-tab-btn" data-mode="karaoke" id="tab-mode-karaoke" title="Toàn bộ transcript với chữ chạy và phát sáng theo từng từ của người nói (Karaoke)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+              <span>3. Chữ chạy theo lời nói</span>
+            </button>
+            <button type="button" class="listening-mode-tab-btn" data-mode="vocab" id="tab-mode-vocab" title="Xem và tra cứu danh sách toàn bộ từ vựng trong Part này">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
+              <span>Tra cứu từ</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 PART PILLS -->
+        <div class="listening-sections-nav" role="tablist">
+          <button type="button" class="listening-section-tab active" data-section="section1">
+            <span class="sec-tab-num">Part 1</span>
+            <span class="sec-tab-title">Self-Drive Tours</span>
+            <span class="sec-tab-count">80 từ</span>
+          </button>
+          <button type="button" class="listening-section-tab" data-section="section2">
+            <span class="sec-tab-num">Part 2</span>
+            <span class="sec-tab-title">LP Leisure Clubs</span>
+            <span class="sec-tab-count">51 từ</span>
+          </button>
+          <button type="button" class="listening-section-tab" data-section="section3">
+            <span class="sec-tab-num">Part 3</span>
+            <span class="sec-tab-title">Design Competition</span>
+            <span class="sec-tab-count">47 từ</span>
+          </button>
+          <button type="button" class="listening-section-tab" data-section="section4">
+            <span class="sec-tab-num">Part 4</span>
+            <span class="sec-tab-title">Spirit Bear Ecology</span>
+            <span class="sec-tab-count">54 từ</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STAGE 1: DETAILED CARD MODE (THẺ CHI TIẾT ĐẦY ĐỦ THÔNG TIN) -->
+      <div id="listening-detailed-stage" class="listening-stage">
+        <!-- HERO WORD ACTIVE CARD -->
+        <div class="listening-hero-card" id="listening-hero-card"></div>
+
+        <!-- RECENT WORDS TIMELINE STRIP -->
+        <div class="listening-recent-box">
+          <div class="recent-header">
+            <div class="recent-title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>Dòng từ vựng vừa nghe qua (Nhấn vào bất kỳ từ nào để nghe lại đoạn đó)</span>
+            </div>
+            <span class="recent-hint">Timeline theo thời gian thực</span>
+          </div>
+          <div class="recent-words-strip" id="listening-recent-strip"></div>
+        </div>
+      </div>
+
+      <!-- STAGE 2: MINIMAL WORD ONLY MODE (CHỈ HIỆN MỖI TỪ TIẾNG ANH ĐỂ TẬP TRUNG NGHE HOÀN TOÀN) -->
+      <div id="listening-minimal-stage" class="listening-stage" style="display: none;">
+        <div class="minimal-zen-arena" id="minimal-zen-arena">
+          <div class="minimal-word-content" id="minimal-word-content">
+            <div class="minimal-word-display" id="minimal-word-display">
+              <!-- Dynamically populated: only the large English word when spoken -->
+              <div class="minimal-empty-prompt">
+                <div class="minimal-sound-ring">
+                  <span class="ring-pulse"></span>
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                  </svg>
+                </div>
+                <h3 class="minimal-zen-title">Chế độ tập trung nghe (Zen Listening)</h3>
+                <p class="minimal-zen-desc">Màn hình sẽ <strong>chỉ hiện mỗi từ tiếng Anh</strong> to rõ ràng khi audio nói đến từ đó. Không có nghĩa hay chữ thừa để bạn hoàn toàn tập trung đôi tai vào việc nghe.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Minimal Stream of past words -->
+        <div class="minimal-recent-bar" id="minimal-recent-bar">
+          <span class="minimal-recent-label">Các từ đã qua:</span>
+          <div class="minimal-recent-chips" id="minimal-recent-chips"></div>
+        </div>
+      </div>
+
+      <!-- STAGE 3: KARAOKE RUNNING TRANSCRIPT MODE (FULL TỪ TRONG TRANSCRIPT, CHỮ CHẠY THEO LỜI NÓI) -->
+      <div id="listening-karaoke-stage" class="listening-stage" style="display: none;">
+        <div class="karaoke-card-container">
+          <div class="karaoke-top-toolbar">
+            <div class="karaoke-mode-info">
+              <span class="karaoke-live-dot"></span>
+              <span class="karaoke-label">Karaoke Teleprompter • Chữ và câu tự động chạy sáng theo lời người nói</span>
+            </div>
+            <button type="button" class="btn-toggle-autoscroll" id="btn-toggle-karaoke-autoscroll" title="Tự động cuộn theo người nói">
+              <span class="autoscroll-dot active" id="autoscroll-dot"></span>
+              <span>Tự cuộn theo giọng đọc</span>
+            </button>
+          </div>
+
+          <!-- The Running Transcript Body -->
+          <div class="karaoke-stream-viewport" id="karaoke-stream-viewport">
+            <div class="karaoke-stream-content" id="karaoke-stream-content">
+              <!-- Dynamically populated sentence lines with word-by-word highlights -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 3: VOCABULARY LIST MODE -->
+      <div id="listening-vocab-stage" class="listening-stage" style="display: none;">
+        <div class="vocab-mode-toolbar">
+          <div class="vocab-search-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="listening-vocab-search" class="vocab-search-input" placeholder="Tìm kiếm từ vựng, nghĩa tiếng Việt...">
+          </div>
+
+          <div class="vocab-level-filter-group">
+            <button type="button" class="vocab-level-filter-pill active" data-level="all">Tất cả</button>
+            <button type="button" class="vocab-level-filter-pill" data-level="B1">B1</button>
+            <button type="button" class="vocab-level-filter-pill" data-level="B2">B2</button>
+            <button type="button" class="vocab-level-filter-pill" data-level="C1">C1</button>
+          </div>
+
+          <div class="vocab-bulk-actions">
+            <span class="vocab-count-indicator" id="listening-vocab-filtered-count">0 từ</span>
+            <button type="button" class="btn-bulk-save" id="btn-listening-save-all">
+              ⭐ Lưu tất cả vào Flashcards
+            </button>
+          </div>
+        </div>
+
+        <div class="vocab-cards-grid" id="listening-vocab-grid"></div>
+      </div>
+
+      <!-- BOTTOM FLOATING AUDIO CONTROLLER BAR -->
+      <div class="listening-player-dock" id="listening-player-dock">
+        <!-- Interactive Progress Scrubber with Word Pin Markers -->
+        <div class="listening-scrub-container">
+          <div class="listening-progress-track" id="listening-progress-track">
+            <div class="listening-progress-fill" id="listening-progress-fill" style="width: 0%;"></div>
+            <div class="listening-timeline-markers" id="listening-timeline-markers"></div>
+          </div>
+        </div>
+
+        <div class="listening-controls-row">
+          <!-- Left: Play/Pause & Word Jumps -->
+          <div class="player-left-group">
+            <button type="button" class="ctrl-btn ctrl-jump-word" id="btn-listening-prev-word" title="Lùi lại từ vựng trước (Mũi tên lên)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                <line x1="5" y1="19" x2="5" y2="5"></line>
+              </svg>
+            </button>
+
+            <button type="button" class="ctrl-btn ctrl-skip" id="btn-listening-back-5" title="Lùi 5 giây (Mũi tên trái)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 4v6h6"></path>
+                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+              </svg>
+              <span class="skip-num">5</span>
+            </button>
+
+            <button type="button" class="ctrl-btn ctrl-play-main" id="btn-listening-play" title="Phát / Tạm dừng (Phím Cách)">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-left: 2px;">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+            </button>
+
+            <button type="button" class="ctrl-btn ctrl-skip" id="btn-listening-forward-5" title="Tua 5 giây (Mũi tên phải)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6"></path>
+                <path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10"></path>
+              </svg>
+              <span class="skip-num">5</span>
+            </button>
+
+            <button type="button" class="ctrl-btn ctrl-jump-word" id="btn-listening-next-word" title="Chuyển đến từ vựng tiếp theo (Mũi tên xuống)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                <line x1="19" y1="5" x2="19" y2="19"></line>
+              </svg>
+            </button>
+
+            <!-- Time Display -->
+            <div class="listening-time-badge">
+              <span id="listening-time-current">00:00</span>
+              <span class="time-sep">/</span>
+              <span id="listening-time-total">00:00</span>
+            </div>
+          </div>
+
+          <!-- Right: Auto-Pause switch & Speed controls -->
+          <div class="player-right-group">
+            <label class="auto-pause-toggle-label" title="Tự động tạm dừng khi audio phát đến từ vựng khó để bạn có thời gian đọc và ghi nhớ">
+              <input type="checkbox" id="listening-auto-pause-toggle">
+              <span class="auto-pause-custom-switch"></span>
+              <span class="auto-pause-text">Tự dừng khi gặp từ khó</span>
+            </label>
+
+            <div class="listening-speed-picker">
+              <button type="button" class="listening-speed-btn" data-speed="0.75">0.75x</button>
+              <button type="button" class="listening-speed-btn active" data-speed="1.0">1.0x</button>
+              <button type="button" class="listening-speed-btn" data-speed="1.25">1.25x</button>
+              <button type="button" class="listening-speed-btn" data-speed="1.5">1.5x</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAMBRIDGE IELTS HUB & TEST TAKING PLATFORM -->
+    <section class="cambridge-workspace" id="cambridge-view" style="display: none;">
+      <!-- Hidden Audio Element for Cambridge Listening -->
+      <audio id="cam-audio-element" preload="auto"></audio>
+
+      <!-- NAVIGATION HEADER BAR FOR CAMBRIDGE WORKSPACE -->
+      <div class="cam-top-card">
+        <div class="cam-nav-header-row">
+          <div class="cam-brand-title">
+            <span class="cam-icon-box">🏛️</span>
+            <div>
+              <h2 class="cam-main-heading">Cambridge IELTS Test & Vocab Hub</h2>
+              <p class="cam-sub-heading">Luyện đề Cambridge chính thức (Cam 10-20), làm đề Listening & Reading, chấm điểm Band 9.0, chỉ lỗi sai & phát lại câu dẫn chứng</p>
+            </div>
+          </div>
+
+          <div class="cam-nav-tabs-group">
+            <button type="button" class="cam-nav-tab active" data-target-view="hub">
+              <span>🏛️ Kho Đề Thi</span>
+            </button>
+            <button type="button" class="cam-nav-tab" data-target-view="topics">
+              <span>🗂️ Từ Vựng B2-C2 Theo Chủ Đề</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAGE 1: CAMBRIDGE HUB & TEST SELECTION -->
+      <div id="cam-hub-stage" class="cam-stage-view">
+        <!-- Stats Summary Bar -->
+        <div class="cam-stats-strip">
+          <div class="cam-stat-card">
+            <span class="stat-num" id="cam-stat-completed">0 bài</span>
+            <span class="stat-label">Đề thi đã hoàn thành</span>
+          </div>
+          <div class="cam-stat-card">
+            <span class="stat-num text-success" id="cam-stat-avg-band">--</span>
+            <span class="stat-label">Điểm IELTS Band trung bình</span>
+          </div>
+          <div class="cam-stat-card">
+            <span class="stat-num text-primary" id="cam-stat-vocab-saved">0 từ</span>
+            <span class="stat-label">Từ vựng B2-C2 đã lưu vào Flashcards</span>
+          </div>
+        </div>
+
+        <!-- Book Selection Chips -->
+        <div class="cam-book-chips-wrap">
+          <span class="chips-label">Chọn bộ đề Cambridge:</span>
+          <div class="cam-book-selector-chips" id="cam-book-selector-chips"></div>
+        </div>
+
+        <!-- Tests Grid Container -->
+        <div class="cam-tests-grid" id="cam-tests-grid"></div>
+      </div>
+
+      <!-- STAGE 2: INTERACTIVE TEST TAKING STAGE -->
+      <div id="cam-test-stage" class="cam-stage-view" style="display: none;">
+        <div class="cam-test-top-bar">
+          <div class="top-bar-left">
+            <button type="button" class="btn-cam-back" onclick="window.cambridgeModule.renderHub()">
+              ← Quay lại kho đề
+            </button>
+            <div class="test-header-meta">
+              <span id="cam-test-skill-badge" class="cam-skill-pill">🎧 Listening Test</span>
+              <h2 id="cam-test-title" class="test-main-title">Cambridge IELTS 10 • Test 1</h2>
+            </div>
+          </div>
+
+          <!-- Part Switcher Tabs -->
+          <div class="cam-part-switcher-tabs" id="cam-test-part-switcher"></div>
+        </div>
+
+        <!-- STICKY AUDIO PLAYER BAR (FOR LISTENING ONLY) -->
+        <div class="cam-listening-dock" id="cam-listening-dock" style="display: none;">
+          <div class="cam-scrub-bar-container">
+            <div class="cam-scrub-track" id="cam-scrub-track">
+              <div class="cam-scrub-fill" id="cam-scrub-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="cam-dock-controls-row">
+            <div class="dock-left-controls">
+              <button type="button" class="btn-dock-icon" id="btn-cam-back-5" title="Lùi 5 giây">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 4v6h6"></path>
+                  <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                </svg>
+                <span class="skip-sub">5s</span>
+              </button>
+
+              <button type="button" class="btn-dock-play" id="btn-cam-play" title="Phát / Dừng Audio">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="margin-left: 2px;">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+              </button>
+
+              <button type="button" class="btn-dock-icon" id="btn-cam-fwd-5" title="Tiến 5 giây">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M23 4v6h-6"></path>
+                  <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                </svg>
+                <span class="skip-sub">5s</span>
+              </button>
+
+              <div class="cam-time-display">
+                <span id="cam-time-current">00:00</span> / <span id="cam-time-total">00:00</span>
+              </div>
+            </div>
+
+            <div class="dock-speed-controls">
+              <span class="speed-label">Tốc độ:</span>
+              <button type="button" class="cam-speed-btn" data-speed="0.8">0.8x</button>
+              <button type="button" class="cam-speed-btn active" data-speed="1.0">1.0x</button>
+              <button type="button" class="cam-speed-btn" data-speed="1.2">1.2x</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- DYNAMIC QUESTIONS & PASSAGE BODY -->
+        <div id="cam-test-body-container" class="cam-test-body-container"></div>
+      </div>
+
+      <!-- STAGE 3: GRADING REVIEW & REPLAY CLUE AUDIO -->
+      <div id="cam-review-stage" class="cam-stage-view" style="display: none;">
+        <div id="cam-review-container"></div>
+      </div>
+
+      <!-- STAGE 4: TOPICS OVERVIEW (B2 -> C2 ACADEMIC VOCABULARY) -->
+      <div id="cam-topics-stage" class="cam-stage-view" style="display: none;">
+        <div class="cam-topics-header-strip">
+          <div class="topics-title-box">
+            <h2>Bộ Từ Vựng Học Thuật B2 -> C2 Theo Chủ Đề IELTS</h2>
+            <p>Trích xuất từ các bài thi Cambridge, phân loại theo 8 chủ đề cốt lõi với phương pháp học cuốn chiếu (Spaced Repetition 1-4-7-14 ngày).</p>
+          </div>
+          <button type="button" class="btn-subtle" onclick="window.cambridgeModule.renderHub()">
+            ← Về kho đề thi
+          </button>
+        </div>
+
+        <div class="cam-topics-grid" id="cam-topics-grid"></div>
+      </div>
+
+      <!-- STAGE 5: TOPIC INTERACTIVE FLASHCARD STUDY -->
+      <div id="cam-topic-study-stage" class="cam-stage-view" style="display: none;">
+        <div class="topic-study-header">
+          <button type="button" class="btn-cam-back" onclick="window.cambridgeModule.renderTopicsView()">
+            ← Quay lại danh mục chủ đề
+          </button>
+          <div class="topic-header-center">
+            <h2 id="topic-study-header-title">✈️ Travel & Tourism</h2>
+            <p id="topic-study-header-sub">Học cuốn chiếu theo chu kỳ 1 - 4 - 7 - 14 ngày</p>
+          </div>
+          <div></div>
+        </div>
+
+        <div id="topic-flashcard-stage"></div>
+      </div>
+    </section>
+
     <!-- FOOTER INFO / INTERVAL GUIDE -->
     <footer class="app-footer">
       <div class="footer-intervals">
@@ -1073,6 +1536,10 @@
   <script src="app.js"></script>
   <script src="speaking.js"></script>
   <script src="roleplay.js"></script>
+  <script src="listening_data.js"></script>
+  <script src="listening.js"></script>
+  <script src="cambridge_data.js"></script>
+  <script src="cambridge.js"></script>
 </body>
 
 </html>

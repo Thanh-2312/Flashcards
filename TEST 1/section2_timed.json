@@ -1,0 +1,885 @@
+{
+  "section_id": "section2",
+  "title": "Section 2: LP Leisure Clubs & Facilities",
+  "audio_file": "TEST 1/File Listening/Cam10-Test1-Section2.mp3",
+  "vocabulary": [
+    {
+      "word": "fitness manager",
+      "matched_text": "fitness manager",
+      "start": 3.411,
+      "end": 4.411,
+      "ipa": "/ˈfɪt.nəs ˈmæn.ɪ.dʒər/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "quản lý thể hình",
+      "context": "You will hear a fitness manager of a leisure club talking to some new members.",
+      "tip": "Cụm từ để chỉ người quản lý chịu trách nhiệm về các hoạt động thể dục. Thường dùng trong ngữ cảnh câu lạc bộ sức khỏe."
+    },
+    {
+      "word": "leisure club",
+      "matched_text": "leisure club",
+      "start": 4.901,
+      "end": 5.731,
+      "ipa": "/ˈleʒ.ər klʌb/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "câu lạc bộ giải trí",
+      "context": "You will hear a fitness manager of a leisure club talking to some new members.",
+      "tip": "Cụm từ mô tả một câu lạc bộ cung cấp các hoạt động giải trí và thể thao."
+    },
+    {
+      "word": "on behalf of",
+      "matched_text": "On behalf of",
+      "start": 31.789,
+      "end": 32.539,
+      "ipa": "/ɒn bɪˈhɑːf əv/",
+      "type": "phrase",
+      "level": "C1",
+      "meaning": "thay mặt cho",
+      "context": "On behalf of LP Clubs, I’d like to welcome you all here today.",
+      "tip": "Sử dụng khi đại diện cho một người, nhóm hoặc tổ chức khác."
+    },
+    {
+      "word": "tour",
+      "matched_text": "tour",
+      "start": 43.099,
+      "end": 43.439,
+      "ipa": "/tʊər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "chuyến tham quan",
+      "context": "Before we start our tour of the club I’ll just run through some basic information about the facilities we have here, including recent improvements, and explain the types of membership available.",
+      "tip": "Một chuyến đi tham quan một địa điểm hoặc khu vực."
+    },
+    {
+      "word": "run through",
+      "matched_text": "run through",
+      "start": 45.249,
+      "end": 45.899,
+      "ipa": "/rʌn θruː/",
+      "type": "verb",
+      "level": "B2",
+      "meaning": "xem qua nhanh, lướt qua",
+      "context": "Before we start our tour of the club I’ll just run through some basic information about the facilities we have here, including recent improvements, and explain the types of membership available.",
+      "tip": "Diễn đạt việc xem xét hoặc thực hiện điều gì đó một cách nhanh chóng, thường là để kiểm tra."
+    },
+    {
+      "word": "facilities",
+      "matched_text": "facilities",
+      "start": 47.389,
+      "end": 48.049,
+      "ipa": "/fəˈsɪl.ɪ.tiz/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "cơ sở vật chất",
+      "context": "Before we start our tour of the club I’ll just run through some basic information about the facilities we have here, including recent improvements, and explain the types of membership available.",
+      "tip": "Các tòa nhà, dịch vụ, thiết bị được cung cấp cho một mục đích cụ thể."
+    },
+    {
+      "word": "improvements",
+      "matched_text": "improvements",
+      "start": 50.319,
+      "end": 51.049,
+      "ipa": "/ɪmˈpruːv.mənts/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "cải tiến",
+      "context": "Before we start our tour of the club I’ll just run through some basic information about the facilities we have here, including recent improvements, and explain the types of membership available.",
+      "tip": "Những thay đổi làm cho điều gì đó tốt hơn."
+    },
+    {
+      "word": "membership",
+      "matched_text": "membership",
+      "start": 52.619,
+      "end": 53.259,
+      "ipa": "/ˈmem.bə.ʃɪp/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "tư cách thành viên",
+      "context": "Before we start our tour of the club I’ll just run through some basic information about the facilities we have here, including recent improvements, and explain the types of membership available.",
+      "tip": "Tình trạng là thành viên của một nhóm, câu lạc bộ hoặc tổ chức."
+    },
+    {
+      "word": "asset",
+      "matched_text": "asset",
+      "start": 56.129,
+      "end": 56.549,
+      "ipa": "/ˈæs.et/",
+      "type": "noun",
+      "level": "C1",
+      "meaning": "tài sản",
+      "context": "Our greatest asset is probably our swimming pool.",
+      "tip": "Một thứ có giá trị hoặc hữu ích."
+    },
+    {
+      "word": "Olympic-sized",
+      "matched_text": "Olympic-sized",
+      "start": 1.011,
+      "end": 1.0101,
+      "ipa": "/əˈlɪm.pɪk saɪzd/",
+      "type": "adjective",
+      "level": "C1",
+      "meaning": "kích thước Olympic",
+      "context": "Our greatest asset is probably our swimming pool which at 25 metres isn’t Olympic-sized, but now we’ve expanded it to eight lanes, it’s much wider.",
+      "tip": "Chỉ kích thước tiêu chuẩn của các cơ sở thể thao dùng trong Thế vận hội Olympic, ví dụ hồ bơi."
+    },
+    {
+      "word": "expanded",
+      "matched_text": "expanded",
+      "start": 1.03451,
+      "end": 1.03981,
+      "ipa": "/ɪkˈspæn.dɪd/",
+      "type": "verb",
+      "level": "B2",
+      "meaning": "mở rộng",
+      "context": "Our greatest asset is probably our swimming pool which at 25 metres isn’t Olympic-sized, but now we’ve expanded it to eight lanes, it’s much wider.",
+      "tip": "Làm cho thứ gì đó lớn hơn về kích thước hoặc số lượng."
+    },
+    {
+      "word": "retractable",
+      "matched_text": "retractable",
+      "start": 1.19241,
+      "end": 1.20011,
+      "ipa": "/rɪˈtræk.tə.bəl/",
+      "type": "adjective",
+      "level": "C1",
+      "meaning": "có thể thu vào/kéo ra",
+      "context": "Unfortunately, there isn’t space for an outdoor pool here but the glass roof on the swimming pool is partly retractable, which means you can enjoy something of the open-air experience on warmer days.",
+      "tip": "Có khả năng được kéo lại hoặc thu gọn vào bên trong."
+    },
+    {
+      "word": "open-air experience",
+      "matched_text": "open air experience",
+      "start": 1.22291,
+      "end": 1.23301,
+      "ipa": "/ˌəʊ.pənˈeər ɪkˌspɪə.ri.əns/",
+      "type": "collocation",
+      "level": "C1",
+      "meaning": "trải nghiệm ngoài trời",
+      "context": "Unfortunately, there isn’t space for an outdoor pool here but the glass roof on the swimming pool is partly retractable, which means you can enjoy something of the open-air experience on warmer days.",
+      "tip": "Trải nghiệm các hoạt động hoặc sự kiện diễn ra bên ngoài trời."
+    },
+    {
+      "word": "refurbished",
+      "matched_text": "refurbished",
+      "start": 1.27211,
+      "end": 1.27851,
+      "ipa": "/ˌriːˈfɜː.bɪʃt/",
+      "type": "verb",
+      "level": "B2",
+      "meaning": "tân trang",
+      "context": "Our recently refurbished fitness suite has all the latest exercise equipment including ten new running machines, and a wide range of weight-training machines.",
+      "tip": "Làm cho một tòa nhà hoặc phòng trông mới lại bằng cách sửa chữa và trang trí."
+    },
+    {
+      "word": "fitness suite",
+      "matched_text": "fitness suite",
+      "start": 1.28091,
+      "end": 1.28781,
+      "ipa": "/ˈfɪt.nəs swiːt/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "khu tập thể dục",
+      "context": "Our recently refurbished fitness suite has all the latest exercise equipment including ten new running machines, and a wide range of weight-training machines.",
+      "tip": "Một khu vực hoặc phòng đặc biệt dành cho các hoạt động thể dục."
+    },
+    {
+      "word": "exercise equipment",
+      "matched_text": "exercise equipment",
+      "start": 1.30051,
+      "end": 1.31171,
+      "ipa": "/ˈek.sə.saɪz ɪˈkwɪp.mənt/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "thiết bị tập thể dục",
+      "context": "Our recently refurbished fitness suite has all the latest exercise equipment including ten new running machines, and a wide range of weight-training machines.",
+      "tip": "Các máy móc hoặc dụng cụ được sử dụng để tập thể dục."
+    },
+    {
+      "word": "running machines",
+      "matched_text": "running machines",
+      "start": 1.32831,
+      "end": 1.33811,
+      "ipa": "/ˈrʌn.ɪŋ məˌʃiːnz/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "máy chạy bộ",
+      "context": "Our recently refurbished fitness suite has all the latest exercise equipment including ten new running machines, and a wide range of weight-training machines.",
+      "tip": "Tên khác của 'treadmills'."
+    },
+    {
+      "word": "weight training machines",
+      "matched_text": "weight training machines",
+      "start": 1.35511,
+      "end": 1.36811,
+      "ipa": "/weɪt ˈtreɪ.nɪŋ məˌʃiːnz/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "máy tập tạ",
+      "context": "Our recently refurbished fitness suite has all the latest exercise equipment including ten new running machines, and a wide range of weight-training machines.",
+      "tip": "Các máy móc được sử dụng để tập luyện sức mạnh cơ bắp."
+    },
+    {
+      "word": "operate",
+      "matched_text": "operate",
+      "start": 1.41401,
+      "end": 1.41871,
+      "ipa": "/ˈɒp.ər.eɪt/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "vận hành",
+      "context": "Each member is given full training in how to operate the equipment and there is always a trainer on duty to offer help and advice.",
+      "tip": "Điều khiển một máy móc hoặc hệ thống."
+    },
+    {
+      "word": "trainer on duty",
+      "matched_text": "trainer on duty",
+      "start": 1.44261,
+      "end": 1.45031,
+      "ipa": "/ˈtreɪ.nər ɒn ˈdʒuː.ti/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "huấn luyện viên trực",
+      "context": "Each member is given full training in how to operate the equipment and there is always a trainer on duty to offer help and advice.",
+      "tip": "Huấn luyện viên đang làm việc và có mặt để hỗ trợ."
+    },
+    {
+      "word": "adult-only times",
+      "matched_text": "adult only times",
+      "start": 1.49071,
+      "end": 1.50091,
+      "ipa": "/ˈæd.ʌlt ˈəʊn.li taɪmz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "thời gian dành riêng cho người lớn",
+      "context": "Although we do have adult-only times after 6 and at certain times at weekends, children are well catered for.",
+      "tip": "Khoảng thời gian mà chỉ người lớn được phép sử dụng tiện ích hoặc tham gia hoạt động."
+    },
+    {
+      "word": "catered for",
+      "matched_text": "catered for",
+      "start": 1.55171,
+      "end": 1.55781,
+      "ipa": "/ˈkeɪ.tərd fɔːr/",
+      "type": "verb phrase",
+      "level": "B2",
+      "meaning": "được phục vụ, đáp ứng",
+      "context": "Although we do have adult-only times after 6 and at certain times at weekends, children are well catered for.",
+      "tip": "Cung cấp những gì cần thiết hoặc mong muốn cho một nhóm người."
+    },
+    {
+      "word": "benefit from",
+      "matched_text": "benefit from",
+      "start": 1.58351,
+      "end": 1.59071,
+      "ipa": "/ˈben.ɪ.fɪt frɒm/",
+      "type": "verb phrase",
+      "level": "B2",
+      "meaning": "hưởng lợi từ",
+      "context": "Older children continue to benefit from a wide range of tuition; anything from trampolining to yoga.",
+      "tip": "Nhận được lợi ích hoặc thuận lợi từ điều gì đó."
+    },
+    {
+      "word": "tuition",
+      "matched_text": "tuition",
+      "start": 2.00031,
+      "end": 2.00511,
+      "ipa": "/tʃuːˈɪʃ.ən/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "sự dạy kèm, hướng dẫn",
+      "context": "Older children continue to benefit from a wide range of tuition; anything from trampolining to yoga.",
+      "tip": "Ở đây có nghĩa là hướng dẫn hoặc giảng dạy, không phải học phí."
+    },
+    {
+      "word": "trampolining",
+      "matched_text": "trampolining",
+      "start": 2.03071,
+      "end": 2.03921,
+      "ipa": "/ˈtræm.pəl.iː.nɪŋ/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "nhảy bạt lò xo",
+      "context": "Older children continue to benefit from a wide range of tuition; anything from trampolining to yoga.",
+      "tip": "Hoạt động hoặc môn thể thao nhảy trên tấm bạt lò xo."
+    },
+    {
+      "word": "appreciate",
+      "matched_text": "appreciate",
+      "start": 3.04092,
+      "end": 3.04702,
+      "ipa": "/əˈpriː.ʃi.eɪt/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "đánh giá cao",
+      "context": "One thing all our members appreciate about us is that we take very good care of them.",
+      "tip": "Hiểu hoặc nhận ra giá trị của điều gì đó."
+    },
+    {
+      "word": "personal assessment",
+      "matched_text": "personal assessment",
+      "start": 3.10702,
+      "end": 3.12022,
+      "ipa": "/ˈpɜː.sən.əl əˈses.mənt/",
+      "type": "collocation",
+      "level": "C1",
+      "meaning": "đánh giá cá nhân",
+      "context": "This starts on day one with your personal assessment.",
+      "tip": "Quá trình đánh giá thông tin về một cá nhân, thường để xác định khả năng hoặc nhu cầu."
+    },
+    {
+      "word": "questionnaire",
+      "matched_text": "questionnaire",
+      "start": 3.14302,
+      "end": 3.15042,
+      "ipa": "/ˌkwes.tʃəˈneər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "bảng câu hỏi",
+      "context": "You are asked to fill in a questionnaire giving details of any health problems.",
+      "tip": "Một bộ câu hỏi được sử dụng để thu thập thông tin."
+    },
+    {
+      "word": "health problems",
+      "matched_text": "health problems",
+      "start": 3.16362,
+      "end": 3.17172,
+      "ipa": "/helθ ˈprɒb.ləmz/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "vấn đề sức khỏe",
+      "context": "You are asked to fill in a questionnaire giving details of any health problems.",
+      "tip": "Các tình trạng hoặc bệnh tật ảnh hưởng đến sức khỏe."
+    },
+    {
+      "word": "safety rules",
+      "matched_text": "safety rules",
+      "start": 3.24352,
+      "end": 3.25052,
+      "ipa": "/ˈseɪf.ti ruːlz/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "quy tắc an toàn",
+      "context": "The trainer will then take you through the safety rules for using the equipment in the fitness suite.",
+      "tip": "Các quy định hoặc hướng dẫn để đảm bảo an toàn."
+    },
+    {
+      "word": "sports injuries",
+      "matched_text": "sports injuries",
+      "start": 3.40792,
+      "end": 3.41622,
+      "ipa": "/spɔːrts ˈɪn.dʒə.riz/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "chấn thương thể thao",
+      "context": "It’s very important to do this because we really do want to avoid having any sports injuries.",
+      "tip": "Chấn thương xảy ra khi chơi thể thao."
+    },
+    {
+      "word": "draw up a plan",
+      "matched_text": "draw up a plan",
+      "start": 3.51132,
+      "end": 3.52042,
+      "ipa": "/drɔː ʌp ə plæn/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "lập kế hoạch",
+      "context": "At the end of the personal assessment, the trainer will draw up a plan, outlining what you should try to achieve within a six-week period.",
+      "tip": "Chuẩn bị một kế hoạch hoặc tài liệu."
+    },
+    {
+      "word": "outlining",
+      "matched_text": "outlining",
+      "start": 3.52842,
+      "end": 3.53372,
+      "ipa": "/ˈaʊt.laɪn.ɪŋ/",
+      "type": "verb",
+      "level": "C1",
+      "meaning": "phác thảo, nêu bật",
+      "context": "At the end of the personal assessment, the trainer will draw up a plan, outlining what you should try to achieve within a six-week period.",
+      "tip": "Mô tả những điểm chính của một ý tưởng, kế hoạch hoặc câu chuyện."
+    },
+    {
+      "word": "joining fee",
+      "matched_text": "joining fee",
+      "start": 4.08942,
+      "end": 4.09652,
+      "ipa": "/ˈdʒɔɪ.nɪŋ fiː/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "phí tham gia",
+      "context": "All members must pay a joining fee of 90 pounds, in addition to the rates for the monthly membership fees.",
+      "tip": "Khoản tiền phải trả để trở thành thành viên của một câu lạc bộ hoặc tổ chức."
+    },
+    {
+      "word": "in addition to",
+      "matched_text": "in addition to",
+      "start": 4.11662,
+      "end": 4.12462,
+      "ipa": "/ɪn əˈdɪʃ.ən tuː/",
+      "type": "phrase",
+      "level": "B2",
+      "meaning": "ngoài ra",
+      "context": "All members must pay a joining fee of 90 pounds, in addition to the rates for the monthly membership fees.",
+      "tip": "Được sử dụng để thêm một thông tin hoặc yếu tố vào điều đã nói trước đó."
+    },
+    {
+      "word": "monthly membership fees",
+      "matched_text": "monthly membership fees",
+      "start": 4.13322,
+      "end": 4.14442,
+      "ipa": "/ˈmʌnθ.li ˈmem.bə.ʃɪp fiːz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "phí thành viên hàng tháng",
+      "context": "All members must pay a joining fee of 90 pounds, in addition to the rates for the monthly membership fees.",
+      "tip": "Các khoản phí phải trả hàng tháng để duy trì tư cách thành viên."
+    },
+    {
+      "word": "gold membership",
+      "matched_text": "Gold membership",
+      "start": 4.16132,
+      "end": 4.17042,
+      "ipa": "/ɡəʊld ˈmem.bə.ʃɪp/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "hội viên vàng (cao cấp)",
+      "context": "Gold membership entitles you to free entry at all LP Clubs.",
+      "tip": "Loại thành viên cao cấp nhất, thường đi kèm với nhiều đặc quyền."
+    },
+    {
+      "word": "entitles",
+      "matched_text": "entitles",
+      "start": 4.17422,
+      "end": 4.17972,
+      "ipa": "/ɪnˈtaɪ.təlz/",
+      "type": "verb",
+      "level": "C1",
+      "meaning": "cho quyền",
+      "context": "Gold membership entitles you to free entry at all LP Clubs.",
+      "tip": "Cung cấp cho ai đó quyền làm hoặc có điều gì đó."
+    },
+    {
+      "word": "major cities",
+      "matched_text": "major cities",
+      "start": 4.22592,
+      "end": 4.23232,
+      "ipa": "/ˈmeɪ.dʒər ˈsɪt.iz/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "các thành phố lớn",
+      "context": "There are now LP clubs in all major cities and towns.",
+      "tip": "Các thành phố quan trọng và có dân số đông."
+    },
+    {
+      "word": "advantage",
+      "matched_text": "advantage",
+      "start": 4.27092,
+      "end": 4.27802,
+      "ipa": "/ədˈvɑːn.tɪdʒ/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "lợi thế",
+      "context": "So, if you travel a lot, this will be a great advantage.",
+      "tip": "Một điều kiện hoặc hoàn cảnh thuận lợi."
+    },
+    {
+      "word": "joint membership",
+      "matched_text": "joint membership",
+      "start": 4.34002,
+      "end": 4.34962,
+      "ipa": "/dʒɔɪnt ˈmem.bə.ʃɪp/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "hội viên chung",
+      "context": "And joint membership for you and your partner will cost 75 pounds.",
+      "tip": "Tư cách thành viên cho hai hoặc nhiều người, thường là một cặp vợ chồng."
+    },
+    {
+      "word": "premier membership",
+      "matched_text": "Premier membership",
+      "start": 4.39762,
+      "end": 4.40692,
+      "ipa": "/ˈprem.i.ər ˈmem.bə.ʃɪp/",
+      "type": "collocation",
+      "level": "C1",
+      "meaning": "hội viên cao cấp nhất",
+      "context": "Premier membership is for professional people whose work commitments make it difficult for them to use the club during the day.",
+      "tip": "Loại thành viên đứng đầu, thường có nhiều đặc quyền nhất."
+    },
+    {
+      "word": "work commitments",
+      "matched_text": "work commitments",
+      "start": 4.42872,
+      "end": 4.43772,
+      "ipa": "/wɜːk kəˈmɪt.mənts/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "cam kết công việc",
+      "context": "Premier membership is for professional people whose work commitments make it difficult for them to use the club during the day.",
+      "tip": "Các nghĩa vụ hoặc trách nhiệm liên quan đến công việc."
+    },
+    {
+      "word": "booking preferences",
+      "matched_text": "booking preferences",
+      "start": 4.48392,
+      "end": 4.49472,
+      "ipa": "/ˈbʊk.ɪŋ ˈpref.ər.ən.sɪz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "ưu tiên đặt chỗ",
+      "context": "And so LP gives booking preferences to Premier members at peak times.",
+      "tip": "Quyền được ưu tiên khi đặt lịch hoặc chỗ."
+    },
+    {
+      "word": "peak times",
+      "matched_text": "peak times",
+      "start": 4.50572,
+      "end": 4.51202,
+      "ipa": "/piːk taɪmz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "giờ cao điểm",
+      "context": "And so LP gives booking preferences to Premier members at peak times.",
+      "tip": "Khoảng thời gian bận rộn nhất hoặc có nhu cầu cao nhất."
+    },
+    {
+      "word": "reciprocal arrangements",
+      "matched_text": "Reciprocal arrangements",
+      "start": 4.57712,
+      "end": 4.59102,
+      "ipa": "/rɪˈsɪp.rə.kəl əˈreɪndʒ.mənts/",
+      "type": "collocation",
+      "level": "C1",
+      "meaning": "thỏa thuận có đi có lại",
+      "context": "Reciprocal arrangements with other LP Clubs are available to Premier members.",
+      "tip": "Thỏa thuận mà cả hai bên cùng hưởng lợi hoặc có nghĩa vụ lẫn nhau."
+    },
+    {
+      "word": "passes for guests",
+      "matched_text": "passes for guests",
+      "start": 5.07182,
+      "end": 5.08052,
+      "ipa": "/ˈpɑː.sɪz fɔː ɡests/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "thẻ cho khách",
+      "context": "Premier membership is for individuals only, but you will be sent passes for guests every month.",
+      "tip": "Giấy phép hoặc thẻ cho phép khách vào một địa điểm hoặc sự kiện."
+    },
+    {
+      "word": "robes",
+      "matched_text": "robes",
+      "start": 5.19042,
+      "end": 5.19342,
+      "ipa": "/rəʊbz/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "áo choàng",
+      "context": "We provide robes and hairdryers in the changing rooms, but it’s very important to remember your photo card because you won’t be able to get in without it.",
+      "tip": "Áo dài, rộng, thường được mặc sau khi tắm hoặc ở nhà."
+    },
+    {
+      "word": "hairdryers",
+      "matched_text": "hairdryers",
+      "start": 5.19942,
+      "end": 5.20452,
+      "ipa": "/ˈheəˌdraɪ.ərz/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "máy sấy tóc",
+      "context": "We provide robes and hairdryers in the changing rooms, but it’s very important to remember your photo card because you won’t be able to get in without it.",
+      "tip": "Thiết bị điện để làm khô tóc."
+    },
+    {
+      "word": "changing rooms",
+      "matched_text": "changing rooms",
+      "start": 5.21042,
+      "end": 5.21782,
+      "ipa": "/ˈtʃeɪn.dʒɪŋ ruːmz/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "phòng thay đồ",
+      "context": "We provide robes and hairdryers in the changing rooms, but it’s very important to remember your photo card because you won’t be able to get in without it.",
+      "tip": "Phòng nơi mọi người có thể thay quần áo, thường ở các trung tâm thể thao hoặc cửa hàng."
+    },
+    {
+      "word": "photo card",
+      "matched_text": "photo card",
+      "start": 5.24762,
+      "end": 5.25412,
+      "ipa": "/ˈfəʊ.təʊ kɑːrd/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "thẻ ảnh",
+      "context": "but it’s very important to remember your photo card because you won’t be able to get in without it.",
+      "tip": "Một loại thẻ nhận dạng có ảnh của bạn."
+    }
+  ],
+  "segments": [
+    {
+      "speaker": "Narrator",
+      "start": 0.389,
+      "end": 1.059,
+      "text": "Section 2."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 2.291,
+      "end": 7.371,
+      "text": "You will hear a fitness manager of a leisure club talking to some new members."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 8.971,
+      "end": 13.561,
+      "text": "First, you have some time to look at questions 11 and 12."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 23.951,
+      "end": 27.601,
+      "text": "Now listen and answer questions 11 and 12."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 31.789,
+      "end": 36.089,
+      "text": "On behalf of LP Clubs, I’d like to welcome you all here today."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 36.819,
+      "end": 41.099,
+      "text": "My name’s Sandy Fisher and I’m one of the fitness managers here."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 42.429,
+      "end": 53.949,
+      "text": "Before we start our tour of the club I’ll just run through some basic information about the facilities we have here, including recent improvements, and explain the types of membership available."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 55.059,
+      "end": 58.179,
+      "text": "Our greatest asset is probably our swimming pool."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 58.649,
+      "end": 1.06529,
+      "text": "Which at 25 metres isn’t Olympic-sized, but now we’ve expanded it to eight lanes, it’s much wider."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 1.07469,
+      "end": 1.11589,
+      "text": "This means there are rarely more than a couple of people at a time in each lane."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 1.12569,
+      "end": 1.24659,
+      "text": "Unfortunately, there isn’t space for an outdoor pool here, but the glass roof on the swimming pool is partly retractable, which means you can enjoy something of the open-air experience on warmer days."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 1.26429,
+      "end": 1.37059,
+      "text": "Our recently refurbished fitness suite has all the latest exercise equipment including ten new running machines, and a wide range of weight-training machines."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 1.38619,
+      "end": 1.46889,
+      "text": "Each member is given full training in how to operate the equipment and there is always a trainer on duty to offer help and advice."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 1.48399,
+      "end": 1.56209,
+      "text": "Although we do have adult-only times after 6 and at certain times at weekends, children are well catered for."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 1.57249,
+      "end": 2.04639,
+      "text": "Older children continue to benefit from a wide range of tuition; anything from trampolining to yoga."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 2.08381,
+      "end": 2.14601,
+      "text": "Before you hear the rest of the talk, you'll have some time to look at questions 13 to 20."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 2.54872,
+      "end": 2.58782,
+      "text": "Now listen and answer questions 13 to 20."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.02982,
+      "end": 3.08412,
+      "text": "One thing all our members appreciate about us is that we take very good care of them."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.08942,
+      "end": 3.12152,
+      "text": "This starts on day one with your personal assessment."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.13062,
+      "end": 3.17552,
+      "text": "You are asked to fill in a questionnaire giving details of any health problems."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.18432,
+      "end": 3.21282,
+      "text": "One of our personal trainers will then go through this with you."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.22232,
+      "end": 3.27502,
+      "text": "The trainer will then take you through the safety rules for using the equipment in the fitness suite."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.28942,
+      "end": 3.35462,
+      "text": "During your next exercise session, a personal trainer will work with you to make sure you understand these."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.36392,
+      "end": 3.41822,
+      "text": "It’s very important to do this because we really do want to avoid having any sports injuries."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.43182,
+      "end": 3.46652,
+      "text": "There’s a lot more to looking after yourself than simply lifting weights."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.48362,
+      "end": 3.56582,
+      "text": "At the end of the personal assessment, the trainer will draw up a plan, outlining what you should try to achieve within a six-week period."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 3.57392,
+      "end": 4.00842,
+      "text": "This will then be reviewed at the end of the six weeks."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.02272,
+      "end": 4.06642,
+      "text": "Now, I’ll just quickly run through the types of membership we have available."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.07722,
+      "end": 4.14882,
+      "text": "All members must pay a joining fee of 90 pounds, in addition to the rates for the monthly membership fees."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.15852,
+      "end": 4.20472,
+      "text": "Gold membership entitles you to free entry at all LP Clubs."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.21272,
+      "end": 4.28312,
+      "text": "There are now LP clubs in all major cities and towns, so if you travel a lot, this will be a great advantage."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.29502,
+      "end": 4.33122,
+      "text": "Individual gold membership costs 50 pounds a month."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.33792,
+      "end": 4.37802,
+      "text": "And joint membership for you and your partner will cost 75 pounds."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.39482,
+      "end": 4.51732,
+      "text": "Premier membership is for professional people whose work commitments make it difficult for them to use the club during the day and so LP gives booking preferences to Premier members at peak times."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.52622,
+      "end": 4.56682,
+      "text": "This means you’ll find it easier to book the sessions at times that suit you."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 4.57682,
+      "end": 5.02102,
+      "text": "Reciprocal arrangements with other LP Clubs are available to Premier members."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 5.03152,
+      "end": 5.08772,
+      "text": "Premier membership is for individuals only, but you will be sent passes for guests every month."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 5.09452,
+      "end": 5.11662,
+      "text": "The monthly fee is 65 pounds."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 5.13522,
+      "end": 5.17622,
+      "text": "You don’t have to have any special clothes or equipment when you visit the club."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 5.18552,
+      "end": 5.28282,
+      "text": "We provide robes and hairdryers in the changing rooms, but it’s very important to remember your photo card because you won’t be able to get in without it."
+    },
+    {
+      "speaker": "Sandy Fisher",
+      "start": 5.29742,
+      "end": 5.32042,
+      "text": "For people who aren’t working during the day then…"
+    },
+    {
+      "speaker": "Narrator",
+      "start": 5.37072,
+      "end": 5.38592,
+      "text": "That is the end of section two."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 5.39652,
+      "end": 5.42622,
+      "text": "You'll now have half a minute to check your answers."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 6.13602,
+      "end": 6.14922,
+      "text": "Now turn to section three."
+    }
+  ]
+}

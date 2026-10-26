@@ -1,0 +1,951 @@
+{
+  "section_id": "section3",
+  "title": "Section 3: Global Design Competition",
+  "audio_file": "Cam10-Test1-Section3.mp3",
+  "vocabulary": [
+    {
+      "word": "tutor",
+      "matched_text": "tutor",
+      "start": 1.033,
+      "end": 1.049,
+      "ipa": "/ˈtjuː.tər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "gia sư, người hướng dẫn",
+      "context": "My tutor said you might be able to help me with it.",
+      "tip": "Trong môi trường học thuật, 'tutor' là người hướng dẫn cá nhân hoặc nhóm nhỏ. Đồng nghĩa: instructor, mentor."
+    },
+    {
+      "word": "drawings",
+      "matched_text": "drawings",
+      "start": 1.069,
+      "end": 1.076,
+      "ipa": "/ˈdrɔː.ɪŋz/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "bản vẽ, hình vẽ",
+      "context": "Ah, yes, I got a copy of your drawings.",
+      "tip": "Thường dùng số nhiều khi nói về các thiết kế kỹ thuật. Collocation: technical drawings, architectural drawings."
+    },
+    {
+      "word": "international",
+      "matched_text": "international",
+      "start": 1.121,
+      "end": 1.13,
+      "ipa": "/ˌɪn.təˈnæʃ.ən.əl/",
+      "type": "adjective",
+      "level": "B1",
+      "meaning": "quốc tế",
+      "context": "Well, it’s an international design competition and we have to come up with a new design for a typical domestic kitchen appliance.",
+      "tip": "Đề cập đến sự tham gia của nhiều quốc gia. Trái nghĩa: national, domestic."
+    },
+    {
+      "word": "competition",
+      "matched_text": "competition",
+      "start": 1.13,
+      "end": 1.139,
+      "ipa": "/ˌkɒm.pəˈtɪʃ.ən/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "cuộc thi, sự cạnh tranh",
+      "context": "Well, it’s an international design competition and we have to come up with a new design for a typical domestic kitchen appliance.",
+      "tip": "IELTS thường dùng các cụm như 'fierce competition', 'healthy competition'."
+    },
+    {
+      "word": "domestic",
+      "matched_text": "domestic",
+      "start": 1.168,
+      "end": 1.174,
+      "ipa": "/dəˈmes.tɪk/",
+      "type": "adjective",
+      "level": "B2",
+      "meaning": "trong nước, gia đình, nội địa",
+      "context": "Well, it’s an international design competition and we have to come up with a new design for a typical domestic kitchen appliance.",
+      "tip": "Collocation: domestic violence, domestic market, domestic animals. Trong ngữ cảnh này là 'dùng trong gia đình'."
+    },
+    {
+      "word": "kitchen appliance",
+      "matched_text": "kitchen appliance",
+      "start": 1.174,
+      "end": 1.187,
+      "ipa": "/ˈkɪtʃ.ɪn əˈplaɪ.əns/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "thiết bị nhà bếp",
+      "context": "Well, it’s an international design competition and we have to come up with a new design for a typical domestic kitchen appliance.",
+      "tip": "Cụm từ chỉ các thiết bị điện tử hoặc máy móc dùng trong bếp (như tủ lạnh, máy rửa bát, lò vi sóng)."
+    },
+    {
+      "word": "special conditions",
+      "matched_text": "special conditions",
+      "start": 1.205,
+      "end": 1.216,
+      "ipa": "/ˈspeʃ.əl kənˈdɪʃ.ənz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "điều kiện đặc biệt",
+      "context": "I see, and are there any special conditions?",
+      "tip": "Cụm từ phổ biến trong hợp đồng, quy định. Trái nghĩa: general conditions."
+    },
+    {
+      "word": "focus",
+      "matched_text": "focus",
+      "start": 1.25,
+      "end": 1.257,
+      "ipa": "/ˈfəʊ.kəs/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "trọng tâm, điểm chính",
+      "context": "Actually that was the focus in last year’s competition.",
+      "tip": "Collocation: main focus, primary focus, shift the focus."
+    },
+    {
+      "word": "adopt an approach",
+      "matched_text": "adopt an innovative approach",
+      "start": 1.294,
+      "end": 1.309,
+      "ipa": "/əˈdɒpt ən ˈɪn.ə.və.tɪv əˈprəʊtʃ/",
+      "type": "collocation",
+      "level": "C1",
+      "meaning": "áp dụng một cách tiếp cận (đổi mới)",
+      "context": "We have to adopt an innovative approach to existing technology, using it in a way that hasn’t been thought of before.",
+      "tip": "Đây là một cụm từ mang tính học thuật cao, thường dùng trong các bài luận hoặc báo cáo."
+    },
+    {
+      "word": "innovative",
+      "matched_text": "innovative",
+      "start": 1.3,
+      "end": 1.307,
+      "ipa": "/ˈɪn.ə.və.tɪv/",
+      "type": "adjective",
+      "level": "C1",
+      "meaning": "sáng tạo, đổi mới",
+      "context": "We have to adopt an innovative approach to existing technology, using it in a way that hasn’t been thought of before.",
+      "tip": "Thường đi kèm với 'approach', 'solution', 'design'. Danh từ: innovation."
+    },
+    {
+      "word": "existing technology",
+      "matched_text": "existing technology",
+      "start": 1.319,
+      "end": 1.33,
+      "ipa": "/ɪɡˈzɪs.tɪŋ tekˈnɒl.ə.dʒi/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "công nghệ hiện có",
+      "context": "We have to adopt an innovative approach to existing technology, using it in a way that hasn’t been thought of before.",
+      "tip": "Cụm từ dùng để phân biệt công nghệ mới với những gì đã có sẵn."
+    },
+    {
+      "word": "tricky",
+      "matched_text": "tricky",
+      "start": 1.372,
+      "end": 1.377,
+      "ipa": "/ˈtrɪk.i/",
+      "type": "adjective",
+      "level": "B2",
+      "meaning": "phức tạp, khó khăn (đòi hỏi sự khéo léo)",
+      "context": "I see, that sounds tricky.",
+      "tip": "Đồng nghĩa: challenging, complicated. Cảnh báo rằng có thể gặp vấn đề."
+    },
+    {
+      "word": "choose",
+      "matched_text": "chosen",
+      "start": 1.396,
+      "end": 1.402,
+      "ipa": "/tʃəʊzən/",
+      "type": "verb",
+      "level": "B1",
+      "meaning": "chọn",
+      "context": "And what kitchen appliance have you chosen?",
+      "tip": "Quá khứ phân từ của 'choose'. Đồng nghĩa: select, pick."
+    },
+    {
+      "word": "dishwasher",
+      "matched_text": "dishwasher",
+      "start": 1.425,
+      "end": 1.431,
+      "ipa": "/ˈdɪʃˌwɒʃ.ər/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "máy rửa bát",
+      "context": "Well, I decided to choose the dishwasher.",
+      "tip": "Một thiết bị nhà bếp thông dụng. Thường xuất hiện trong các bài nghe về nhà cửa, tiện nghi."
+    },
+    {
+      "word": "identical",
+      "matched_text": "identical",
+      "start": 1.527,
+      "end": 1.532,
+      "ipa": "/aɪˈden.tɪ.kəl/",
+      "type": "adjective",
+      "level": "B2",
+      "meaning": "giống hệt nhau",
+      "context": "I think some people will be prepared to pay a little extra for something that looks different.",
+      "tip": "Thường đi với 'to' hoặc 'with'. Đồng nghĩa: exactly the same, indistinguishable."
+    },
+    {
+      "word": "prepared to pay",
+      "matched_text": "prepared to pay",
+      "start": 1.554,
+      "end": 1.564,
+      "ipa": "/prɪˈpeəd tə peɪ/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "sẵn sàng trả tiền",
+      "context": "I think some people will be prepared to pay a little extra for something that looks different.",
+      "tip": "Cụm từ chỉ sự sẵn lòng chi trả một khoản tiền. Đồng nghĩa: willing to pay."
+    },
+    {
+      "word": "looks different",
+      "matched_text": "looks different",
+      "start": 1.581,
+      "end": 1.59,
+      "ipa": "/lʊks ˈdɪf.ər.ənt/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "trông khác biệt",
+      "context": "I think some people will be prepared to pay a little extra for something that looks different.",
+      "tip": "Cụm từ đơn giản nhưng hiệu quả để mô tả ngoại hình không giống ai."
+    },
+    {
+      "word": "decoration",
+      "matched_text": "decoration",
+      "start": 2.15,
+      "end": 2.158,
+      "ipa": "/ˌdek.əˈreɪ.ʃən/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "sự trang trí, đồ trang trí",
+      "context": "Is that just for decoration?",
+      "tip": "Collocation: interior decoration, Christmas decorations."
+    },
+    {
+      "word": "function",
+      "matched_text": "function",
+      "start": 2.172,
+      "end": 2.178,
+      "ipa": "/ˈfʌŋk.ʃən/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "chức năng, chức năng hoạt động",
+      "context": "Actually it does have a function.",
+      "tip": "Đồng nghĩa: purpose, role. Thường dùng trong mô tả kỹ thuật hoặc thiết kế."
+    },
+    {
+      "word": "novel way",
+      "matched_text": "novel way",
+      "start": 2.23,
+      "end": 2.237,
+      "ipa": "/ˈnɒv.əl weɪ/",
+      "type": "collocation",
+      "level": "C1",
+      "meaning": "cách thức mới lạ, độc đáo",
+      "context": "So it’s really just a novel way of starting the dishwasher.",
+      "tip": "Tính từ 'novel' ở đây có nghĩa là mới mẻ, khác thường. Đồng nghĩa: original, ingenious."
+    },
+    {
+      "word": "carbon dioxide",
+      "matched_text": "carbon dioxide",
+      "start": 2.339,
+      "end": 2.348,
+      "ipa": "/ˌkɑː.bən daɪˈɒk.saɪd/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "khí carbon dioxide (CO2)",
+      "context": "Well, I decided to make a dishwasher that uses carbon dioxide.",
+      "tip": "Thuật ngữ khoa học, thường gặp trong các bài về môi trường, hóa học."
+    },
+    {
+      "word": "pressurize",
+      "matched_text": "pressurize",
+      "start": 2.404,
+      "end": 2.411,
+      "ipa": "/ˈpreʃ.ə.raɪz/",
+      "type": "verb",
+      "level": "C1",
+      "meaning": "gây áp suất, nén",
+      "context": "The idea is to pressurize the carbon dioxide so that it becomes a liquid.",
+      "tip": "Động từ này mô tả việc tăng áp lực lên một chất. Danh từ: pressure."
+    },
+    {
+      "word": "liquid",
+      "matched_text": "liquid",
+      "start": 2.43,
+      "end": 2.435,
+      "ipa": "/ˈlɪk.wɪd/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "chất lỏng",
+      "context": "The idea is to pressurize the carbon dioxide so that it becomes a liquid.",
+      "tip": "Một trong ba trạng thái cơ bản của vật chất (rắn, lỏng, khí)."
+    },
+    {
+      "word": "release",
+      "matched_text": "released",
+      "start": 2.449,
+      "end": 2.454,
+      "ipa": "/rɪˈliːst/",
+      "type": "verb",
+      "level": "B2",
+      "meaning": "thải ra, giải phóng",
+      "context": "The fluid is then released into the dishwasher where it cleans the dishes all by itself.",
+      "tip": "Đồng nghĩa: emit, discharge. Thường dùng trong ngữ cảnh khoa học hoặc kỹ thuật."
+    },
+    {
+      "word": "totally do away with",
+      "matched_text": "totally do away with",
+      "start": 2.523,
+      "end": 2.535,
+      "ipa": "/ˈtəʊt.ə.li duː əˈweɪ wɪð/",
+      "type": "idiom",
+      "level": "C1",
+      "meaning": "loại bỏ hoàn toàn",
+      "context": "Your system will totally do away with the need for strong detergents.",
+      "tip": "Diễn đạt việc loại bỏ một thứ gì đó một cách triệt để. Đồng nghĩa: eliminate completely."
+    },
+    {
+      "word": "detergents",
+      "matched_text": "detergents",
+      "start": 2.547,
+      "end": 2.553,
+      "ipa": "/dɪˈtɜː.dʒənts/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "chất tẩy rửa",
+      "context": "Your system will totally do away with the need for strong detergents.",
+      "tip": "Thường dùng số nhiều khi nói về các loại chất tẩy rửa. Collocation: strong detergents, liquid detergents."
+    },
+    {
+      "word": "waste materials",
+      "matched_text": "waste materials",
+      "start": 3.023,
+      "end": 3.033,
+      "ipa": "/weɪst məˈtɪə.ri.əlz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "vật liệu thải, chất thải",
+      "context": "Well, to allow them to dry, the liquid carbon dioxide and the waste materials all go to an area called the holding chamber.",
+      "tip": "Cụm từ dùng trong môi trường, công nghiệp. Đồng nghĩa: refuse, garbage."
+    },
+    {
+      "word": "holding chamber",
+      "matched_text": "holding chamber",
+      "start": 3.048,
+      "end": 3.057,
+      "ipa": "/ˈhəʊl.dɪŋ ˈtʃeɪm.bər/",
+      "type": "collocation",
+      "level": "C1",
+      "meaning": "buồng chứa, khoang giữ",
+      "context": "Well, to allow them to dry, the liquid carbon dioxide and the waste materials all go to an area called the holding chamber.",
+      "tip": "Thuật ngữ kỹ thuật chỉ một không gian nhỏ để chứa tạm thời chất lỏng hoặc khí."
+    },
+    {
+      "word": "depressurise",
+      "matched_text": "depressurised",
+      "start": 3.075,
+      "end": 3.083,
+      "ipa": "/ˌdiːˈpreʃ.ə.raɪzd/",
+      "type": "verb",
+      "level": "C1",
+      "meaning": "giảm áp suất",
+      "context": "That’s where the liquid is depressurised and so it reverts to a gas.",
+      "tip": "Đối lập với 'pressurise'. Thường dùng trong các quy trình công nghiệp."
+    },
+    {
+      "word": "reverts to",
+      "matched_text": "reverts to",
+      "start": 3.089,
+      "end": 3.097,
+      "ipa": "/rɪˈvɜːts tuː/",
+      "type": "phrasal verb",
+      "level": "C1",
+      "meaning": "trở lại trạng thái ban đầu",
+      "context": "That’s where the liquid is depressurised and so it reverts to a gas.",
+      "tip": "Đồng nghĩa: return to, go back to. Thường dùng để mô tả sự thay đổi trạng thái hoặc tình hình."
+    },
+    {
+      "word": "separated out",
+      "matched_text": "separated out",
+      "start": 3.118,
+      "end": 3.125,
+      "ipa": "/ˈsep.ə.reɪt aʊt/",
+      "type": "phrasal verb",
+      "level": "B2",
+      "meaning": "tách rời ra",
+      "context": "Then the oil and grease are separated out and sent to the waste system.",
+      "tip": "Diễn tả việc phân tách các thành phần riêng biệt. Đồng nghĩa: filtered out, sorted out."
+    },
+    {
+      "word": "waste system",
+      "matched_text": "waste system",
+      "start": 3.136,
+      "end": 3.143,
+      "ipa": "/weɪst ˈsɪs.təm/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "hệ thống xử lý chất thải",
+      "context": "Then the oil and grease are separated out and sent to the waste system.",
+      "tip": "Cụm từ dùng trong ngữ cảnh quản lý chất thải hoặc môi trường."
+    },
+    {
+      "word": "thoroughly",
+      "matched_text": "thoroughly",
+      "start": 3.167,
+      "end": 3.174,
+      "ipa": "/ˈθʌr.ə.li/",
+      "type": "adverb",
+      "level": "B2",
+      "meaning": "kỹ lưỡng, triệt để",
+      "context": "It sounds like you’ve thought it all out very thoroughly.",
+      "tip": "Đồng nghĩa: completely, exhaustively. Thường đi với các động từ như 'examine', 'check', 'investigate'."
+    },
+    {
+      "word": "real savings",
+      "matched_text": "real savings",
+      "start": 3.245,
+      "end": 3.253,
+      "ipa": "/rɪəl ˈseɪ.vɪŋz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "tiết kiệm đáng kể",
+      "context": "Actually, that’s where the real savings are made.",
+      "tip": "Cụm từ nhấn mạnh lợi ích kinh tế đáng kể. Thường dùng trong kinh doanh hoặc tài chính."
+    },
+    {
+      "word": "cylinder",
+      "matched_text": "cylinder",
+      "start": 3.288,
+      "end": 3.295,
+      "ipa": "/ˈsɪl.ɪn.dər/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "bình trụ, xi lanh",
+      "context": "The carbon dioxide is sent back to the cylinder and can be used again and again.",
+      "tip": "Trong ngữ cảnh này, chỉ bình chứa khí. Thường xuất hiện trong khoa học và kỹ thuật."
+    },
+    {
+      "word": "terrific",
+      "matched_text": "terrific",
+      "start": 3.327,
+      "end": 3.332,
+      "ipa": "/təˈrɪf.ɪk/",
+      "type": "adjective",
+      "level": "B2",
+      "meaning": "tuyệt vời, kinh khủng",
+      "context": "What a terrific idea.",
+      "tip": "Có thể có nghĩa tích cực ('great') hoặc tiêu cực ('terrible'), tùy ngữ cảnh. Ở đây là tích cực."
+    },
+    {
+      "word": "presentation",
+      "matched_text": "presentation",
+      "start": 3.424,
+      "end": 3.431,
+      "ipa": "/ˌprez.ənˈteɪ.ʃən/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "bài thuyết trình",
+      "context": "I have to give a presentation, and that’s the part I was hoping you could help me with.",
+      "tip": "Một kỹ năng quan trọng trong học thuật và công việc. Collocation: give a presentation, visual presentation."
+    },
+    {
+      "word": "detailed drawings",
+      "matched_text": "detailed drawings",
+      "start": 3.515,
+      "end": 3.525,
+      "ipa": "/ˈdiː.teɪld ˈdrɔː.ɪŋz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "bản vẽ chi tiết",
+      "context": "Well, I’ve got detailed drawings to show how it will work and I’ve also written a 500-word paper on it.",
+      "tip": "Cụm từ kỹ thuật, quan trọng trong thiết kế và kỹ thuật, yêu cầu sự chính xác cao."
+    },
+    {
+      "word": "model",
+      "matched_text": "model",
+      "start": 3.595,
+      "end": 3.601,
+      "ipa": "/ˈmɒd.əl/",
+      "type": "noun",
+      "level": "B1",
+      "meaning": "mô hình",
+      "context": "Well, if you want to stand a good chance of winning you really need a model of the machine.",
+      "tip": "Có thể là mô hình vật lý hoặc mô hình lý thuyết. Collocation: scale model, working model."
+    },
+    {
+      "word": "professional",
+      "matched_text": "professional",
+      "start": 3.623,
+      "end": 3.63,
+      "ipa": "/prəˈfeʃ.ən.əl/",
+      "type": "adjective",
+      "level": "B1",
+      "meaning": "chuyên nghiệp",
+      "context": "I want it to look professional but everything that’s top quality is also very expensive.",
+      "tip": "Thường được dùng để đánh giá chất lượng công việc hoặc sản phẩm. Đồng nghĩa: expert, skilled."
+    },
+    {
+      "word": "top quality",
+      "matched_text": "top quality",
+      "start": 3.639,
+      "end": 3.645,
+      "ipa": "/tɒp ˈkwɒl.ə.ti/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "chất lượng hàng đầu",
+      "context": "I want it to look professional but everything that’s top quality is also very expensive.",
+      "tip": "Cụm từ dùng để mô tả sản phẩm hoặc dịch vụ có chất lượng cao nhất. Đồng nghĩa: high-quality, premium."
+    },
+    {
+      "word": "expensive",
+      "matched_text": "expensive",
+      "start": 3.654,
+      "end": 3.66,
+      "ipa": "/ɪkˈspen.sɪv/",
+      "type": "adjective",
+      "level": "B1",
+      "meaning": "đắt tiền",
+      "context": "I want it to look professional but everything that’s top quality is also very expensive.",
+      "tip": "Trái nghĩa: cheap, inexpensive. Collocation: very expensive, prohibitively expensive."
+    },
+    {
+      "word": "lift our profile",
+      "matched_text": "lift our profile",
+      "start": 3.699,
+      "end": 3.708,
+      "ipa": "/lɪft aʊər ˈprəʊ.faɪl/",
+      "type": "idiom",
+      "level": "C1",
+      "meaning": "nâng cao hình ảnh, uy tín",
+      "context": "They really help lift our profile.",
+      "tip": "Diễn đạt việc cải thiện sự công nhận hoặc danh tiếng của một tổ chức/cá nhân."
+    },
+    {
+      "word": "grant",
+      "matched_text": "grant",
+      "start": 3.738,
+      "end": 3.743,
+      "ipa": "/ɡrɑːnt/",
+      "type": "noun",
+      "level": "B2",
+      "meaning": "tiền trợ cấp, tài trợ",
+      "context": "So why don’t you talk to the university about a grant?",
+      "tip": "Thường là khoản tiền không hoàn lại từ chính phủ hoặc tổ chức để hỗ trợ một dự án. Collocation: research grant, student grant."
+    },
+    {
+      "word": "application forms",
+      "matched_text": "application forms",
+      "start": 3.76,
+      "end": 3.771,
+      "ipa": "/ˌæp.lɪˈkeɪ.ʃən fɔːmz/",
+      "type": "collocation",
+      "level": "B1",
+      "meaning": "mẫu đơn đăng ký",
+      "context": "I can help you fill out the application forms if you like.",
+      "tip": "Cụm từ thường gặp khi xin việc, học bổng hoặc giấy phép."
+    },
+    {
+      "word": "technical details",
+      "matched_text": "technical details",
+      "start": 3.856,
+      "end": 3.865,
+      "ipa": "/ˈtek.nɪ.kəl ˈdiː.teɪlz/",
+      "type": "collocation",
+      "level": "B2",
+      "meaning": "chi tiết kỹ thuật",
+      "context": "You need to make sure the technical details you’ve given are accurate and thorough.",
+      "tip": "Các thông tin chuyên sâu về cách một thiết bị hoạt động hoặc được xây dựng."
+    },
+    {
+      "word": "accurate",
+      "matched_text": "accurate",
+      "start": 3.869,
+      "end": 3.875,
+      "ipa": "/ˈæk.jə.rət/",
+      "type": "adjective",
+      "level": "B2",
+      "meaning": "chính xác",
+      "context": "You need to make sure the technical details you’ve given are accurate and thorough.",
+      "tip": "Đồng nghĩa: precise, correct. Trái nghĩa: inaccurate."
+    }
+  ],
+  "segments": [
+    {
+      "speaker": "Narrator",
+      "start": 0.0,
+      "end": 0.012,
+      "text": "Section 3"
+    },
+    {
+      "speaker": "Narrator",
+      "start": 0.03,
+      "end": 0.101,
+      "text": "You will hear a student called John talking to a professor about a design competition he's entering."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 0.111,
+      "end": 0.165,
+      "text": "First, you have some time to look at questions 21 to 25."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 0.473,
+      "end": 0.517,
+      "text": "Now listen carefully and answer questions 21 to 25."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 0.555,
+      "end": 1.049,
+      "text": "Erm … hello Professor, I’m John Wishart. I’m working on my entry for the Global Design Competition. My tutor said you might be able to help me with it."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 1.054,
+      "end": 1.109,
+      "text": "Ah, yes, I got a copy of your drawings. Come in and tell me about it. What sort of competition is it?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 1.114,
+      "end": 1.189,
+      "text": "Well, it’s an international design competition and we have to come up with a new design for a typical domestic kitchen appliance."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 1.194,
+      "end": 1.24,
+      "text": "I see, and are there any special conditions? Does it have to save energy for example?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 1.245,
+      "end": 1.357,
+      "text": "Actually that was the focus in last year’s competition. This year’s different. We have to adopt an innovative approach to existing technology, using it in a way that hasn’t been thought of before."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 1.364,
+      "end": 1.399,
+      "text": "I see, that sounds tricky. And what kitchen appliance have you chosen?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 1.404,
+      "end": 1.428,
+      "text": "Well, I decided to choose the dishwasher."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 1.436,
+      "end": 1.458,
+      "text": "Interesting. What made you choose that?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 1.464,
+      "end": 1.537,
+      "text": "Well, they’re an everyday kitchen appliance in most Australian houses, but they’re all pretty boring and almost identical to each other."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 1.543,
+      "end": 1.589,
+      "text": "I think some people will be prepared to pay a little extra for something that looks different."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 1.595,
+      "end": 2.0,
+      "text": "That’s a nice idea."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 2.008,
+      "end": 2.04,
+      "text": "I see you’ve called your design ‘the Rockpool’; why is that?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 2.051,
+      "end": 2.083,
+      "text": "Basically because it looks like the rock pools you find on a beach."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 2.093,
+      "end": 2.122,
+      "text": "The top is made of glass so that you can look down into it."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 2.127,
+      "end": 2.158,
+      "text": "And there’s a stone at the bottom. Is that just for decoration?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 2.164,
+      "end": 2.178,
+      "text": "Actually it does have a function."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 2.184,
+      "end": 2.214,
+      "text": "Instead of pushing a button, you turn the stone."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 2.22,
+      "end": 2.254,
+      "text": "So it’s really just a novel way of starting the dishwasher."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 2.257,
+      "end": 2.264,
+      "text": "That’s right."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 2.268,
+      "end": 2.298,
+      "text": "It’s a really nice design, but what makes it innovative?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 2.306,
+      "end": 2.348,
+      "text": "Well, I decided to make a dishwasher that uses carbon dioxide."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 2.353,
+      "end": 2.385,
+      "text": "In place of water and detergent? How will you manage that?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 2.395,
+      "end": 2.484,
+      "text": "The idea is to pressurize the carbon dioxide so that it becomes a liquid. The fluid is then released into the dishwasher where it cleans the dishes all by itself."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 2.49,
+      "end": 2.553,
+      "text": "Sounds like a brilliant idea! Your system will totally do away with the need for strong detergents."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 2.558,
+      "end": 2.579,
+      "text": "So what happens once the dishes are clean?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 2.587,
+      "end": 3.057,
+      "text": "Well, to allow them to dry, the liquid carbon dioxide and the waste materials all go to an area called the holding chamber."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 3.062,
+      "end": 3.102,
+      "text": "That’s where the liquid is depressurised and so it reverts to a gas."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 3.107,
+      "end": 3.143,
+      "text": "Then the oil and grease are separated out and sent to the waste system."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 3.147,
+      "end": 3.174,
+      "text": "It sounds like you’ve thought it all out very thoroughly."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 3.18,
+      "end": 3.232,
+      "text": "So, what happens to the carbon dioxide once the process is complete? Not wasted I hope."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 3.235,
+      "end": 3.261,
+      "text": "Actually, that’s where the real savings are made."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 3.266,
+      "end": 3.319,
+      "text": "The carbon dioxide is sent back to the cylinder and can be used again and again."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 3.324,
+      "end": 3.332,
+      "text": "What a terrific idea."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 3.341,
+      "end": 3.352,
+      "text": "Do you think it will ever be built?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 3.355,
+      "end": 3.376,
+      "text": "Probably not, but that’s OK."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 3.383,
+      "end": 3.414,
+      "text": "Well, I’m sure a lot of positive things will come out of your design."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 3.454,
+      "end": 3.518,
+      "text": "Before you hear the rest of the discussion, you have some time to look at questions 26 to 30."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 4.226,
+      "end": 4.265,
+      "text": "Now listen and answer questions 26 to 30."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 4.305,
+      "end": 4.35,
+      "text": "Now, you seem to have thought about everything so what exactly did you need me to help you with?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 4.356,
+      "end": 4.457,
+      "text": "Well, my design has made it to the final stage of the competition and, in a few months’ time. I have to give a presentation, and that’s the part I was hoping you could help me with."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 4.463,
+      "end": 4.478,
+      "text": "Right, well that should be easy enough."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 4.485,
+      "end": 4.5,
+      "text": "What have you managed to do so far?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 4.507,
+      "end": 4.562,
+      "text": "Well, I’ve got detailed drawings to show how it will work and I’ve also written a 500-word paper on it."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 4.568,
+      "end": 4.572,
+      "text": "I see."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 4.577,
+      "end": 5.022,
+      "text": "Well, if you want to stand a good chance of winning you really need a model of the machine."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 5.026,
+      "end": 5.05,
+      "text": "Yes, I thought I might, but I’m having a few problems."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 5.055,
+      "end": 5.099,
+      "text": "What is the main difficulty so far? Let me guess – is it the materials?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 5.105,
+      "end": 5.109,
+      "text": "Yes."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 5.115,
+      "end": 5.159,
+      "text": "I want it to look professional but everything that’s top quality is also very expensive."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 5.165,
+      "end": 5.195,
+      "text": "Look, projects like this are very important to us. They really help lift our profile."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 5.214,
+      "end": 5.271,
+      "text": "So why don’t you talk to the university about a grant? I can help you fill out the application forms if you like."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 5.275,
+      "end": 5.286,
+      "text": "That would be a great."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 5.292,
+      "end": 5.385,
+      "text": "You’d better show me this paper you’ve written as well. For a global competition such as this, you need to make sure the technical details you’ve given are accurate and thorough."
+    },
+    {
+      "speaker": "JOHN",
+      "start": 5.388,
+      "end": 5.399,
+      "text": "Oh, that would be a great help."
+    },
+    {
+      "speaker": "PROFESSOR",
+      "start": 5.405,
+      "end": 5.418,
+      "text": "Is there anything else I can do?"
+    },
+    {
+      "speaker": "JOHN",
+      "start": 5.424,
+      "end": 5.433,
+      "text": "Well, I’m really"
+    },
+    {
+      "speaker": "Narrator",
+      "start": 5.467,
+      "end": 5.488,
+      "text": "That is the end of section 3."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 5.498,
+      "end": 5.528,
+      "text": "You now have half a minute to check your answers."
+    },
+    {
+      "speaker": "Narrator",
+      "start": 6.234,
+      "end": 6.248,
+      "text": "Now turn to section 4."
+    }
+  ]
+}
