@@ -2814,6 +2814,7 @@
   const state = {
     cards: [],
     selectedCategory: null, // 'words' | 'collocations'
+    selectedTopic: 'all',   // 'all' | 'environment' | 'travel' | ...
     currentFilter: 'all',   // 'all' | 'due' | '1' | '4' | '7' | '14'
     studyMode: 'flip',      // 'flip' | 'type'
     currentIndex: 0,
@@ -2839,6 +2840,13 @@
     wordsPreviewCount: document.getElementById('words-preview-count'),
     collocationsPreviewCount: document.getElementById('collocations-preview-count'),
     
+    // Topic Filter
+    topicFilterNav: document.getElementById('topic-filter-nav'),
+    topicFilterChips: document.getElementById('topic-filter-chips'),
+    currentTopicTag: document.getElementById('current-topic-tag'),
+    currentTopicText: document.getElementById('current-topic-text'),
+    cardInputTopic: document.getElementById('card-input-topic'),
+
     // Header
     btnChangeCategory: document.getElementById('btn-change-category'),
     currentCatName: document.getElementById('current-cat-name'),
@@ -2967,6 +2975,20 @@
     toastContainer: document.getElementById('toast-container')
   };
 
+  // --- TOPICS CONSTANTS ---
+  const TOPIC_LIST = [
+    { id: 'all', name: 'Tất cả chủ đề', icon: '🌟' },
+    { id: 'environment', name: 'Môi trường', icon: '🌿' },
+    { id: 'travel', name: 'Du lịch', icon: '✈️' },
+    { id: 'architecture', name: 'Kiến trúc', icon: '🏛️' },
+    { id: 'science', name: 'Khoa học', icon: '🔬' },
+    { id: 'health', name: 'Sức khỏe', icon: '🏥' },
+    { id: 'education', name: 'Giáo dục', icon: '🎓' },
+    { id: 'economy', name: 'Kinh tế', icon: '💼' },
+    { id: 'psychology', name: 'Tâm lý', icon: '🧠' },
+    { id: 'communication', name: 'Giao tiếp', icon: '💬' }
+  ];
+
   // --- CALENDAR DATE & TIME HELPERS ---
   function getEndOfToday() {
     const now = new Date();
@@ -2974,7 +2996,8 @@
   }
 
   function isCardDue(card) {
-    if (!card || !card.nextReviewDate) return true;
+    if (!card) return false;
+    if (card.nextReviewDate === 0) return false;
     return card.nextReviewDate <= getEndOfToday();
   }
 
@@ -3007,7 +3030,7 @@
   }
 
   function formatRelativeDue(timestamp) {
-    if (!timestamp) return { text: 'Cần ôn ngay', status: 'due', isDue: true };
+    if (!timestamp) return { text: 'Chờ học cuốn chiếu', status: 'future', isDue: false };
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
     const targetDate = new Date(timestamp);
@@ -3027,9 +3050,42 @@
     }
   }
 
-  // --- STORAGE HELPERS (v6 with Deforestation & Desertification reading cards auto-merge) ---
+  // --- STORAGE HELPERS (v6 with Cambridge Topics & Cuốn chiếu auto-merge) ---
   const STORAGE_KEY = 'minimal_flashcards_data_v6';
   const PREF_KEY = 'minimal_flashcards_pref_v1';
+
+  function applyCuonChieu(cards) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const lastDateKey = 'minimal_cuon_chieu_last_date';
+    const lastDate = localStorage.getItem(lastDateKey);
+    if (lastDate === todayStr) return false;
+
+    const prefs = loadUserPreferences();
+    const newPerDay = prefs.newPerDay || 10;
+    let changed = false;
+
+    // Group unlearned cards (nextReviewDate === 0) by topic
+    const unlearnedByTopic = {};
+    cards.forEach(c => {
+      if (c.nextReviewDate === 0) {
+        const top = c.topic || 'communication';
+        if (!unlearnedByTopic[top]) unlearnedByTopic[top] = [];
+        unlearnedByTopic[top].push(c);
+      }
+    });
+
+    Object.keys(unlearnedByTopic).forEach(top => {
+      const queue = unlearnedByTopic[top].slice(0, newPerDay);
+      queue.forEach(c => {
+        c.nextReviewDate = Date.now();
+        c.createdDate = c.createdDate || Date.now();
+        changed = true;
+      });
+    });
+
+    localStorage.setItem(lastDateKey, todayStr);
+    return changed;
+  }
 
   function loadCardsFromStorage() {
     try {
@@ -3043,15 +3099,30 @@
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Merge missing default cards seamlessly so new cards are added automatically
           const existingIds = new Set(parsed.map(c => c.id));
           let hasNew = false;
           DEFAULT_CARDS.forEach(card => {
             if (!existingIds.has(card.id)) {
-              parsed.push(JSON.parse(JSON.stringify(card)));
+              const clone = JSON.parse(JSON.stringify(card));
+              clone.topic = clone.topic || 'communication';
+              parsed.push(clone);
               hasNew = true;
             }
           });
+          if (Array.isArray(window.CAMBRIDGE_CARDS)) {
+            window.CAMBRIDGE_CARDS.forEach(card => {
+              if (!existingIds.has(card.id)) {
+                parsed.push(JSON.parse(JSON.stringify(card)));
+                hasNew = true;
+              }
+            });
+          }
+          parsed.forEach(c => {
+            if (!c.topic) c.topic = 'communication';
+          });
+          if (applyCuonChieu(parsed)) {
+            hasNew = true;
+          }
           if (hasNew) {
             saveCardsToStorage(parsed);
           }
@@ -3061,8 +3132,16 @@
     } catch (e) {
       console.warn('Lỗi đọc dữ liệu từ localStorage', e);
     }
-    saveCardsToStorage(DEFAULT_CARDS);
-    return JSON.parse(JSON.stringify(DEFAULT_CARDS));
+    const initialCards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
+    initialCards.forEach(c => { c.topic = c.topic || 'communication'; });
+    if (Array.isArray(window.CAMBRIDGE_CARDS)) {
+      window.CAMBRIDGE_CARDS.forEach(card => {
+        initialCards.push(JSON.parse(JSON.stringify(card)));
+      });
+    }
+    applyCuonChieu(initialCards);
+    saveCardsToStorage(initialCards);
+    return initialCards;
   }
 
   function saveCardsToStorage(cards) {
@@ -3135,6 +3214,10 @@
       setStudyMode('type', false);
     } else {
       setStudyMode('flip', false);
+    }
+
+    if (prefs.topic) {
+      state.selectedTopic = prefs.topic;
     }
 
     updateCategoryCountsPreview();
@@ -3272,6 +3355,7 @@
     if (speakingView) speakingView.style.display = 'none';
     if (listeningView) listeningView.style.display = 'none';
     if (cambridgeView) cambridgeView.style.display = 'none';
+    if (el.topicFilterNav) el.topicFilterNav.style.display = 'block';
     if (intervalNav) intervalNav.style.display = 'block';
     if (studyArea) studyArea.style.display = 'block';
     if (studyModeSwitch) studyModeSwitch.style.display = 'inline-flex';
@@ -3298,24 +3382,70 @@
       saveUserPreferences({ category: categoryKey });
     }
 
+    renderTopicFilterChips();
     state.currentFilter = 'all';
     state.currentIndex = 0;
     updateIntervalNavChips();
     filterAndRenderCards();
   }
 
+  // --- TOPIC FILTER BAR CHIPS ---
+  function renderTopicFilterChips() {
+    if (!el.topicFilterChips) return;
+    const catCards = state.selectedCategory ? state.cards.filter(c => c.category === state.selectedCategory) : state.cards;
+
+    let html = '';
+    TOPIC_LIST.forEach(t => {
+      let count = 0;
+      if (t.id === 'all') {
+        count = catCards.length;
+      } else {
+        count = catCards.filter(c => (c.topic || 'communication') === t.id).length;
+      }
+      const isActive = state.selectedTopic === t.id ? 'active' : '';
+      html += `
+        <button type="button" class="topic-filter-chip ${isActive}" data-topic="${t.id}">
+          <span>${t.icon}</span>
+          <span>${t.name}</span>
+          <span style="opacity:0.75; font-size:0.75rem;">(${count})</span>
+        </button>
+      `;
+    });
+    el.topicFilterChips.innerHTML = html;
+
+    el.topicFilterChips.querySelectorAll('.topic-filter-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setTopicFilter(btn.dataset.topic);
+      });
+    });
+  }
+
+  function setTopicFilter(topicId, savePref = true) {
+    state.selectedTopic = topicId || 'all';
+    state.currentIndex = 0;
+    renderTopicFilterChips();
+    filterAndRenderCards();
+    if (savePref) {
+      saveUserPreferences({ topic: state.selectedTopic });
+    }
+  }
+
   // --- FILTERING CARDS ---
   function getFilteredCards() {
     if (!state.selectedCategory) return [];
 
-    const now = Date.now();
     let list = state.cards.filter(c => c.category === state.selectedCategory);
+
+    // Filter by Topic if not 'all'
+    if (state.selectedTopic && state.selectedTopic !== 'all') {
+      list = list.filter(c => (c.topic || 'communication') === state.selectedTopic);
+    }
 
     if (state.currentFilter === 'due') {
       list = list.filter(c => isCardDue(c));
     } else if (['1', '4', '7', '14'].includes(state.currentFilter)) {
       const intVal = parseInt(state.currentFilter, 10);
-      list = list.filter(c => c.interval === intVal);
+      list = list.filter(c => c.interval === intVal && c.nextReviewDate !== 0);
     }
 
     return list;
@@ -3323,14 +3453,17 @@
 
   function updateIntervalBadgeCounts() {
     if (!state.selectedCategory) return;
-    const catCards = state.cards.filter(c => c.category === state.selectedCategory);
+    let catCards = state.cards.filter(c => c.category === state.selectedCategory);
+    if (state.selectedTopic && state.selectedTopic !== 'all') {
+      catCards = catCards.filter(c => (c.topic || 'communication') === state.selectedTopic);
+    }
 
     const countAll = catCards.length;
     const countDue = catCards.filter(c => isCardDue(c)).length;
-    const count1 = catCards.filter(c => c.interval === 1).length;
-    const count4 = catCards.filter(c => c.interval === 4).length;
-    const count7 = catCards.filter(c => c.interval === 7).length;
-    const count14 = catCards.filter(c => c.interval === 14).length;
+    const count1 = catCards.filter(c => c.interval === 1 && c.nextReviewDate !== 0).length;
+    const count4 = catCards.filter(c => c.interval === 4 && c.nextReviewDate !== 0).length;
+    const count7 = catCards.filter(c => c.interval === 7 && c.nextReviewDate !== 0).length;
+    const count14 = catCards.filter(c => c.interval === 14 && c.nextReviewDate !== 0).length;
 
     el.countAll.textContent = countAll;
     el.countDue.textContent = countDue;
@@ -3402,6 +3535,14 @@
     el.currentBoxTag.style.display = 'inline-flex';
     el.currentBoxText.textContent = `Hộp ${card.interval} ngày`;
 
+    // Topic Badge Tag
+    if (el.currentTopicTag && el.currentTopicText) {
+      const cardTopicId = card.topic || 'communication';
+      const topicObj = TOPIC_LIST.find(t => t.id === cardTopicId) || { icon: '💬', name: 'Giao tiếp' };
+      el.currentTopicText.textContent = `${topicObj.icon} ${topicObj.name}`;
+      el.currentTopicTag.style.display = 'inline-flex';
+    }
+
     if (el.currentDueTag && el.currentDueText) {
       const dueInfo = formatRelativeDue(card.nextReviewDate);
       el.currentDueTag.className = `card-due-tag status-${dueInfo.status}`;
@@ -3471,11 +3612,16 @@
     const dateGoodStr = formatDateDMY(nextDateGood);
     const dateAgainStr = formatDateDMY(nextDateAgain);
 
+    const sourceHtml = (card.source && card.source.length > 0)
+      ? `<div class="card-source-badge" style="font-size:0.8rem; opacity:0.85; margin-top:8px; padding-top:6px; border-top:1px dashed var(--border-light);">📍 Nguồn: <strong>${card.source.join(', ')}</strong></div>`
+      : '';
+
     el.backNextReviewInfo.innerHTML = `
       <div class="review-date-detail" style="line-height:1.6;">
         <div>Chu kỳ tiếp theo nếu nhớ: <strong>+${nextDays} ngày</strong> (Hộp ${nextDays}d ➔ Hạn ôn: <strong>${dateGoodStr}</strong>)</div>
         <div style="font-size:0.85em; opacity:0.85; margin-top:3px;">Nếu quên / chưa nhớ: <strong>1 ngày</strong> (Hộp 1d ➔ Hạn ôn: <strong>${dateAgainStr}</strong>)</div>
         ${card.lastReviewed ? `<div style="font-size:0.8em; color:var(--text-tertiary); margin-top:4px;">Lần ôn gần nhất: ${formatDateTimeDMY(card.lastReviewed)}</div>` : ''}
+        ${sourceHtml}
       </div>
     `;
   }
@@ -3668,6 +3814,7 @@
     el.editCardId.value = '';
     el.cardEditorForm.reset();
     el.cardInputCategory.value = state.selectedCategory || 'words';
+    if (el.cardInputTopic) el.cardInputTopic.value = state.selectedTopic !== 'all' ? state.selectedTopic : 'environment';
     el.cardInputInterval.value = '1';
     el.modalCardForm.style.display = 'flex';
     setTimeout(() => el.cardInputEnglish.focus(), 100);
@@ -3680,6 +3827,7 @@
     el.modalCardTitle.textContent = 'Chỉnh Sửa Flashcard';
     el.editCardId.value = card.id;
     el.cardInputCategory.value = card.category;
+    if (el.cardInputTopic) el.cardInputTopic.value = card.topic || 'communication';
     el.cardInputEnglish.value = card.english || '';
     el.cardInputIpa.value = card.ipa || '';
     el.cardInputVietnamese.value = card.vietnamese || '';
@@ -3699,6 +3847,7 @@
 
     const id = el.editCardId.value;
     const category = el.cardInputCategory.value;
+    const topic = el.cardInputTopic ? el.cardInputTopic.value : 'communication';
     const english = el.cardInputEnglish.value.trim();
     const ipa = el.cardInputIpa.value.trim();
     const vietnamese = el.cardInputVietnamese.value.trim();
@@ -3715,6 +3864,7 @@
       const existing = state.cards.find(c => c.id === id);
       if (existing) {
         existing.category = category;
+        existing.topic = topic;
         existing.english = english;
         existing.ipa = ipa;
         existing.vietnamese = vietnamese;
@@ -3729,6 +3879,7 @@
       const newCard = {
         id: 'card-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
         category,
+        topic,
         english,
         ipa,
         vietnamese,
@@ -4481,6 +4632,8 @@
 
   // --- EXPOSE PUBLIC BRIDGES FOR SPEAKING & EXTERNAL MODULES ---
   window.selectCategory = selectCategory;
+  window.filterTopic = setTopicFilter;
+  window.TOPIC_LIST = TOPIC_LIST;
   window.speakEnglish = speakEnglish;
   window.showToast = showToast;
   window.addCollocationCard = function (cardData) {

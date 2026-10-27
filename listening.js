@@ -15,10 +15,13 @@
   'use strict';
 
   // --- STATE ---
+  const savedTestId = localStorage.getItem('ielts_listening_last_test_id') || 'cam10_t1';
+  const normSavedTestId = savedTestId.replace('_test', '_t');
+
   const state = {
     testData: null,
-    currentTestId: 'cam10_test1',
-    currentSectionId: 'section1',
+    currentTestId: normSavedTestId,
+    currentSectionId: localStorage.getItem('ielts_listening_last_section_id') || 'section1',
     currentMode: 'detailed', // 'detailed' | 'minimal' | 'karaoke' | 'vocab'
     isPlaying: false,
     currentTime: 0,
@@ -64,11 +67,330 @@
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   }
 
+  // --- PROPORTIONAL TIMESTAMP INTERPOLATION ---
+  function interpolateSegmentTimestamps(sec, totalDuration) {
+    if (!sec || !sec.segments || sec.segments.length === 0 || !totalDuration || totalDuration <= 0) return;
+    const hasTimings = sec.segments.some(s => s.end > 0);
+    if (hasTimings) return;
+
+    let totalWords = 0;
+    sec.segments.forEach(seg => {
+      const count = (seg.text.match(/\S+/g) || []).length;
+      seg._wCount = Math.max(1, count);
+      totalWords += seg._wCount;
+    });
+
+    if (totalWords === 0) return;
+
+    let currentSec = 0;
+    sec.segments.forEach(seg => {
+      const dur = (seg._wCount / totalWords) * totalDuration;
+      seg.start = Math.round(currentSec * 10) / 10;
+      currentSec += dur;
+      seg.end = Math.round(currentSec * 10) / 10;
+    });
+
+    if (sec.vocabulary && sec.vocabulary.length > 0) {
+      sec.vocabulary.forEach(v => {
+        if (v.start === 0 && v.end === 0) {
+          const s = sec.segments.find(seg => seg.id === v.segment_id);
+          if (s) {
+            v.start = s.start;
+            v.end = Math.min(s.end, s.start + 2.5);
+          }
+        }
+      });
+    }
+  }
+
   // --- GET CURRENT SECTION DATA ---
   function getCurrentSection() {
-    if (!state.testData || !state.testData.tests || !state.testData.tests[0]) return null;
-    const test = state.testData.tests[0];
-    return test.sections.find(s => s.section_id === state.currentSectionId) || test.sections[0];
+    // 1. Check window.CAM_TESTS
+    if (window.CAM_TESTS && window.CAM_TESTS[state.currentTestId]) {
+      const test = window.CAM_TESTS[state.currentTestId];
+      if (test.listening && test.listening.parts) {
+        const numMatch = (state.currentSectionId || '').match(/\d+/);
+        const partIdx = numMatch ? (parseInt(numMatch[0], 10) - 1) : 0;
+        const part = test.listening.parts[partIdx] || test.listening.parts[0];
+        if (part) {
+          const vocabCards = test.vocab || [];
+          const globalCards = window.CAMBRIDGE_CARDS || [];
+
+          let vocabList = (part.words || []).map((pw, idx) => {
+            const wNorm = (pw.w || '').toLowerCase();
+            const foundCard = vocabCards.find(c => (c.english || '').toLowerCase() === wNorm)
+                           || globalCards.find(c => (c.english || '').toLowerCase() === wNorm);
+
+            return {
+              id: foundCard?.id || `word_${part.n}_${idx}`,
+              word: foundCard?.english || pw.w,
+              ipa: foundCard?.ipa || '',
+              meaning: foundCard?.vietnamese || '',
+              level: foundCard?.ipa?.includes('C2') ? 'C2' : (foundCard?.ipa?.includes('C1') ? 'C1' : 'B2'),
+              type: foundCard?.category === 'words' ? 'word' : 'collocation',
+              start: pw.s || 0,
+              end: pw.e || 0,
+              context: foundCard?.exampleEn || foundCard?.context || '',
+              tip: foundCard?.vietnamese || '',
+              segment_id: pw.seg
+            };
+          });
+
+          // Supplement vocab if words array is empty or short
+          if (vocabList.length < 5 && vocabCards.length > 0) {
+            const partText = (part.segments || []).map(s => s.text).join(' ').toLowerCase();
+            vocabCards.forEach((card, idx) => {
+              const engLower = (card.english || '').toLowerCase();
+              if (engLower && partText.includes(engLower) && !vocabList.some(v => v.word.toLowerCase() === engLower)) {
+                vocabList.push({
+                  id: card.id || `word_${part.n}_ext_${idx}`,
+                  word: card.english,
+                  ipa: card.ipa || '',
+                  meaning: card.vietnamese || '',
+                  level: card.ipa?.includes('C2') ? 'C2' : (card.ipa?.includes('C1') ? 'C1' : 'B2'),
+                  type: card.category === 'words' ? 'word' : 'collocation',
+                  start: 0,
+                  end: 0,
+                  context: card.exampleEn || card.context || '',
+                  tip: card.vietnamese || '',
+                  segment_id: part.segments?.[0]?.id || 's1'
+                });
+              }
+            });
+          }
+
+          return {
+            section_id: `section${part.n}`,
+            title: part.title || `Part ${part.n}`,
+            description: `Part ${part.n} • Luyện nghe ngắt quãng và nhận diện từ vựng học thuật B2-C2`,
+            audio_src: part.audio?.src || part.audio_src || '',
+            audio_offset: part.audio?.offset || 0,
+            total_words: vocabList.length,
+            target_score: 'IELTS Band 7.0 - 9.0',
+            segments: part.segments || [],
+            vocabulary: vocabList
+          };
+        }
+      }
+    }
+
+    // 2. Legacy fallback
+    if (state.testData && state.testData.tests && state.testData.tests[0]) {
+      const test = state.testData.tests[0];
+      return test.sections.find(s => s.section_id === state.currentSectionId) || test.sections[0];
+    }
+    return null;
+  }
+
+  // --- DYNAMIC TEST LOADER & PICKER HELPERS ---
+  function loadTestScript(testId) {
+    if (window.CAM_TESTS && window.CAM_TESTS[testId]) {
+      return Promise.resolve(window.CAM_TESTS[testId]);
+    }
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[data-test-id="${testId}"]`);
+      if (existing) {
+        if (window.CAM_TESTS && window.CAM_TESTS[testId]) return resolve(window.CAM_TESTS[testId]);
+        existing.addEventListener('load', () => resolve(window.CAM_TESTS[testId]));
+        existing.addEventListener('error', reject);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = `data/tests/${testId}.js`;
+      script.setAttribute('data-test-id', testId);
+      script.onload = () => {
+        if (window.CAM_TESTS && window.CAM_TESTS[testId]) resolve(window.CAM_TESTS[testId]);
+        else reject(new Error(`Test data for ${testId} not found.`));
+      };
+      script.onerror = () => reject(new Error(`Không thể nạp file data/tests/${testId}.js`));
+      document.head.appendChild(script);
+    });
+  }
+
+  function getBooksManifest() {
+    if (window.CAMBRIDGE_DATA && Array.isArray(window.CAMBRIDGE_DATA.books)) {
+      return window.CAMBRIDGE_DATA.books;
+    }
+    const books = [];
+    for (let b = 10; b <= 20; b++) {
+      books.push({
+        id: `cam${b}`,
+        title: `Cambridge IELTS ${b}`,
+        tests: [1, 2, 3, 4].map(t => ({
+          id: `cam${b}_t${t}`,
+          title: `Cambridge IELTS ${b} • Test ${t}`
+        }))
+      });
+    }
+    return books;
+  }
+
+  function populateTestPickers() {
+    const bookSelect = document.getElementById('listening-book-select');
+    const testSelect = document.getElementById('listening-test-select');
+    if (!bookSelect || !testSelect) return;
+
+    const books = getBooksManifest();
+    bookSelect.innerHTML = books.map(b => `<option value="${b.id}">${escapeHtml(b.title)}</option>`).join('');
+
+    let currentBookId = 'cam10';
+    const m = state.currentTestId.match(/^cam(\d+)/i);
+    if (m) {
+      currentBookId = `cam${m[1]}`;
+    }
+    bookSelect.value = currentBookId;
+
+    updateTestDropdownOptions(currentBookId);
+    testSelect.value = state.currentTestId;
+  }
+
+  function updateTestDropdownOptions(bookId) {
+    const testSelect = document.getElementById('listening-test-select');
+    if (!testSelect) return;
+
+    const books = getBooksManifest();
+    const book = books.find(b => b.id === bookId) || books[0];
+    if (!book) return;
+
+    testSelect.innerHTML = book.tests.map((t, idx) => {
+      const tNum = idx + 1;
+      return `<option value="${t.id}">Test ${tNum}</option>`;
+    }).join('');
+  }
+
+  function renderPartTabs(testData) {
+    const nav = document.getElementById('listening-sections-nav');
+    if (!nav) return;
+
+    const parts = testData?.listening?.parts || [];
+    if (parts.length === 0) return;
+
+    let html = '';
+    parts.forEach((p, idx) => {
+      const secId = `section${p.n}`;
+      const isActive = state.currentSectionId === secId || (!state.currentSectionId && idx === 0);
+      const wordCount = (p.words || []).length;
+      const title = p.title || `Part ${p.n}`;
+
+      html += `
+        <button type="button" class="listening-section-tab ${isActive ? 'active' : ''}" data-section="${secId}">
+          <span class="sec-tab-num">Part ${p.n}</span>
+          <span class="sec-tab-title">${escapeHtml(title)}</span>
+          <span class="sec-tab-count">${wordCount} từ khó</span>
+        </button>
+      `;
+    });
+
+    nav.innerHTML = html;
+
+    // Attach click handlers
+    nav.querySelectorAll('.listening-section-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const secId = tab.getAttribute('data-section');
+        if (secId) loadSection(secId, true);
+      });
+    });
+
+    // Update breadcrumb and pill test
+    const pillTest = document.getElementById('listening-pill-test');
+    if (pillTest) {
+      pillTest.textContent = testData.title || `Cambridge IELTS ${testData.book} • Test ${testData.test}`;
+    }
+  }
+
+  function renderBrowseModal() {
+    const grid = document.getElementById('listening-browse-grid');
+    if (!grid) return;
+
+    const books = getBooksManifest();
+    let html = '';
+
+    books.forEach(book => {
+      const bNum = book.id.replace('cam', '');
+      let testsHtml = '';
+      book.tests.forEach((t, idx) => {
+        const isActive = state.currentTestId === t.id;
+        testsHtml += `
+          <button type="button" class="listening-test-choice-btn ${isActive ? 'active' : ''}" data-test-id="${t.id}">
+            Test ${idx + 1}
+          </button>
+        `;
+      });
+
+      html += `
+        <div class="listening-book-card">
+          <div class="listening-book-card-title">
+            <span>Cambridge IELTS ${bNum}</span>
+            <span class="listening-book-badge">4 Tests</span>
+          </div>
+          <div class="listening-test-btn-group">
+            ${testsHtml}
+          </div>
+        </div>
+      `;
+    });
+
+    grid.innerHTML = html;
+
+    // Attach click events
+    grid.querySelectorAll('.listening-test-choice-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tId = btn.getAttribute('data-test-id');
+        if (tId) {
+          closeBrowseModal();
+          switchTest(tId, 0, true);
+        }
+      });
+    });
+  }
+
+  function openBrowseModal() {
+    const modal = document.getElementById('listening-browse-modal');
+    if (modal) {
+      renderBrowseModal();
+      modal.style.display = 'flex';
+    }
+  }
+
+  function closeBrowseModal() {
+    const modal = document.getElementById('listening-browse-modal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  function switchTest(testId, partIndex = 0, autoPlay = false) {
+    if (!testId) return;
+    testId = testId.replace('_test', '_t');
+    state.currentTestId = testId;
+    state.currentSectionId = `section${partIndex + 1}`;
+    localStorage.setItem('ielts_listening_last_test_id', testId);
+    localStorage.setItem('ielts_listening_last_section_id', state.currentSectionId);
+
+    // Sync select dropdowns
+    const bookSelect = document.getElementById('listening-book-select');
+    const testSelect = document.getElementById('listening-test-select');
+    const m = testId.match(/^cam(\d+)/i);
+    if (m && bookSelect && testSelect) {
+      const bId = `cam${m[1]}`;
+      if (bookSelect.value !== bId) {
+        bookSelect.value = bId;
+        updateTestDropdownOptions(bId);
+      }
+      testSelect.value = testId;
+    }
+
+    const loader = (window.cambridgeModule && typeof window.cambridgeModule.loadTest === 'function')
+      ? window.cambridgeModule.loadTest(testId)
+      : loadTestScript(testId);
+
+    loader.then(testData => {
+      renderPartTabs(testData);
+      loadSection(state.currentSectionId, autoPlay);
+    }).catch(err => {
+      console.warn('Could not load test data for', testId, err);
+      loadSection(state.currentSectionId, autoPlay);
+    });
   }
 
   // --- INITIALIZATION ---
@@ -84,6 +406,9 @@
     bindAudioEvents();
     bindDomEvents();
 
+    // Populate pickers
+    populateTestPickers();
+
     // Load saved words from localStorage
     try {
       const saved = JSON.parse(localStorage.getItem('listening_saved_words') || '[]');
@@ -92,11 +417,8 @@
       state.savedWordIds = new Set();
     }
 
-    // Set initial section
-    const sec = getCurrentSection();
-    if (sec) {
-      loadSection(sec.section_id, false);
-    }
+    // Switch to initial test
+    switchTest(state.currentTestId, 0, false);
   }
 
   // --- BIND AUDIO EVENTS ---
@@ -105,8 +427,27 @@
 
     audioEl.addEventListener('loadedmetadata', () => {
       state.duration = audioEl.duration || 0;
+      const sec = getCurrentSection();
+      if (sec && state.duration > 0) {
+        interpolateSegmentTimestamps(sec, state.duration);
+      }
       updateDurationDisplay();
       renderTimelineMarkers();
+      renderKaraokeTranscript();
+      renderVocabList();
+    });
+
+    audioEl.addEventListener('error', () => {
+      const hintEl = document.getElementById('listening-audio-hint');
+      if (hintEl) {
+        hintEl.style.display = 'block';
+        hintEl.innerHTML = 'ℹ️ <strong>Audio:</strong> File nghe bài này chưa tìm thấy ở đường dẫn cục bộ hoặc đang tải. Bạn vẫn có thể luyện nghe, xem toàn bộ transcript, từ khó và tra nghĩa bên dưới.';
+      }
+    });
+
+    audioEl.addEventListener('canplay', () => {
+      const hintEl = document.getElementById('listening-audio-hint');
+      if (hintEl) hintEl.style.display = 'none';
     });
 
     audioEl.addEventListener('play', () => {
@@ -834,17 +1175,55 @@
         skip(5);
       } else if (e.code === 'ArrowUp') {
         e.preventDefault();
-        jumpToPrevWord();
       } else if (e.code === 'ArrowDown') {
         e.preventDefault();
         jumpToNextWord();
       }
     });
+
+    // 14. Book & Test Pickers
+    const bookSelect = document.getElementById('listening-book-select');
+    if (bookSelect) {
+      bookSelect.addEventListener('change', (e) => {
+        const bId = e.target.value;
+        updateTestDropdownOptions(bId);
+        const testSelect = document.getElementById('listening-test-select');
+        const nextTestId = testSelect?.value || `${bId}_t1`;
+        switchTest(nextTestId, 0, false);
+      });
+    }
+
+    const testSelect = document.getElementById('listening-test-select');
+    if (testSelect) {
+      testSelect.addEventListener('change', (e) => {
+        switchTest(e.target.value, 0, false);
+      });
+    }
+
+    // 15. Browse 44 Tests Modal
+    const btnBrowse = document.getElementById('btn-listening-browse-tests');
+    if (btnBrowse) {
+      btnBrowse.addEventListener('click', openBrowseModal);
+    }
+
+    const btnCloseBrowse = document.getElementById('btn-close-listening-browse');
+    if (btnCloseBrowse) {
+      btnCloseBrowse.addEventListener('click', closeBrowseModal);
+    }
+
+    const browseModal = document.getElementById('listening-browse-modal');
+    if (browseModal) {
+      browseModal.addEventListener('click', (e) => {
+        if (e.target === browseModal) closeBrowseModal();
+      });
+    }
   }
 
   // --- ACTIONS ---
   function loadSection(secId, autoPlay = false) {
     state.currentSectionId = secId;
+    localStorage.setItem('ielts_listening_last_section_id', secId);
+
     const sec = getCurrentSection();
     if (!sec) return;
 
@@ -855,6 +1234,11 @@
     state.activeSegment = null;
     state.recentWordIds = [];
     state.pausedWordIds.clear();
+
+    // If audio duration is already known, interpolate if needed
+    if (state.duration > 0) {
+      interpolateSegmentTimestamps(sec, state.duration);
+    }
 
     // Update section tabs in UI
     document.querySelectorAll('.listening-section-tab').forEach(tab => {
@@ -877,12 +1261,20 @@
     // Load audio source
     if (audioEl) {
       audioEl.pause();
-      audioEl.src = encodeURI(sec.audio_src);
-      audioEl.playbackRate = state.playbackRate;
-      audioEl.load();
+      if (sec.audio_src) {
+        audioEl.src = encodeURI(sec.audio_src);
+        audioEl.playbackRate = state.playbackRate;
+        audioEl.load();
 
-      if (autoPlay) {
-        audioEl.play().catch(e => console.log('Autoplay blocked:', e));
+        if (sec.audio_offset > 0) {
+          audioEl.currentTime = sec.audio_offset;
+        }
+
+        if (autoPlay) {
+          audioEl.play().catch(e => console.log('Autoplay blocked:', e));
+        }
+      } else {
+        audioEl.removeAttribute('src');
       }
     }
 
@@ -915,7 +1307,7 @@
     if (detailedStage) detailedStage.style.display = mode === 'detailed' ? 'block' : 'none';
     if (minimalStage) minimalStage.style.display = mode === 'minimal' ? 'block' : 'none';
     if (karaokeStage) karaokeStage.style.display = mode === 'karaoke' ? 'block' : 'none';
-    if (vocabStage) vocabStage.style.display = mode === 'vocab' ? 'block' : 'none';
+    if (vocabStage) vocabStage.style.display = (mode === 'detailed' || mode === 'vocab') ? 'block' : 'none';
 
     if (mode === 'karaoke') {
       const sec = getCurrentSection();
@@ -925,6 +1317,7 @@
       renderMinimalRecentChips();
     } else if (mode === 'detailed') {
       renderActiveWordHero(state.activeWord, true);
+      renderVocabList();
     } else if (mode === 'vocab') {
       renderVocabList();
     }
@@ -1069,33 +1462,38 @@
     const word = sec.vocabulary.find(w => w.id === wordId);
     if (!word) return;
 
-    const isCollocationOrPhrase = (word.word.includes(' ') || word.type === 'phrase' || word.type === 'collocation');
+    const lemma = word.word.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    const cardId = `cam-${lemma}`;
 
-    let success = false;
-    if (isCollocationOrPhrase && typeof window.addCollocationCard === 'function') {
-      success = window.addCollocationCard({
-        english: word.word,
-        vietnamese: word.meaning,
-        exampleEn: word.context || word.word,
-        exampleVi: word.meaning,
-        ipa: word.ipa || '/ielts/'
-      });
-    } else if (typeof window.addWordCard === 'function') {
-      success = window.addWordCard({
-        english: word.word,
-        vietnamese: word.meaning,
-        exampleEn: word.context || word.word,
-        exampleVi: word.meaning,
-        ipa: word.ipa || '/ielts/'
-      });
-    } else if (typeof window.addCollocationCard === 'function') {
-      success = window.addCollocationCard({
-        english: word.word,
-        vietnamese: word.meaning,
-        exampleEn: word.context || word.word,
-        exampleVi: word.meaning,
-        ipa: word.ipa || '/ielts/'
-      });
+    // Try finding existing card in storage to activate it into today's queue
+    let activated = false;
+    try {
+      const stored = localStorage.getItem('minimal_flashcards_data_v6');
+      if (stored) {
+        const cards = JSON.parse(stored);
+        const target = cards.find(c => c.id === cardId || c.english.toLowerCase() === word.word.toLowerCase());
+        if (target) {
+          target.nextReviewDate = Date.now();
+          target.createdDate = target.createdDate || Date.now();
+          localStorage.setItem('minimal_flashcards_data_v6', JSON.stringify(cards));
+          activated = true;
+          if (window.showToast) {
+            window.showToast(`Đã đưa "${word.word}" vào hàng đợi học flashcard hôm nay!`);
+          }
+        }
+      }
+    } catch (e) {}
+
+    if (!activated) {
+      if (typeof window.addWordCard === 'function') {
+        window.addWordCard({
+          english: word.word,
+          vietnamese: word.meaning,
+          exampleEn: word.context || word.word,
+          exampleVi: word.meaning,
+          ipa: word.ipa || '/ielts/'
+        });
+      }
     }
 
     state.savedWordIds.add(word.id);
@@ -1106,9 +1504,16 @@
       renderMinimalWord(state.activeWord, true);
     }
     renderRecentWordsStrip();
-    renderMinimalRecentChips();
     renderVocabList();
   }
+
+  window.openListening3Tab = function(testId, partIndex = 0) {
+    if (typeof window.selectCategory === 'function') {
+      window.selectCategory('listening');
+    }
+    switchTest(testId, partIndex, true);
+    setMode('detailed');
+  };
 
   function saveAllCurrentSectionWords() {
     const sec = getCurrentSection();
@@ -1131,10 +1536,18 @@
   function onActivate() {
     if (!audioEl) {
       init();
+      return;
     }
-    const sec = getCurrentSection();
-    if (sec && (!audioEl.src || audioEl.src === window.location.href)) {
-      loadSection(sec.section_id, false);
+    populateTestPickers();
+
+    if (!window.CAM_TESTS || !window.CAM_TESTS[state.currentTestId]) {
+      switchTest(state.currentTestId, 0, false);
+    } else {
+      renderPartTabs(window.CAM_TESTS[state.currentTestId]);
+      const sec = getCurrentSection();
+      if (sec && (!audioEl.src || audioEl.src === window.location.href)) {
+        loadSection(sec.section_id, false);
+      }
     }
   }
 
@@ -1143,6 +1556,9 @@
     init,
     onActivate,
     loadSection,
+    switchTest,
+    openBrowseModal,
+    closeBrowseModal,
     setMode,
     togglePlay,
     seekTo,

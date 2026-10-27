@@ -43,6 +43,22 @@
    - Hỗ trợ **Xuất file JSON** (Export) để sao lưu hoặc chuyển đổi sang điện thoại/máy tính khác.
    - Hỗ trợ **Nhập file JSON** (Import) và khôi phục bộ thẻ mẫu bất kỳ lúc nào.
 
+8. **📚 Cambridge IELTS 10–20 Hub • Luyện Đề Có Chữa Chi Tiết & Flashcard Cuốn Chiếu:**
+   - 📑 **Làm Đề Reading 40 Câu (Passage 1–3):** Giao diện chia đôi màn hình (Split-screen), cuộn song song mượt mà. Hỗ trợ đủ các dạng câu hỏi: TFNG/YNNG, Điền từ, Trắc nghiệm đơn/nhiều đáp án, Nối thông tin/tiêu đề.
+   - 🎧 **Làm Đề Listening 40 Câu (Part 1–4):** Tích hợp Audio Dock ngắt nhịp, ẩn transcript khi làm bài, tự động chấm điểm và quy đổi IELTS Band 9.0 chuẩn xác.
+   - 🔍 **Màn Chữa Bài Chi Tiết (Detailed Review):**
+     - Nút **"📍 Xem trong bài"**: Tự động cuộn đến đoạn văn chứa đáp án, tô sáng câu dẫn chứng (Evidence quote pulse effect).
+     - **Đối Chiếu Từ Khóa & Paraphrase**: Hiển thị song song cặp từ khóa câu hỏi $\leftrightarrow$ cụm từ đồng nghĩa trong bài đọc/bài nghe.
+     - **Hộp Cảnh Báo Bẫy (⚠️ Bẫy & Lưu ý)**: Phân tích vì sao phương án nhiễu lại sai (từ hạn định, thông tin đối lập, người nói đổi ý).
+     - Nút **"▶ Nghe đoạn dẫn chứng"**: Tua và phát đúng đoạn audio chứa đáp án.
+   - 🎧 **Listening 3 Tab Khi Luyện Nghe:**
+     - **Tab ① Toàn văn (Karaoke):** Toàn bộ transcript chạy đồng bộ theo audio, tô sáng câu đang nói và gạch chân từ khó.
+     - **Tab ② Chỉ từ khó (Minimal):** Chỉ các từ học thuật B2-C2 xuất hiện đúng thời điểm được phát âm.
+     - **Tab ③ Từ khó + Nghĩa (Detailed):** Hiển thị chi tiết phiên âm IPA, loại từ, nghĩa tiếng Việt, câu ngữ cảnh và nút **"+ Lưu vào flashcard"**.
+   - 🗂️ **Hơn 1.000 Flashcard Theo 9 Chủ Đề Học Thuật (Schema 3.2):**
+     - 9 Chủ đề: *Môi trường, Du lịch, Kiến trúc, Khoa học, Sức khỏe, Giáo dục, Kinh tế, Tâm lý học, Giao tiếp*.
+     - **Cơ chế Cuốn Chiếu (Rolling SRS Queue)**: Mỗi ngày chỉ nạp tối đa 10 thẻ mới/chủ đề vào hàng đợi để người học hấp thụ tự nhiên theo chu kỳ 1 $\to$ 4 $\to$ 7 $\to$ 14 ngày mà không bị quá tải.
+
 ---
 
 ## ⌨️ Phím Tắt Tiện Lợi (Khi dùng trên máy tính)

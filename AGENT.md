@@ -78,6 +78,25 @@ Mỗi thẻ flashcard mới được thêm vào mảng `DEFAULT_CARDS` trong `ap
 
 ---
 
+## BƯỚC 3.2: THẺ CAMBRIDGE IELTS (THEO CHỦ ĐỀ & CUỐN CHIẾU)
+
+Đối với các thẻ học thuật rút từ Cambridge IELTS 10–20 (sinh bởi `tools/build_cards.py` lưu tại `cambridge_cards.js`):
+1. **Quy chuẩn ID:**
+   - Định dạng ổn định theo lemma: `cam-<lemma>` (ví dụ: `cam-itinerary`, `cam-stepwell`). Không dùng số tự tăng để tránh trùng lặp khi chạy lại pipeline.
+2. **Trường dữ liệu mở rộng (Schema 3.2):**
+   - `topic`: 1 trong 9 chủ đề cốt lõi (`environment`, `travel`, `architecture`, `science`, `health`, `education`, `economy`, `psychology`, `communication`).
+   - `source`: Mảng các bài thi gốc chứa từ (ví dụ: `['cam10_t1:L1', 'cam14_t2:R3']`).
+   - `acceptedAnswers`: Các biến thể ngữ pháp của từ.
+3. **Cơ chế ôn cuốn chiếu (Rolling Queue):**
+   - Thẻ có `nextReviewDate === 0` được coi là thẻ mới.
+   - Mỗi ngày hệ thống tự động đưa tối đa 10 thẻ mới cho mỗi chủ đề vào hàng đợi ôn tập (`nextReviewDate = Date.now()`), giúp người học không bị ngợp.
+4. **Kiểm tra hợp lệ:**
+   ```bash
+   python tools/build_cards.py --check
+   ```
+
+---
+
 ## BƯỚC 4: TỰ ĐỘNG COMMIT & PUSH LÊN GITHUB
 
 Sau khi kiểm tra cú pháp thành công, Agent chạy các lệnh Git sau trong thư mục làm việc:

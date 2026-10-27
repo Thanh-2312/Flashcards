@@ -1,0 +1,1246 @@
+[
+  {
+    "topic_id": "travel",
+    "title": "Travel, Tourism & Hospitality",
+    "titleVi": "Du lịch, Địa danh & Khách sạn",
+    "icon": "✈️",
+    "description": "Từ vựng học thuật B2-C2 về du lịch, lưu trú, lộ trình di chuyển và trải nghiệm khám phá trong IELTS.",
+    "words": [
+      {
+        "id": "voc_tr_01",
+        "word": "itinerary",
+        "ipa": "/aɪˈtɪn.ər.ər.i/",
+        "level": "C1",
+        "type": "noun",
+        "vietnamese": "Lịch trình chi tiết, lộ trình chuyến đi",
+        "exampleEn": "The travel agency will provide a comprehensive itinerary including departure times and hotel check-ins.",
+        "exampleVi": "Đại lý du lịch sẽ cung cấp lịch trình toàn diện bao gồm thời gian khởi hành và nhận phòng khách sạn.",
+        "frontBlank": "The travel agency will provide a comprehensive __________ including departure times and hotel check-ins.",
+        "acceptedAnswers": [
+          "itinerary",
+          "itineraries"
+        ],
+        "collocations": [
+          "detailed itinerary",
+          "travel itinerary",
+          "plan an itinerary"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_02",
+        "word": "self-drive",
+        "ipa": "/ˌselfˈdraɪv/",
+        "level": "B2",
+        "type": "adjective",
+        "vietnamese": "Tự lái xe (chuyến du lịch người đi tự thuê xe tự lái)",
+        "exampleEn": "Self-drive tours allow visitors the flexibility to explore California at their own pace.",
+        "exampleVi": "Các tour tự lái cho phép du khách sự linh hoạt để khám phá California theo tốc độ của riêng mình.",
+        "frontBlank": "__________ tours allow visitors the flexibility to explore California at their own pace.",
+        "acceptedAnswers": [
+          "self-drive",
+          "self drive"
+        ],
+        "collocations": [
+          "self-drive holiday",
+          "self-drive tour",
+          "self-drive car rental"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_03",
+        "word": "scenic route",
+        "ipa": "/ˌsiː.nɪk ˈruːt/",
+        "level": "B2",
+        "type": "phrase",
+        "vietnamese": "Tuyến đường ngắm cảnh, cung đường có phong cảnh đẹp",
+        "exampleEn": "Taking the scenic route along the Pacific coastline offers breathtaking ocean views.",
+        "exampleVi": "Đi theo cung đường ngắm cảnh dọc bờ biển Thái Bình Dương mang lại tầm nhìn đại dương ngoạn mục.",
+        "frontBlank": "Taking the __________ along the Pacific coastline offers breathtaking ocean views.",
+        "acceptedAnswers": [
+          "scenic route",
+          "scenic routes"
+        ],
+        "collocations": [
+          "take the scenic route",
+          "drive along a scenic route"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_04",
+        "word": "picturesque",
+        "ipa": "/ˌpɪk.tʃərˈesk/",
+        "level": "C1",
+        "type": "adjective",
+        "vietnamese": "Đẹp như tranh vẽ, thơ mộng cổ kính",
+        "exampleEn": "The historic fishing village is famous for its picturesque stone cottages and quiet harbor.",
+        "exampleVi": "Làng chài lịch sử nổi tiếng với những ngôi nhà tranh bằng đá đẹp như tranh vẽ và bến cảng yên bình.",
+        "frontBlank": "The historic fishing village is famous for its __________ stone cottages and quiet harbor.",
+        "acceptedAnswers": [
+          "picturesque"
+        ],
+        "collocations": [
+          "picturesque village",
+          "picturesque scenery",
+          "picturesque harbor"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_05",
+        "word": "hospitality",
+        "ipa": "/ˌhɒs.pɪˈtæl.ə.ti/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Lòng hiếu khách; ngành dịch vụ khách sạn - ẩm thực",
+        "exampleEn": "The region is renowned for its generous hospitality towards international backpackers.",
+        "exampleVi": "Khu vực này nổi tiếng với lòng hiếu khách hào hiệp đối với khách du lịch bụi quốc tế.",
+        "frontBlank": "The region is renowned for its generous __________ towards international backpackers.",
+        "acceptedAnswers": [
+          "hospitality"
+        ],
+        "collocations": [
+          "warm hospitality",
+          "hospitality industry",
+          "extend hospitality"
+        ],
+        "source": "CAM 10 Test 3 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_06",
+        "word": "amenity",
+        "ipa": "/əˈmiː.nə.ti/",
+        "level": "C1",
+        "type": "noun",
+        "vietnamese": "Tiện nghi, dịch vụ thuận ích (hồ bơi, wifi, phòng tập)",
+        "exampleEn": "The five-star resort provides modern amenities including heated pools and wellness spas.",
+        "exampleVi": "Khu nghỉ dưỡng 5 sao cung cấp các tiện nghi hiện đại bao gồm hồ bơi nước nóng và spa chăm sóc sức khỏe.",
+        "frontBlank": "The five-star resort provides modern __________ including heated pools and wellness spas.",
+        "acceptedAnswers": [
+          "amenity",
+          "amenities"
+        ],
+        "collocations": [
+          "modern amenities",
+          "basic amenities",
+          "public amenities"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_07",
+        "word": "excursion",
+        "ipa": "/ɪkˈskɜː.ʃən/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Chuyến du ngoạn, dã ngoại ngắn ngày theo đoàn",
+        "exampleEn": "We booked a guided day excursion to visit the ancient Buddhist cave temples.",
+        "exampleVi": "Chúng tôi đã đặt một chuyến dã ngoại có hướng dẫn viên trong ngày để thăm các ngôi chùa hang động Phật giáo cổ.",
+        "frontBlank": "We booked a guided day __________ to visit the ancient Buddhist cave temples.",
+        "acceptedAnswers": [
+          "excursion",
+          "excursions"
+        ],
+        "collocations": [
+          "day excursion",
+          "go on an excursion",
+          "weekend excursion"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_08",
+        "word": "tourist influx",
+        "ipa": "/ˈtʊə.rɪst ˈɪn.flʌks/",
+        "level": "C1",
+        "type": "collocation",
+        "vietnamese": "Làn sóng du khách đổ về ồ ạt",
+        "exampleEn": "The sudden tourist influx during summer months often puts immense pressure on local water supplies.",
+        "exampleVi": "Làn sóng du khách đổ về bất ngờ trong các tháng mùa hè thường gây áp lực lớn lên nguồn cung cấp nước địa phương.",
+        "frontBlank": "The sudden __________ during summer months often puts immense pressure on local water supplies.",
+        "acceptedAnswers": [
+          "tourist influx",
+          "influx of tourists"
+        ],
+        "collocations": [
+          "massive tourist influx",
+          "cope with a tourist influx"
+        ],
+        "source": "CAM 10 Test 3 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_09",
+        "word": "cultural immersion",
+        "ipa": "/ˈkʌl.tʃər.əl ɪˈmɜː.ʃən/",
+        "level": "C2",
+        "type": "collocation",
+        "vietnamese": "Sự hòa mình trọn vẹn vào trải nghiệm văn hóa địa phương",
+        "exampleEn": "Living with host families in rural villages offers deep cultural immersion for language students.",
+        "exampleVi": "Sống cùng gia đình bản xứ tại các ngôi làng nông thôn mang lại trải nghiệm hòa mình văn hóa sâu sắc cho sinh viên ngôn ngữ.",
+        "frontBlank": "Living with host families in rural villages offers deep __________ for language students.",
+        "acceptedAnswers": [
+          "cultural immersion"
+        ],
+        "collocations": [
+          "total cultural immersion",
+          "experience cultural immersion"
+        ],
+        "source": "CAM 10 Test 3 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_10",
+        "word": "embark on",
+        "ipa": "/ɪmˈbɑːk ɒn/",
+        "level": "C1",
+        "type": "phrasal verb",
+        "vietnamese": "Bắt đầu, dấn thân vào một hành trình lớn hoặc chuyến đi xa",
+        "exampleEn": "Before you embark on a long overland expedition, ensure your vehicle is fully serviced.",
+        "exampleVi": "Trước khi bạn dấn thân vào một cuộc thám hiểm đường bộ dài ngày, hãy đảm bảo xe của bạn đã được bảo dưỡng toàn bộ.",
+        "frontBlank": "Before you __________ a long overland expedition, ensure your vehicle is fully serviced.",
+        "acceptedAnswers": [
+          "embark on",
+          "embarking on",
+          "embarked on"
+        ],
+        "collocations": [
+          "embark on a journey",
+          "embark on a voyage",
+          "embark on a venture"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_11",
+        "word": "breathtaking",
+        "ipa": "/ˈbreθˌteɪ.kɪŋ/",
+        "level": "B2",
+        "type": "adjective",
+        "vietnamese": "Đẹp nghẹt thở, ngoạn mục tuyệt trần",
+        "exampleEn": "The summit of the mountain provided breathtaking panoramic views of the entire valley.",
+        "exampleVi": "Đỉnh núi mở ra tầm nhìn toàn cảnh ngoạn mục đẹp nghẹt thở của toàn bộ thung lũng.",
+        "frontBlank": "The summit of the mountain provided __________ panoramic views of the entire valley.",
+        "acceptedAnswers": [
+          "breathtaking"
+        ],
+        "collocations": [
+          "breathtaking view",
+          "breathtaking scenery",
+          "breathtaking panorama"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_tr_12",
+        "word": "remote location",
+        "ipa": "/rɪˈməʊt ləʊˈkeɪ.ʃən/",
+        "level": "B2",
+        "type": "phrase",
+        "vietnamese": "Địa điểm xa xôi hẻo lánh, cách xa đô thị",
+        "exampleEn": "The research station was constructed in a remote location to avoid atmospheric pollution.",
+        "exampleVi": "Trạm nghiên cứu được xây dựng tại một địa điểm xa xôi hẻo lánh để tránh ô nhiễm bầu khí quyển.",
+        "frontBlank": "The research station was constructed in a __________ to avoid atmospheric pollution.",
+        "acceptedAnswers": [
+          "remote location",
+          "remote locations"
+        ],
+        "collocations": [
+          "isolated and remote location",
+          "access a remote location"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      }
+    ]
+  },
+  {
+    "topic_id": "environment",
+    "title": "Environment, Climate & Ecology",
+    "titleVi": "Môi trường, Sinh thái & Khí hậu",
+    "icon": "🌿",
+    "description": "Từ vựng IELTS B2-C2 về biến đổi khí hậu, sinh thái, bảo tồn động thực vật quý hiếm và thảm họa tự nhiên.",
+    "words": [
+      {
+        "id": "voc_env_01",
+        "word": "endangered species",
+        "ipa": "/ɪnˈdeɪn.dʒəd ˈspiː.ʃiːz/",
+        "level": "B2",
+        "type": "phrase",
+        "vietnamese": "Các loài có nguy cơ tuyệt chủng",
+        "exampleEn": "The spirit bear of British Columbia is classified as an endangered species due to deforestation.",
+        "exampleVi": "Gấu thần tại British Columbia được phân loại là loài có nguy cơ tuyệt chủng do nạn phá rừng.",
+        "frontBlank": "The spirit bear of British Columbia is classified as an __________ due to deforestation.",
+        "acceptedAnswers": [
+          "endangered species"
+        ],
+        "collocations": [
+          "protect endangered species",
+          "critically endangered species"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 4",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_02",
+        "word": "desertification",
+        "ipa": "/dɪˌzɜː.tɪ.fɪˈkeɪ.ʃən/",
+        "level": "C1",
+        "type": "noun",
+        "vietnamese": "Hiện tượng hoang mạc hóa, đất đai biến thành sa mạc",
+        "exampleEn": "Overgrazing and prolonged drought accelerate the process of desertification across semi-arid zones.",
+        "exampleVi": "Chăn thả quá mức và hạn hán kéo dài đẩy nhanh quá trình hoang mạc hóa trên khắp các vùng bán khô hạn.",
+        "frontBlank": "Overgrazing and prolonged drought accelerate the process of __________ across semi-arid zones.",
+        "acceptedAnswers": [
+          "desertification"
+        ],
+        "collocations": [
+          "combat desertification",
+          "halt desertification",
+          "risk of desertification"
+        ],
+        "source": "CAM 10 Test 4 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_03",
+        "word": "biodiversity",
+        "ipa": "/ˌbaɪ.əʊ.daɪˈvɜː.sə.ti/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Sự đa dạng sinh học trong hệ sinh thái",
+        "exampleEn": "Tropical rainforests harbor unmatched biodiversity, hosting over half of all terrestrial animal species.",
+        "exampleVi": "Rừng mưa nhiệt đới lưu giữ sự đa dạng sinh học vô song, là nơi cư trú của hơn một nửa các loài động vật trên cạn.",
+        "frontBlank": "Tropical rainforests harbor unmatched __________, hosting over half of all terrestrial animal species.",
+        "acceptedAnswers": [
+          "biodiversity"
+        ],
+        "collocations": [
+          "preserve biodiversity",
+          "rich biodiversity",
+          "threat to biodiversity"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 4",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_04",
+        "word": "deterioration",
+        "ipa": "/dɪˌtɪə.ri.əˈreɪ.ʃən/",
+        "level": "C1",
+        "type": "noun",
+        "vietnamese": "Sự suy thoái, xuống cấp dần dần về chất lượng",
+        "exampleEn": "Careful conservation of tree cover prevents the rapid deterioration of agricultural soils.",
+        "exampleVi": "Việc bảo tồn cẩn thận độ che phủ của cây xanh ngăn chặn sự suy thoái nhanh chóng của đất nông nghiệp.",
+        "frontBlank": "Careful conservation of tree cover prevents the rapid __________ of agricultural soils.",
+        "acceptedAnswers": [
+          "deterioration"
+        ],
+        "collocations": [
+          "environmental deterioration",
+          "halt deterioration",
+          "rapid deterioration"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_05",
+        "word": "old-growth rainforest",
+        "ipa": "/ˌəʊld ˈɡrəʊθ ˈreɪn.fɒr.ɪst/",
+        "level": "C1",
+        "type": "phrase",
+        "vietnamese": "Rừng mưa nguyên sinh lâu đời (chưa từng bị con người can thiệp)",
+        "exampleEn": "The bears depend intimately on the ancient canopies of the old-growth rainforest for food and shelter.",
+        "exampleVi": "Loài gấu phụ thuộc mật thiết vào tán rừng cổ thụ của rừng mưa nguyên sinh để tìm thức ăn và nơi trú ẩn.",
+        "frontBlank": "The bears depend intimately on the ancient canopies of the __________ for food and shelter.",
+        "acceptedAnswers": [
+          "old-growth rainforest",
+          "old growth rainforest"
+        ],
+        "collocations": [
+          "protect old-growth rainforest",
+          "canopy of old-growth rainforest"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 4",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_06",
+        "word": "hibernation",
+        "ipa": "/ˌhaɪ.bəˈneɪ.ʃən/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Sự ngủ đông (trạng thái tiết kiệm năng lượng của động vật qua mùa đông)",
+        "exampleEn": "Bears build substantial fat reserves in late autumn before entering their winter hibernation.",
+        "exampleVi": "Gấu tích lũy trữ lượng mỡ đáng kể vào cuối mùa thu trước khi bước vào kỳ ngủ đông của chúng.",
+        "frontBlank": "Bears build substantial fat reserves in late autumn before entering their winter __________.",
+        "acceptedAnswers": [
+          "hibernation"
+        ],
+        "collocations": [
+          "winter hibernation",
+          "enter hibernation",
+          "emerge from hibernation"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 4",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_07",
+        "word": "megafire",
+        "ipa": "/ˈmeɡ.ə.faɪər/",
+        "level": "C1",
+        "type": "noun",
+        "vietnamese": "Đại thảm họa cháy rừng diện rộng (sức tàn phá cực đại)",
+        "exampleEn": "A megafire can consume hundreds of thousands of acres of woodland in mere days.",
+        "exampleVi": "Một trận đại thảm họa cháy rừng có thể thiêu rụi hàng trăm nghìn mẫu đất rừng chỉ trong vài ngày ngắn ngủi.",
+        "frontBlank": "A __________ can consume hundreds of thousands of acres of woodland in mere days.",
+        "acceptedAnswers": [
+          "megafire",
+          "megafires"
+        ],
+        "collocations": [
+          "tackle a megafire",
+          "outbreak of a megafire",
+          "california megafires"
+        ],
+        "source": "CAM 10 Test 4 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_08",
+        "word": "combustible",
+        "ipa": "/kəmˈbʌs.tə.bəl/",
+        "level": "C2",
+        "type": "adjective",
+        "vietnamese": "Dễ bắt lửa, dễ bốc cháy (nói về lá khô, gỗ hoặc nhiên liệu)",
+        "exampleEn": "Dry pine needles and dead brush accumulate into highly combustible fuel for wildfires.",
+        "exampleVi": "Lá thông khô và bụi cây chết tích tụ thành nhiên liệu cực kỳ dễ bắt lửa cho các đám cháy rừng.",
+        "frontBlank": "Dry pine needles and dead brush accumulate into highly __________ fuel for wildfires.",
+        "acceptedAnswers": [
+          "combustible"
+        ],
+        "collocations": [
+          "combustible material",
+          "combustible fuel",
+          "highly combustible"
+        ],
+        "source": "CAM 10 Test 4 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_09",
+        "word": "drought-prone",
+        "ipa": "/ˈdraʊt prəʊn/",
+        "level": "C1",
+        "type": "adjective",
+        "vietnamese": "Dễ bị hạn hán đe dọa, thường xuyên xảy ra hạn hán",
+        "exampleEn": "Farmers in drought-prone regions must adopt water-efficient drip irrigation systems.",
+        "exampleVi": "Nông dân ở các vùng thường xuyên xảy ra hạn hán phải áp dụng các hệ thống tưới nhỏ giọt tiết kiệm nước.",
+        "frontBlank": "Farmers in __________ regions must adopt water-efficient drip irrigation systems.",
+        "acceptedAnswers": [
+          "drought-prone",
+          "drought prone"
+        ],
+        "collocations": [
+          "drought-prone area",
+          "drought-prone region",
+          "vulnerable drought-prone landscape"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_env_10",
+        "word": "aquatic",
+        "ipa": "/əˈkwæt.ɪk/",
+        "level": "B2",
+        "type": "adjective",
+        "vietnamese": "Sống dưới nước, thuộc về môi trường nước",
+        "exampleEn": "Pollution from chemical runoff threatens aquatic life throughout the river basin.",
+        "exampleVi": "Ô nhiễm từ hóa chất chảy tràn đe dọa sinh vật thủy sinh trong toàn bộ lưu vực sông.",
+        "frontBlank": "Pollution from chemical runoff threatens __________ life throughout the river basin.",
+        "acceptedAnswers": [
+          "aquatic"
+        ],
+        "collocations": [
+          "aquatic plant",
+          "aquatic ecosystem",
+          "aquatic animals"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      }
+    ]
+  },
+  {
+    "topic_id": "architecture",
+    "title": "Architecture, History & Heritage",
+    "titleVi": "Kiến trúc, Di sản & Lịch sử",
+    "icon": "🏛️",
+    "description": "Từ vựng IELTS B2-C2 miêu tả công trình cổ đại, kỹ thuật xây dựng đá vĩ đại, điêu khắc và di sản nhân loại.",
+    "words": [
+      {
+        "id": "voc_arch_01",
+        "word": "stepwell",
+        "ipa": "/ˈstep.wel/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Giếng bậc thang (công trình thủy lợi và kiến trúc độc đáo thời cổ Ấn Độ)",
+        "exampleEn": "A stepwell features intricate stone steps descending hundreds of feet down to the subterranean water table.",
+        "exampleVi": "Giếng bậc thang có các bậc đá tinh xảo dẫn xuống hàng trăm bộ đến tận mạch nước ngầm dưới lòng đất.",
+        "frontBlank": "A __________ features intricate stone steps descending hundreds of feet down to the subterranean water table.",
+        "acceptedAnswers": [
+          "stepwell",
+          "stepwells"
+        ],
+        "collocations": [
+          "ancient stepwell",
+          "stepwell architecture",
+          "stone stepwell"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_arch_02",
+        "word": "millennium",
+        "ipa": "/mɪˈlen.i.əm/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Thiên niên kỷ (khoảng thời gian một nghìn năm)",
+        "exampleEn": "Built over a millennium ago, these medieval fortifications have remarkably withstood the test of time.",
+        "exampleVi": "Được xây dựng hơn một thiên niên kỷ trước, những pháo đài thời trung cổ này đã chống chọi thời gian một cách đáng kinh ngạc.",
+        "frontBlank": "Built over a __________ ago, these medieval fortifications have remarkably withstood the test of time.",
+        "acceptedAnswers": [
+          "millennium",
+          "millennia"
+        ],
+        "collocations": [
+          "over a millennium ago",
+          "turn of the millennium",
+          "third millennium"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_arch_03",
+        "word": "pavilion",
+        "ipa": "/pəˈvɪl.jən/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Lầu, đình bát giác hoặc gian nhà ngoài trời có mái che",
+        "exampleEn": "Resting pavilions were erected on multiple tiers of the well to provide travelers shade from the blistering sun.",
+        "exampleVi": "Các đình nghỉ chân được dựng trên nhiều tầng giếng để cung cấp cho người đi đường bóng râm tránh cái nắng thiêu đốt.",
+        "frontBlank": "Resting __________ were erected on multiple tiers of the well to provide travelers shade from the blistering sun.",
+        "acceptedAnswers": [
+          "pavilion",
+          "pavilions"
+        ],
+        "collocations": [
+          "ornate pavilion",
+          "stone pavilion",
+          "garden pavilion"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_arch_04",
+        "word": "intricate",
+        "ipa": "/ˈɪn.trɪ.kət/",
+        "level": "C1",
+        "type": "adjective",
+        "vietnamese": "Tinh xảo, phức tạp với nhiều chi tiết tỉ mỉ",
+        "exampleEn": "The cathedral ceiling is adorned with intricate geometric patterns carved directly into the limestone.",
+        "exampleVi": "Trần nhà thờ được trang hoàng bằng các họa tiết hình học tinh xảo được khắc trực tiếp vào đá vôi.",
+        "frontBlank": "The cathedral ceiling is adorned with __________ geometric patterns carved directly into the limestone.",
+        "acceptedAnswers": [
+          "intricate"
+        ],
+        "collocations": [
+          "intricate design",
+          "intricate carvings",
+          "intricate details"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_arch_05",
+        "word": "undergo restoration",
+        "ipa": "/ˌʌn.dəˈɡəʊ ˌres.tərˈeɪ.ʃən/",
+        "level": "C1",
+        "type": "collocation",
+        "vietnamese": "Trải qua quá trình trùng tu, phục chế",
+        "exampleEn": "Several crumbling palaces in Rajasthan have recently undergone extensive restoration by heritage authorities.",
+        "exampleVi": "Một số cung điện đổ nát ở Rajasthan gần đây đã trải qua quá trình trùng tu quy mô lớn bởi các cơ quan di sản.",
+        "frontBlank": "Several crumbling palaces in Rajasthan have recently __________ extensive restoration by heritage authorities.",
+        "acceptedAnswers": [
+          "undergone restoration",
+          "undergo restoration",
+          "underwent restoration"
+        ],
+        "collocations": [
+          "undergo extensive restoration",
+          "historic site undergoes restoration"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_arch_06",
+        "word": "subterranean",
+        "ipa": "/ˌsʌb.təˈreɪ.ni.ən/",
+        "level": "C2",
+        "type": "adjective",
+        "vietnamese": "Dưới lòng đất, thuộc tầng ngầm ngầm sâu bên dưới",
+        "exampleEn": "Visitors descended into the subterranean chambers to escape the relentless heat above ground.",
+        "exampleVi": "Du khách đi xuống các căn phòng dưới lòng đất để trốn cái nóng gay gắt trên mặt đất.",
+        "frontBlank": "Visitors descended into the __________ chambers to escape the relentless heat above ground.",
+        "acceptedAnswers": [
+          "subterranean"
+        ],
+        "collocations": [
+          "subterranean water",
+          "subterranean chamber",
+          "subterranean labyrinth"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_arch_07",
+        "word": "veranda",
+        "ipa": "/vəˈræn.də/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Hiên nhà, hành lang có mái che chạy quanh tòa nhà",
+        "exampleEn": "The ancient palace boasts arched verandas opening onto lush interior courtyards.",
+        "exampleVi": "Cung điện cổ xưa tự hào có các hàng hiên hình vòm mở ra những khoảng sân trong xanh tươi.",
+        "frontBlank": "The ancient palace boasts arched __________ opening onto lush interior courtyards.",
+        "acceptedAnswers": [
+          "veranda",
+          "verandas",
+          "verandah",
+          "verandahs"
+        ],
+        "collocations": [
+          "covered veranda",
+          "spacious veranda",
+          "wooden veranda"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_arch_08",
+        "word": "monumental",
+        "ipa": "/ˌmɒn.jəˈmen.təl/",
+        "level": "C1",
+        "type": "adjective",
+        "vietnamese": "Mang tính tượng đài, đồ sộ vĩ đại về tầm vóc",
+        "exampleEn": "The Great Wall remains one of the most monumental engineering achievements in human civilization.",
+        "exampleVi": "Vạn Lý Trường Thành vẫn là một trong những thành tựu kỹ thuật mang tính tượng đài đồ sộ nhất của văn minh nhân loại.",
+        "frontBlank": "The Great Wall remains one of the most __________ engineering achievements in human civilization.",
+        "acceptedAnswers": [
+          "monumental"
+        ],
+        "collocations": [
+          "monumental achievement",
+          "monumental structure",
+          "monumental scale"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 1",
+        "interval": 1,
+        "boxLevel": 1
+      }
+    ]
+  },
+  {
+    "topic_id": "science",
+    "title": "Science, Innovation & Technology",
+    "titleVi": "Khoa học, Sáng chế & Công nghệ",
+    "icon": "🔬",
+    "description": "Từ vựng IELTS B2-C2 về phát minh kỹ thuật, thiết kế bền vững, thử nghiệm nguyên mẫu và công nghệ tương lai.",
+    "words": [
+      {
+        "id": "voc_sci_01",
+        "word": "prototype",
+        "ipa": "/ˈprəʊ.tə.taɪp/",
+        "level": "B2",
+        "type": "noun",
+        "vietnamese": "Mẫu thử nghiệm đầu tiên, bản mẫu gốc",
+        "exampleEn": "Engineering students built a working prototype of the solar-powered water purifier.",
+        "exampleVi": "Các sinh viên kỹ thuật đã chế tạo một mẫu thử nghiệm hoạt động được của máy lọc nước chạy bằng năng lượng mặt trời.",
+        "frontBlank": "Engineering students built a working __________ of the solar-powered water purifier.",
+        "acceptedAnswers": [
+          "prototype",
+          "prototypes"
+        ],
+        "collocations": [
+          "working prototype",
+          "develop a prototype",
+          "test a prototype"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 3",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_sci_02",
+        "word": "depressurise",
+        "ipa": "/diːˈpreʃ.ər.aɪz/",
+        "level": "C1",
+        "type": "verb",
+        "vietnamese": "Làm giảm áp suất, xả áp",
+        "exampleEn": "The chamber must depressurise gradually to safeguard sensitive electronic sensors inside.",
+        "exampleVi": "Buồng chứa phải được giảm áp dần dần để bảo vệ các cảm biến điện tử nhạy cảm bên trong.",
+        "frontBlank": "The chamber must __________ gradually to safeguard sensitive electronic sensors inside.",
+        "acceptedAnswers": [
+          "depressurise",
+          "depressurize",
+          "depressurised",
+          "depressurizing"
+        ],
+        "collocations": [
+          "depressurise the cylinder",
+          "suddenly depressurise"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 3",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_sci_03",
+        "word": "domestic appliance",
+        "ipa": "/dəˈmes.tɪk əˈplaɪ.əns/",
+        "level": "B2",
+        "type": "phrase",
+        "vietnamese": "Thiết bị điện gia dụng trong gia đình",
+        "exampleEn": "Modern domestic appliances are engineered to minimize electricity and water consumption.",
+        "exampleVi": "Các thiết bị gia dụng hiện đại được thiết kế để giảm thiểu lượng điện và nước tiêu thụ.",
+        "frontBlank": "Modern __________ are engineered to minimize electricity and water consumption.",
+        "acceptedAnswers": [
+          "domestic appliances",
+          "domestic appliance"
+        ],
+        "collocations": [
+          "electrical domestic appliances",
+          "smart domestic appliances"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 3",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_sci_04",
+        "word": "commercial viability",
+        "ipa": "/kəˈmɜː.ʃəl vaɪ.əˈbɪl.ə.ti/",
+        "level": "C2",
+        "type": "collocation",
+        "vietnamese": "Khả năng sinh lời và thành công thương mại thực tế",
+        "exampleEn": "Despite its technological genius, the prototype failed to achieve commercial viability due to exorbitant production costs.",
+        "exampleVi": "Bất chấp sự xuất sắc về mặt công nghệ, bản mẫu đã thất bại trong việc đạt được khả năng sinh lời thương mại do chi phí sản xuất quá đắt đỏ.",
+        "frontBlank": "Despite its technological genius, the prototype failed to achieve __________ due to exorbitant production costs.",
+        "acceptedAnswers": [
+          "commercial viability"
+        ],
+        "collocations": [
+          "assess commercial viability",
+          "prove commercial viability"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 3",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_sci_05",
+        "word": "grant funding",
+        "ipa": "/ɡrɑːnt ˈfʌn.dɪŋ/",
+        "level": "B2",
+        "type": "phrase",
+        "vietnamese": "Nguồn tài trợ, khoản kinh phí trợ cấp nghiên cứu",
+        "exampleEn": "The university department secured substantial grant funding from the national science foundation.",
+        "exampleVi": "Khoa của trường đại học đã giành được khoản tài trợ kinh phí đáng kể từ quỹ khoa học quốc gia.",
+        "frontBlank": "The university department secured substantial __________ from the national science foundation.",
+        "acceptedAnswers": [
+          "grant funding",
+          "research grant"
+        ],
+        "collocations": [
+          "secure grant funding",
+          "apply for grant funding"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 3",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_sci_06",
+        "word": "energy-efficient",
+        "ipa": "/ˈen.ə.dʒi ɪˈfɪʃ.ənt/",
+        "level": "B2",
+        "type": "adjective",
+        "vietnamese": "Tiết kiệm năng lượng, hiệu suất năng lượng cao",
+        "exampleEn": "Replacing old incandescent bulbs with energy-efficient LEDs substantially lowers utility bills.",
+        "exampleVi": "Việc thay thế bóng đèn sợi đốt cũ bằng đèn LED tiết kiệm năng lượng giúp giảm đáng kể hóa đơn tiền điện.",
+        "frontBlank": "Replacing old incandescent bulbs with __________ LEDs substantially lowers utility bills.",
+        "acceptedAnswers": [
+          "energy-efficient",
+          "energy efficient"
+        ],
+        "collocations": [
+          "energy-efficient appliances",
+          "energy-efficient building design"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 3",
+        "interval": 1,
+        "boxLevel": 1
+      }
+    ]
+  },
+  {
+    "topic_id": "health",
+    "title": "Health, Medicine & Sports",
+    "titleVi": "Y tế, Sức khỏe & Thể thao",
+    "icon": "🏃",
+    "description": "Từ vựng IELTS B2-C2 về thể lực, chế độ luyện tập, y học dự phòng và lối sống cân bằng.",
+    "words": [
+      {
+        "id": "voc_hlth_01",
+        "word": "personal assessment",
+        "ipa": "/ˈpɜː.sən.əl əˈses.mənt/",
+        "level": "B2",
+        "type": "phrase",
+        "vietnamese": "Buổi đánh giá thể lực cá nhân định kỳ",
+        "exampleEn": "New gym members undergo a mandatory personal assessment to establish baseline cardiovascular stamina.",
+        "exampleVi": "Các hội viên phòng gym mới phải trải qua buổi đánh giá cá nhân bắt buộc để xác định sức bền tim mạch cơ sở.",
+        "frontBlank": "New gym members undergo a mandatory __________ to establish baseline cardiovascular stamina.",
+        "acceptedAnswers": [
+          "personal assessment"
+        ],
+        "collocations": [
+          "conduct a personal assessment",
+          "initial personal assessment"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_hlth_02",
+        "word": "cardiovascular",
+        "ipa": "/ˌkɑː.di.əʊˈvæs.kjə.lər/",
+        "level": "C1",
+        "type": "adjective",
+        "vietnamese": "Thuộc về hệ tim mạch và tuần hoàn máu",
+        "exampleEn": "Regular aerobic exercise reduces the likelihood of chronic cardiovascular diseases.",
+        "exampleVi": "Tập thể dục nhịp điệu đều đặn làm giảm khả năng mắc các bệnh tim mạch mãn tính.",
+        "frontBlank": "Regular aerobic exercise reduces the likelihood of chronic __________ diseases.",
+        "acceptedAnswers": [
+          "cardiovascular"
+        ],
+        "collocations": [
+          "cardiovascular fitness",
+          "cardiovascular health",
+          "cardiovascular disease"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_hlth_03",
+        "word": "sedentary lifestyle",
+        "ipa": "/ˈsed.ən.tər.i ˈlaɪf.staɪl/",
+        "level": "C1",
+        "type": "collocation",
+        "vietnamese": "Lối sống thụ động, ngồi nhiều ít vận động",
+        "exampleEn": "Leading a sedentary lifestyle behind office desks is a primary contributor to musculoskeletal pain.",
+        "exampleVi": "Lối sống thụ động ngồi nhiều sau bàn làm việc văn phòng là nguyên nhân chính gây đau cơ xương khớp.",
+        "frontBlank": "Leading a __________ behind office desks is a primary contributor to musculoskeletal pain.",
+        "acceptedAnswers": [
+          "sedentary lifestyle"
+        ],
+        "collocations": [
+          "combat a sedentary lifestyle",
+          "consequences of a sedentary lifestyle"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_hlth_04",
+        "word": "preventive healthcare",
+        "ipa": "/prɪˈven.tɪv ˈhelθ.keər/",
+        "level": "C1",
+        "type": "phrase",
+        "vietnamese": "Y tế dự phòng, chăm sóc sức khỏe chủ động ngừa bệnh",
+        "exampleEn": "Investing in preventive healthcare saves billions in emergency hospital admissions every decade.",
+        "exampleVi": "Đầu tư vào y tế dự phòng giúp tiết kiệm hàng tỷ đô la chi phí nhập viện cấp cứu mỗi thập kỷ.",
+        "frontBlank": "Investing in __________ saves billions in emergency hospital admissions every decade.",
+        "acceptedAnswers": [
+          "preventive healthcare",
+          "preventative healthcare"
+        ],
+        "collocations": [
+          "focus on preventive healthcare",
+          "preventive healthcare measures"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_hlth_05",
+        "word": "strenuous exercise",
+        "ipa": "/ˈstren.ju.əs ˈek.sə.saɪz/",
+        "level": "C1",
+        "type": "collocation",
+        "vietnamese": "Bài tập vận động nặng nhọc, cường độ cao",
+        "exampleEn": "Athletes should avoid strenuous exercise immediately after suffering from muscle strain.",
+        "exampleVi": "Vận động viên nên tránh các bài tập vận động nặng ngay sau khi bị căng cơ.",
+        "frontBlank": "Athletes should avoid __________ immediately after suffering from muscle strain.",
+        "acceptedAnswers": [
+          "strenuous exercise"
+        ],
+        "collocations": [
+          "engage in strenuous exercise",
+          "avoid strenuous exercise"
+        ],
+        "source": "CAM 10 Test 1 Listening Part 2",
+        "interval": 1,
+        "boxLevel": 1
+      }
+    ]
+  },
+  {
+    "topic_id": "education",
+    "title": "Education, University & Academics",
+    "titleVi": "Giáo dục, Đại học & Học thuật",
+    "icon": "🎓",
+    "description": "Từ vựng IELTS B2-C2 về môi trường học thuật, phương pháp giảng dạy, nghiên cứu khoa học và phát triển tư duy.",
+    "words": [
+      {
+        "id": "voc_edu_01",
+        "word": "academic rigour",
+        "ipa": "/ˌæk.əˈdem.ɪk ˈrɪɡ.ər/",
+        "level": "C2",
+        "type": "collocation",
+        "vietnamese": "Tính chuẩn mực và nghiêm cẩn học thuật khắt khe",
+        "exampleEn": "The university program is globally esteemed for its unyielding academic rigour and intellectual challenge.",
+        "exampleVi": "Chương trình đại học được đánh giá cao trên toàn cầu nhờ tính chuẩn mực học thuật nghiêm cẩn và thử thách trí tuệ.",
+        "frontBlank": "The university program is globally esteemed for its unyielding __________ and intellectual challenge.",
+        "acceptedAnswers": [
+          "academic rigour",
+          "academic rigor"
+        ],
+        "collocations": [
+          "demand academic rigour",
+          "uphold academic rigour"
+        ],
+        "source": "CAM 10 Test 2 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_edu_02",
+        "word": "critical thinking",
+        "ipa": "/ˌkrɪt.ɪ.kəl ˈθɪŋ.kɪŋ/",
+        "level": "B2",
+        "type": "phrase",
+        "vietnamese": "Tư duy phản biện độc lập",
+        "exampleEn": "Higher education aims to cultivate critical thinking rather than simple rote memorization.",
+        "exampleVi": "Giáo dục đại học nhằm mục tiêu nuôi dưỡng tư duy phản biện thay vì học vẹt đơn thuần.",
+        "frontBlank": "Higher education aims to cultivate __________ rather than simple rote memorization.",
+        "acceptedAnswers": [
+          "critical thinking"
+        ],
+        "collocations": [
+          "foster critical thinking",
+          "critical thinking skills"
+        ],
+        "source": "CAM 10 Test 2 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_edu_03",
+        "word": "autonomous learner",
+        "ipa": "/ɔːˈtɒn.ə.məs ˈlɜː.nər/",
+        "level": "C1",
+        "type": "collocation",
+        "vietnamese": "Người học tự chủ, có khả năng tự định hướng học tập",
+        "exampleEn": "University professors encourage students to become autonomous learners who pursue independent research.",
+        "exampleVi": "Các giáo sư đại học khuyến khích sinh viên trở thành những người học tự chủ, biết theo đuổi nghiên cứu độc lập.",
+        "frontBlank": "University professors encourage students to become __________ who pursue independent research.",
+        "acceptedAnswers": [
+          "autonomous learners",
+          "autonomous learner"
+        ],
+        "collocations": [
+          "develop into autonomous learners",
+          "support autonomous learners"
+        ],
+        "source": "CAM 10 Test 2 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_edu_04",
+        "word": "pedagogy",
+        "ipa": "/ˈped.ə.ɡɒdʒ.i/",
+        "level": "C2",
+        "type": "noun",
+        "vietnamese": "Phương pháp luận giảng dạy, khoa học sư phạm",
+        "exampleEn": "Modern pedagogy emphasizes student-centered workshops and interactive problem-solving.",
+        "exampleVi": "Phương pháp sư phạm hiện đại chú trọng vào các buổi thảo luận lấy học viên làm trung tâm và giải quyết vấn đề tương tác.",
+        "frontBlank": "Modern __________ emphasizes student-centered workshops and interactive problem-solving.",
+        "acceptedAnswers": [
+          "pedagogy"
+        ],
+        "collocations": [
+          "innovative pedagogy",
+          "teaching pedagogy",
+          "pedagogical approach"
+        ],
+        "source": "CAM 10 Test 2 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      }
+    ]
+  },
+  {
+    "topic_id": "business",
+    "title": "Economy, Business & Employment",
+    "titleVi": "Kinh tế, Doanh nghiệp & Việc làm",
+    "icon": "📈",
+    "description": "Từ vựng IELTS B2-C2 về giao thương, cơ sở hạ tầng, chi phí chuỗi cung ứng và chuyển dịch mô hình vận tải.",
+    "words": [
+      {
+        "id": "voc_biz_01",
+        "word": "modal shift",
+        "ipa": "/ˈməʊ.dəl ʃɪft/",
+        "level": "C2",
+        "type": "collocation",
+        "vietnamese": "Sự chuyển dịch phương thức vận tải (ví dụ từ đường bộ sang đường sắt)",
+        "exampleEn": "The European policy aims to achieve a decisive modal shift from highway haulage towards electric rail.",
+        "exampleVi": "Chính sách châu Âu nhằm đạt được sự chuyển dịch phương thức vận tải quyết định từ xe tải đường cao tốc sang đường sắt điện.",
+        "frontBlank": "The European policy aims to achieve a decisive __________ from highway haulage towards electric rail.",
+        "acceptedAnswers": [
+          "modal shift"
+        ],
+        "collocations": [
+          "encourage a modal shift",
+          "achieve a modal shift"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_biz_02",
+        "word": "traffic congestion",
+        "ipa": "/ˈtræf.ɪk kənˈdʒes.tʃən/",
+        "level": "B2",
+        "type": "phrase",
+        "vietnamese": "Tình trạng ùn tắc giao thông nghiêm trọng",
+        "exampleEn": "Unchecked highway traffic congestion costs the national economy billions of euros in delayed shipments.",
+        "exampleVi": "Tình trạng ùn tắc giao thông trên đường cao tốc không được kiểm soát khiến nền kinh tế quốc gia thiệt hại hàng tỷ euro do hàng hóa bị chậm trễ.",
+        "frontBlank": "Unchecked highway __________ costs the national economy billions of euros in delayed shipments.",
+        "acceptedAnswers": [
+          "traffic congestion"
+        ],
+        "collocations": [
+          "relieve traffic congestion",
+          "severe traffic congestion"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_biz_03",
+        "word": "freight haulage",
+        "ipa": "/freɪt ˈhɔː.lɪdʒ/",
+        "level": "C1",
+        "type": "phrase",
+        "vietnamese": "Vận chuyển hàng hóa đường dài bằng xe tải chuyên dụng",
+        "exampleEn": "Road freight haulage accounts for nearly half of all transport carbon emissions in the region.",
+        "exampleVi": "Vận chuyển hàng hóa đường bộ bằng xe tải chiếm gần một nửa tổng lượng khí thải carbon của ngành giao thông vận tải trong khu vực.",
+        "frontBlank": "Road __________ accounts for nearly half of all transport carbon emissions in the region.",
+        "acceptedAnswers": [
+          "freight haulage"
+        ],
+        "collocations": [
+          "road freight haulage",
+          "commercial freight haulage"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_biz_04",
+        "word": "economic disparity",
+        "ipa": "/ˌiː.kəˈnɒm.ɪk dɪˈspær.ə.ti/",
+        "level": "C1",
+        "type": "collocation",
+        "vietnamese": "Sự chênh lệch, bất bình đẳng về kinh tế",
+        "exampleEn": "High-speed rail links help bridge the economic disparity between wealthy capitals and peripheral towns.",
+        "exampleVi": "Các tuyến đường sắt cao tốc giúp thu hẹp khoảng cách chênh lệch kinh tế giữa thủ đô giàu có và các thị trấn ngoại vi.",
+        "frontBlank": "High-speed rail links help bridge the __________ between wealthy capitals and peripheral towns.",
+        "acceptedAnswers": [
+          "economic disparity",
+          "economic disparities"
+        ],
+        "collocations": [
+          "reduce economic disparity",
+          "widening economic disparity"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 2",
+        "interval": 1,
+        "boxLevel": 1
+      }
+    ]
+  },
+  {
+    "topic_id": "psychology",
+    "title": "Psychology, Innovation & Behavior",
+    "titleVi": "Tâm lý học, Đổi mới & Hành vi",
+    "icon": "🧠",
+    "description": "Từ vựng IELTS B2-C2 về tâm lý sáng tạo, động lực con người, sự thấu cảm và động lực nhóm.",
+    "words": [
+      {
+        "id": "voc_psy_01",
+        "word": "counter-intuitive",
+        "ipa": "/ˌkaʊn.tər.ɪnˈtjuː.ɪ.tɪv/",
+        "level": "C1",
+        "type": "adjective",
+        "vietnamese": "Trái với trực giác thông thường, ngược với điều ai cũng nghĩ",
+        "exampleEn": "It might sound counter-intuitive, but permitting employees to fail often fuels the greatest innovations.",
+        "exampleVi": "Nghe có vẻ trái với trực giác thông thường, nhưng việc cho phép nhân viên thất bại thường thúc đẩy những đổi mới vĩ đại nhất.",
+        "frontBlank": "It might sound __________, but permitting employees to fail often fuels the greatest innovations.",
+        "acceptedAnswers": [
+          "counter-intuitive",
+          "counterintuitive"
+        ],
+        "collocations": [
+          "seem counter-intuitive",
+          "counter-intuitive result"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 3",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_psy_02",
+        "word": "stifle creativity",
+        "ipa": "/ˈstaɪ.fəl kriː.eɪˈtɪv.ə.ti/",
+        "level": "C2",
+        "type": "collocation",
+        "vietnamese": "Dập tắt, bóp nghẹt tính sáng tạo của con người",
+        "exampleEn": "Rigid corporate hierarchies and micromanagement inevitably stifle creativity among young designers.",
+        "exampleVi": "Hệ thống cấp bậc doanh nghiệp cứng nhắc và quản lý vi mô chắc chắn sẽ dập tắt tính sáng tạo trong các nhà thiết kế trẻ.",
+        "frontBlank": "Rigid corporate hierarchies and micromanagement inevitably __________ among young designers.",
+        "acceptedAnswers": [
+          "stifle creativity"
+        ],
+        "collocations": [
+          "stifle creativity and initiative",
+          "tend to stifle creativity"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 3",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_psy_03",
+        "word": "synergy",
+        "ipa": "/ˈsɪn.ə.dʒi/",
+        "level": "C1",
+        "type": "noun",
+        "vietnamese": "Sức mạnh cộng hưởng (hiệu quả tổng thể lớn hơn từng phần cộng lại)",
+        "exampleEn": "Interdisciplinary teamwork creates dynamic synergy where engineers and artists inspire one another.",
+        "exampleVi": "Làm việc nhóm đa ngành tạo ra sức mạnh cộng hưởng năng động, nơi các kỹ sư và nghệ sĩ truyền cảm hứng cho nhau.",
+        "frontBlank": "Interdisciplinary teamwork creates dynamic __________ where engineers and artists inspire one another.",
+        "acceptedAnswers": [
+          "synergy"
+        ],
+        "collocations": [
+          "create synergy",
+          "dynamic synergy",
+          "team synergy"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 3",
+        "interval": 1,
+        "boxLevel": 1
+      },
+      {
+        "id": "voc_psy_04",
+        "word": "catalyst for change",
+        "ipa": "/ˈkæt.əl.ɪst fɔː tʃeɪndʒ/",
+        "level": "C1",
+        "type": "collocation",
+        "vietnamese": "Chất xúc tác mạnh mẽ thúc đẩy sự thay đổi",
+        "exampleEn": "The introduction of remote collaboration tools acted as a catalyst for change in modern office culture.",
+        "exampleVi": "Sự ra đời của các công cụ hợp tác từ xa đóng vai trò như chất xúc tác thúc đẩy sự thay đổi trong văn hóa văn phòng hiện đại.",
+        "frontBlank": "The introduction of remote collaboration tools acted as a __________ in modern office culture.",
+        "acceptedAnswers": [
+          "catalyst for change"
+        ],
+        "collocations": [
+          "act as a catalyst for change",
+          "powerful catalyst for change"
+        ],
+        "source": "CAM 10 Test 1 Reading Passage 3",
+        "interval": 1,
+        "boxLevel": 1
+      }
+    ]
+  }
+]

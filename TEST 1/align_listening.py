@@ -4,8 +4,9 @@ import os
 import sys
 import requests
 
-ENCODED_KEY = 'QVEuQWI4Uk42SWNWMUUzR0ZYRVpsOU55RGtOYnNRUmxzRUVyRzJkcDh6ZkhyT202dVVUZkE='
-API_KEY = base64.b64decode(ENCODED_KEY).decode('utf-8')
+API_KEY = os.environ.get('GEMINI_API_KEY', '')
+if not API_KEY:
+    print("Warning: GEMINI_API_KEY environment variable is not set.")
 
 SECTIONS = [
     {

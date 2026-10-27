@@ -122,6 +122,41 @@
     return 4.0;
   }
 
+  // --- DYNAMIC TEST LOADER (SCHEMA 3.1) ---
+  function loadTest(testId) {
+    if (window.CAM_TESTS && window.CAM_TESTS[testId]) {
+      return Promise.resolve(window.CAM_TESTS[testId]);
+    }
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[data-test-id="${testId}"]`);
+      if (existing) {
+        if (window.CAM_TESTS && window.CAM_TESTS[testId]) {
+          return resolve(window.CAM_TESTS[testId]);
+        }
+        existing.addEventListener('load', () => {
+          if (window.CAM_TESTS && window.CAM_TESTS[testId]) resolve(window.CAM_TESTS[testId]);
+          else reject(new Error(`Test data for ${testId} not found in window.CAM_TESTS.`));
+        });
+        existing.addEventListener('error', () => reject(new Error(`Không thể nạp dữ liệu bài thi ${testId}.`)));
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = `data/tests/${testId}.js`;
+      script.setAttribute('data-test-id', testId);
+      script.onload = () => {
+        if (window.CAM_TESTS && window.CAM_TESTS[testId]) {
+          resolve(window.CAM_TESTS[testId]);
+        } else {
+          reject(new Error(`Không tìm thấy dữ liệu ${testId} sau khi nạp script.`));
+        }
+      };
+      script.onerror = () => {
+        reject(new Error(`Chưa có file dữ liệu data/tests/${testId}.js.`));
+      };
+      document.head.appendChild(script);
+    });
+  }
+
   // --- GET DATA HELPERS ---
   function getCurrentBook() {
     if (!state.data || !state.data.books) return null;
@@ -129,6 +164,9 @@
   }
 
   function getCurrentTest() {
+    if (window.CAM_TESTS && window.CAM_TESTS[state.currentTestId]) {
+      return window.CAM_TESTS[state.currentTestId];
+    }
     const book = getCurrentBook();
     if (!book || !book.tests) return null;
     return book.tests.find(t => t.id === state.currentTestId) || book.tests[0];
@@ -376,8 +414,36 @@
   }
 
   // =========================================================================
-  // VIEW 2: INTERACTIVE TEST TAKING STAGE
+  // VIEW 2: INTERACTIVE TEST TAKING STAGE (SCHEMA 3.1)
   // =========================================================================
+  function renderLoadingStage(msg = 'Đang tải dữ liệu bài thi...') {
+    const container = document.getElementById('cam-test-body-container');
+    if (container) {
+      container.innerHTML = `
+        <div class="cam-loading-box">
+          <div class="cam-spinner"></div>
+          <p class="cam-loading-text">${escapeHtml(msg)}</p>
+        </div>
+      `;
+    }
+  }
+
+  function renderErrorStage(err) {
+    const container = document.getElementById('cam-test-body-container');
+    if (container) {
+      container.innerHTML = `
+        <div class="cam-error-box">
+          <span class="cam-error-icon">⚠️</span>
+          <h3>Chưa có dữ liệu bài thi này</h3>
+          <p class="cam-error-text">${escapeHtml(err.message || 'File dữ liệu bài thi đang được khởi tạo theo Schema 3.1.')}</p>
+          <button type="button" class="btn-cam-action btn-start-reading" onclick="window.cambridgeModule.renderHub()">
+            Quay lại Kho Đề Thi
+          </button>
+        </div>
+      `;
+    }
+  }
+
   function startListeningTest(testId, partIndex = 0) {
     state.currentTestId = testId;
     state.currentSkill = 'listening';
@@ -385,7 +451,12 @@
     state.userAnswers = {};
     
     showView('test');
-    renderTestStage();
+    renderLoadingStage('Đang tải đề thi Listening...');
+    loadTest(testId).then(() => {
+      renderTestStage();
+    }).catch(err => {
+      renderErrorStage(err);
+    });
   }
 
   function startReadingTest(testId, passageIndex = 0) {
@@ -395,7 +466,12 @@
     state.userAnswers = {};
 
     showView('test');
-    renderTestStage();
+    renderLoadingStage('Đang tải đề thi Reading...');
+    loadTest(testId).then(() => {
+      renderTestStage();
+    }).catch(err => {
+      renderErrorStage(err);
+    });
   }
 
   function renderTestStage() {
@@ -418,22 +494,26 @@
     if (partSwitcherEl) {
       let tabsHtml = '';
       if (state.currentSkill === 'listening') {
-        const parts = test.listening.parts;
+        const parts = test.listening?.parts || [];
         parts.forEach((p, idx) => {
+          const pNum = p.n || p.part || (idx + 1);
+          const startQ = (pNum - 1) * 10 + 1;
+          const endQ = pNum * 10;
           tabsHtml += `
             <button type="button" class="cam-part-tab-btn ${idx === state.currentPartIndex ? 'active' : ''}"
                     onclick="window.cambridgeModule.switchTestPart(${idx})">
-              Part ${p.part} (${(p.part - 1) * 10 + 1}-${p.part * 10})
+              Part ${pNum} (${startQ}-${endQ})
             </button>
           `;
         });
       } else {
-        const passages = test.reading.passages;
+        const passages = test.reading?.passages || [];
         passages.forEach((p, idx) => {
+          const pNum = p.n || p.passage || (idx + 1);
           tabsHtml += `
             <button type="button" class="cam-part-tab-btn ${idx === state.currentPartIndex ? 'active' : ''}"
                     onclick="window.cambridgeModule.switchTestPart(${idx})">
-              Passage ${p.passage}
+              Passage ${pNum}
             </button>
           `;
         });
@@ -446,7 +526,8 @@
       if (audioPlayerDock) audioPlayerDock.style.display = 'block';
       const part = getCurrentListeningPart();
       if (part && state.audioEl) {
-        state.audioEl.src = encodeURI(part.audio_src);
+        const audioSrc = part.audio?.src || part.audio_src || '';
+        state.audioEl.src = encodeURI(audioSrc);
         state.audioEl.playbackRate = state.playbackRate;
         state.audioEl.load();
         updateAudioPlayButton(false);
@@ -473,6 +554,167 @@
     renderTestStage();
   }
 
+  // --- QUESTION & GROUP RENDERING HELPERS (SCHEMA 3.1) ---
+  function renderSingleQuestion(q, group) {
+    const qKey = `q_${q.q}`;
+    const savedVal = state.userAnswers[qKey] || '';
+    const qType = q.type || group?.type || 'fill';
+    const stem = q.stem || q.question || q.label || '';
+
+    let inputHtml = '';
+
+    if (qType === 'tfng') {
+      const options = ['TRUE', 'FALSE', 'NOT GIVEN'];
+      inputHtml = `
+        <div class="tfng-pills-group" id="pill-group-${q.q}">
+          ${options.map(opt => `
+            <button type="button" 
+                    class="tfng-pill-btn ${savedVal.toUpperCase() === opt ? 'selected' : ''}"
+                    onclick="window.cambridgeModule.onAnswerChange('q_${q.q}', '${opt}'); window.cambridgeModule.updatePillUI('pill-group-${q.q}', this);">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+      `;
+    } else if (qType === 'ynng') {
+      const options = ['YES', 'NO', 'NOT GIVEN'];
+      inputHtml = `
+        <div class="tfng-pills-group" id="pill-group-${q.q}">
+          ${options.map(opt => `
+            <button type="button" 
+                    class="tfng-pill-btn ${savedVal.toUpperCase() === opt ? 'selected' : ''}"
+                    onclick="window.cambridgeModule.onAnswerChange('q_${q.q}', '${opt}'); window.cambridgeModule.updatePillUI('pill-group-${q.q}', this);">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+      `;
+    } else if (qType === 'mcq') {
+      const options = q.options || group?.options || [];
+      if (options.length > 0) {
+        inputHtml = `<div class="mcq-options-group">`;
+        options.forEach((opt, oIdx) => {
+          const optLetter = opt.length >= 2 && opt.charAt(1) === '.' ? opt.charAt(0).toUpperCase() : String.fromCharCode(65 + oIdx);
+          const optText = opt.length >= 2 && opt.charAt(1) === '.' ? opt.substring(2).trim() : opt;
+          const isChecked = savedVal.toUpperCase() === optLetter;
+          inputHtml += `
+            <label class="mcq-option-label ${isChecked ? 'selected' : ''}">
+              <input type="radio" name="ans_q_${q.q}" value="${optLetter}" 
+                     ${isChecked ? 'checked' : ''} 
+                     onchange="window.cambridgeModule.onAnswerChange('q_${q.q}', '${optLetter}')">
+              <span class="opt-letter">${optLetter}</span>
+              <span class="opt-text">${escapeHtml(optText)}</span>
+            </label>
+          `;
+        });
+        inputHtml += `</div>`;
+      } else {
+        inputHtml = `
+          <div class="fill-input-wrapper">
+            <input type="text" class="cam-answer-input" 
+                   id="input-q-${q.q}"
+                   placeholder="Nhập chữ cái lựa chọn (A, B, C...)" 
+                   value="${escapeHtml(savedVal)}"
+                   autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false"
+                   oninput="window.cambridgeModule.onAnswerChange('q_${q.q}', this.value)">
+          </div>
+        `;
+      }
+    } else if (qType === 'mcq_multi') {
+      const options = q.options || group?.options || [];
+      const selectedVals = (savedVal ? savedVal.split(/[,;\s]+/) : []).map(x => x.trim().toUpperCase());
+      inputHtml = `<div class="mcq-options-group mcq-multi-group">`;
+      options.forEach((opt, oIdx) => {
+        const optLetter = opt.length >= 2 && opt.charAt(1) === '.' ? opt.charAt(0).toUpperCase() : String.fromCharCode(65 + oIdx);
+        const optText = opt.length >= 2 && opt.charAt(1) === '.' ? opt.substring(2).trim() : opt;
+        const isChecked = selectedVals.includes(optLetter);
+        inputHtml += `
+          <label class="mcq-option-label ${isChecked ? 'selected' : ''}">
+            <input type="checkbox" name="ans_q_${q.q}" value="${optLetter}" 
+                   ${isChecked ? 'checked' : ''} 
+                   onchange="window.cambridgeModule.onMultiAnswerChange('q_${q.q}', this)">
+            <span class="opt-letter">${optLetter}</span>
+            <span class="opt-text">${escapeHtml(optText)}</span>
+          </label>
+        `;
+      });
+      inputHtml += `</div>`;
+    } else if (qType === 'match' && group?.options && group.options.length > 0) {
+      inputHtml = `
+        <div class="match-select-wrapper">
+          <select class="cam-select-input" onchange="window.cambridgeModule.onAnswerChange('q_${q.q}', this.value)">
+            <option value="">-- Chọn đáp án phù hợp --</option>
+            ${group.options.map((opt, oIdx) => {
+              const optVal = opt.length >= 2 && opt.charAt(1) === '.' ? opt.charAt(0).toUpperCase() : String.fromCharCode(65 + oIdx);
+              return `<option value="${optVal}" ${savedVal.toUpperCase() === optVal ? 'selected' : ''}>${escapeHtml(opt)}</option>`;
+            }).join('')}
+          </select>
+        </div>
+      `;
+    } else {
+      inputHtml = `
+        <div class="fill-input-wrapper">
+          <input type="text" class="cam-answer-input" 
+                 id="input-q-${q.q}"
+                 placeholder="Nhập đáp án của bạn..." 
+                 value="${escapeHtml(savedVal)}"
+                 autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+                 oninput="window.cambridgeModule.onAnswerChange('q_${q.q}', this.value)">
+        </div>
+      `;
+    }
+
+    return `
+      <div class="cam-question-item" id="q-card-${q.q}">
+        <div class="q-item-num-col">
+          <span class="q-number-circle">${q.q}</span>
+        </div>
+        <div class="q-item-content-col">
+          <div class="q-prompt-label">${escapeHtml(stem)}</div>
+          ${inputHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderQuestionGroup(group) {
+    const rangeText = group.range ? `Câu ${group.range[0]} - ${group.range[1]}` : '';
+    let html = `
+      <div class="cam-question-group-card">
+        <div class="group-header">
+          ${rangeText ? `<span class="group-range-badge">${escapeHtml(rangeText)}</span>` : ''}
+          ${group.instruction ? `<div class="group-instruction-text">${escapeHtml(group.instruction)}</div>` : ''}
+        </div>
+    `;
+
+    if (group.image) {
+      html += `
+        <div class="group-image-wrap">
+          <img src="${escapeHtml(group.image)}" alt="Test illustration" class="cam-group-img">
+        </div>
+      `;
+    }
+
+    if (group.options && group.options.length > 0 && group.type !== 'mcq' && group.type !== 'mcq_multi') {
+      html += `
+        <div class="group-options-box">
+          <div class="group-options-title">Danh sách lựa chọn đối chiếu:</div>
+          <div class="group-options-grid">
+            ${group.options.map(opt => `<span class="group-opt-pill">${escapeHtml(opt)}</span>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    html += `<div class="group-questions-list">`;
+    (group.questions || []).forEach(q => {
+      html += renderSingleQuestion(q, group);
+    });
+    html += `</div></div>`;
+
+    return html;
+  }
+
   function renderListeningTestBody(container) {
     const part = getCurrentListeningPart();
     if (!part) {
@@ -480,67 +722,33 @@
       return;
     }
 
+    const pNum = part.n || part.part || (state.currentPartIndex + 1);
+    const startQ = (pNum - 1) * 10 + 1;
+    const endQ = pNum * 10;
+
     let html = `
       <div class="listening-test-arena">
         <div class="part-header-card">
           <div class="part-meta-row">
-            <span class="part-number-tag">Part ${part.part}</span>
-            <span class="part-range-tag">Câu ${(part.part - 1) * 10 + 1} đến ${part.part * 10}</span>
+            <span class="part-number-tag">Part ${pNum}</span>
+            <span class="part-range-tag">Câu ${startQ} đến ${endQ}</span>
           </div>
-          <h2 class="part-title-text">${escapeHtml(part.title)}</h2>
-          <p class="part-desc-text">${escapeHtml(part.description || '')}</p>
+          <h2 class="part-title-text">${escapeHtml(part.title || `Part ${pNum}`)}</h2>
+          <p class="part-desc-text">${escapeHtml(part.description || '🎧 Lắng nghe đoạn băng audio và điền câu trả lời bên dưới. Toàn bộ transcript dẫn chứng sẽ được mở sau khi nộp bài.')}</p>
         </div>
 
         <div class="questions-stream-box">
     `;
 
-    part.questions.forEach(q => {
-      const qKey = `q_${q.q}`;
-      const savedVal = state.userAnswers[qKey] || '';
-
-      html += `
-        <div class="cam-question-item" id="q-card-${q.q}">
-          <div class="q-item-num-col">
-            <span class="q-number-circle">${q.q}</span>
-          </div>
-          <div class="q-item-content-col">
-            <div class="q-prompt-label">${escapeHtml(q.label || q.question || '')}</div>
-      `;
-
-      if (q.type === 'mcq' && q.options && q.options.length > 0) {
-        html += `<div class="mcq-options-group">`;
-        q.options.forEach(opt => {
-          const optLetter = opt.charAt(0).toUpperCase();
-          const isChecked = savedVal.toUpperCase() === optLetter;
-          html += `
-            <label class="mcq-option-label ${isChecked ? 'selected' : ''}">
-              <input type="radio" name="ans_q_${q.q}" value="${optLetter}" 
-                     ${isChecked ? 'checked' : ''} 
-                     onchange="window.cambridgeModule.onAnswerChange('q_${q.q}', '${optLetter}')">
-              <span class="opt-letter">${optLetter}</span>
-              <span class="opt-text">${escapeHtml(opt.substring(2).trim())}</span>
-            </label>
-          `;
-        });
-        html += `</div>`;
-      } else {
-        html += `
-          <div class="fill-input-wrapper">
-            <input type="text" class="cam-answer-input" 
-                   id="input-q-${q.q}"
-                   placeholder="Nhập đáp án của bạn..." 
-                   value="${escapeHtml(savedVal)}"
-                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                   oninput="window.cambridgeModule.onAnswerChange('q_${q.q}', this.value)">
-          </div>
-        `;
-      }
-
-      html += `
-          </div>
-        </div>
-      `;
-    });
+    if (part.groups && part.groups.length > 0) {
+      part.groups.forEach(group => {
+        html += renderQuestionGroup(group);
+      });
+    } else if (part.questions && part.questions.length > 0) {
+      part.questions.forEach(q => {
+        html += renderSingleQuestion(q, null);
+      });
+    }
 
     html += `
         </div>
@@ -551,7 +759,7 @@
             💾 Lưu bản nháp
           </button>
           <button type="button" class="btn-cam-submit-test" onclick="window.cambridgeModule.submitCurrentTest()">
-            <span>Nộp bài & Chấm điểm tức thì</span>
+            <span>Nộp bài & Chấm điểm trọn bộ</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
@@ -570,16 +778,41 @@
       return;
     }
 
-    // Split paragraphs
-    const paragraphs = passage.text.split('\n\n').filter(p => p.trim());
+    const pNum = passage.n || passage.passage || (state.currentPartIndex + 1);
+
+    // Extract paragraphs
+    let paragraphs = [];
+    if (passage.paragraphs && Array.isArray(passage.paragraphs)) {
+      paragraphs = passage.paragraphs;
+    } else if (passage.text) {
+      const rawParas = passage.text.split('\n\n').filter(p => p.trim());
+      paragraphs = rawParas.map((pt, idx) => ({ id: `P${idx + 1}`, text: pt }));
+    }
+
+    let totalQ = 0;
+    if (passage.groups) {
+      passage.groups.forEach(g => totalQ += (g.questions ? g.questions.length : 0));
+    } else if (passage.questions) {
+      totalQ = passage.questions.length;
+    }
 
     let html = `
       <div class="reading-split-workspace">
+        <!-- MOBILE VIEW SWITCHER TABS -->
+        <div class="reading-mobile-view-tabs">
+          <button type="button" class="btn-read-tab active" id="btn-read-tab-passage" onclick="window.cambridgeModule.switchReadingMobileTab('passage')">
+            📖 Bài đọc (Passage ${pNum})
+          </button>
+          <button type="button" class="btn-read-tab" id="btn-read-tab-questions" onclick="window.cambridgeModule.switchReadingMobileTab('questions')">
+            ✏️ Câu hỏi (${totalQ} câu)
+          </button>
+        </div>
+
         <!-- LEFT COLUMN: READING PASSAGE TEXT -->
-        <div class="reading-passage-column">
+        <div class="reading-passage-column" id="reading-passage-column">
           <div class="passage-paper-card">
             <div class="passage-paper-header">
-              <span class="passage-tag">Passage ${passage.passage}</span>
+              <span class="passage-tag">Passage ${pNum}</span>
               <h2 class="passage-paper-title">${escapeHtml(passage.title)}</h2>
               <div class="passage-read-tools">
                 <span class="text-hint">💡 Đọc kỹ văn bản để tìm từ khóa đối chiếu câu hỏi</span>
@@ -589,12 +822,13 @@
             <div class="passage-text-content" id="passage-text-viewport">
     `;
 
-    paragraphs.forEach((pText, pIdx) => {
+    paragraphs.forEach((p) => {
+      const pId = p.id || 'P';
       html += `
-        <p class="passage-p" id="p-para-${pIdx}">
-          <span class="p-num">[${pIdx + 1}]</span>
-          ${escapeHtml(pText)}
-        </p>
+        <div class="passage-p" id="para-${pNum}-${pId}">
+          <span class="para-id-badge">${escapeHtml(pId)}</span>
+          <span class="para-text-body">${escapeHtml(p.text)}</span>
+        </div>
       `;
     });
 
@@ -604,87 +838,25 @@
         </div>
 
         <!-- RIGHT COLUMN: INTERACTIVE QUESTIONS -->
-        <div class="reading-questions-column">
+        <div class="reading-questions-column" id="reading-questions-column">
           <div class="reading-questions-card">
             <div class="questions-card-header">
-              <h3>Bảng Trả Lời Câu Hỏi (Passage ${passage.passage})</h3>
-              <span class="q-count-badge">${passage.questions.length} câu</span>
+              <h3>Bảng Trả Lời Câu Hỏi (Passage ${pNum})</h3>
+              <span class="q-count-badge">${totalQ} câu</span>
             </div>
 
             <div class="questions-stream-box">
     `;
 
-    passage.questions.forEach(q => {
-      const qKey = `q_${q.q}`;
-      const savedVal = state.userAnswers[qKey] || '';
-
-      html += `
-        <div class="cam-question-item reading-q-item" id="q-card-${q.q}">
-          <div class="q-item-num-col">
-            <span class="q-number-circle">${q.q}</span>
-          </div>
-          <div class="q-item-content-col">
-            <div class="q-prompt-label">${escapeHtml(q.question || q.label || '')}</div>
-      `;
-
-      if (q.type === 'tfng') {
-        html += `
-          <div class="tfng-pills-group">
-            ${['TRUE', 'FALSE', 'NOT GIVEN'].map(opt => `
-              <button type="button" 
-                      class="tfng-pill-btn ${savedVal.toUpperCase() === opt ? 'selected' : ''}"
-                      onclick="window.cambridgeModule.onAnswerChange('q_${q.q}', '${opt}'); window.cambridgeModule.updatePillUI('q-card-${q.q}', this);">
-                ${opt}
-              </button>
-            `).join('')}
-          </div>
-        `;
-      } else if (q.type === 'ynng') {
-        html += `
-          <div class="tfng-pills-group">
-            ${['YES', 'NO', 'NOT GIVEN'].map(opt => `
-              <button type="button" 
-                      class="tfng-pill-btn ${savedVal.toUpperCase() === opt ? 'selected' : ''}"
-                      onclick="window.cambridgeModule.onAnswerChange('q_${q.q}', '${opt}'); window.cambridgeModule.updatePillUI('q-card-${q.q}', this);">
-                ${opt}
-              </button>
-            `).join('')}
-          </div>
-        `;
-      } else if (q.type === 'mcq' && q.options && q.options.length > 0) {
-        html += `<div class="mcq-options-group">`;
-        q.options.forEach(opt => {
-          const optLetter = opt.charAt(0).toUpperCase();
-          const isChecked = savedVal.toUpperCase() === optLetter;
-          html += `
-            <label class="mcq-option-label ${isChecked ? 'selected' : ''}">
-              <input type="radio" name="ans_q_${q.q}" value="${optLetter}" 
-                     ${isChecked ? 'checked' : ''} 
-                     onchange="window.cambridgeModule.onAnswerChange('q_${q.q}', '${optLetter}')">
-              <span class="opt-letter">${optLetter}</span>
-              <span class="opt-text">${escapeHtml(opt.substring(2).trim())}</span>
-            </label>
-          `;
-        });
-        html += `</div>`;
-      } else {
-        html += `
-          <div class="fill-input-wrapper">
-            <input type="text" class="cam-answer-input" 
-                   id="input-q-${q.q}"
-                   placeholder="Nhập đáp án của bạn..." 
-                   value="${escapeHtml(savedVal)}"
-                   autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                   oninput="window.cambridgeModule.onAnswerChange('q_${q.q}', this.value)">
-          </div>
-        `;
-      }
-
-      html += `
-          </div>
-        </div>
-      `;
-    });
+    if (passage.groups && passage.groups.length > 0) {
+      passage.groups.forEach(group => {
+        html += renderQuestionGroup(group);
+      });
+    } else if (passage.questions && passage.questions.length > 0) {
+      passage.questions.forEach(q => {
+        html += renderSingleQuestion(q, null);
+      });
+    }
 
     html += `
             </div>
@@ -695,7 +867,7 @@
                 💾 Lưu bản nháp
               </button>
               <button type="button" class="btn-cam-submit-test" onclick="window.cambridgeModule.submitCurrentTest()">
-                <span>Nộp bài & Chấm điểm tức thì</span>
+                <span>Nộp bài & Chấm điểm trọn bộ</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
@@ -709,14 +881,40 @@
     container.innerHTML = html;
   }
 
+  function switchReadingMobileTab(tab) {
+    const colPassage = document.getElementById('reading-passage-column');
+    const colQuestions = document.getElementById('reading-questions-column');
+    const btnPassage = document.getElementById('btn-read-tab-passage');
+    const btnQuestions = document.getElementById('btn-read-tab-questions');
+
+    if (tab === 'passage') {
+      if (colPassage) colPassage.classList.add('mobile-active');
+      if (colQuestions) colQuestions.classList.remove('mobile-active');
+      if (btnPassage) btnPassage.classList.add('active');
+      if (btnQuestions) btnQuestions.classList.remove('active');
+    } else {
+      if (colPassage) colPassage.classList.remove('mobile-active');
+      if (colQuestions) colQuestions.classList.add('mobile-active');
+      if (btnPassage) btnPassage.classList.remove('active');
+      if (btnQuestions) btnQuestions.classList.add('active');
+    }
+  }
+
   function onAnswerChange(qKey, val) {
     state.userAnswers[qKey] = (val || '').trim();
   }
 
-  function updatePillUI(cardId, clickedBtn) {
-    const card = document.getElementById(cardId);
-    if (!card) return;
-    card.querySelectorAll('.tfng-pill-btn').forEach(btn => btn.classList.remove('selected'));
+  function onMultiAnswerChange(qKey, inputEl) {
+    const groupCard = inputEl.closest('.cam-question-item') || inputEl.closest('.mcq-multi-group');
+    if (!groupCard) return;
+    const checked = Array.from(groupCard.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value.toUpperCase());
+    state.userAnswers[qKey] = checked.sort().join(', ');
+  }
+
+  function updatePillUI(groupId, clickedBtn) {
+    const grp = document.getElementById(groupId);
+    if (!grp) return;
+    grp.querySelectorAll('.tfng-pill-btn').forEach(btn => btn.classList.remove('selected'));
     clickedBtn.classList.add('selected');
   }
 
@@ -743,14 +941,24 @@
     const uNorm = normalizeAnswer(userAns);
     if (!uNorm) return false;
 
-    return acceptedList.some(acc => {
+    const list = Array.isArray(acceptedList) ? acceptedList : [acceptedList];
+    return list.some(acc => {
+      if (!acc) return false;
       const aNorm = normalizeAnswer(acc);
       if (uNorm === aNorm) return true;
-      // Also match slash alternatives e.g. "beach / beaches" or "dentist / dentist's"
+
+      // Handle slash alternatives e.g. "beach / beaches" or "dentist / dentist's"
       if (acc.includes('/')) {
         const parts = acc.split('/').map(p => normalizeAnswer(p));
         if (parts.includes(uNorm)) return true;
       }
+
+      // Handle optional parenthesis e.g. "(the) newspaper"
+      const withoutParen = acc.replace(/\([^)]*\)/g, '').trim();
+      if (withoutParen && normalizeAnswer(withoutParen) === uNorm) return true;
+      const withParenContent = acc.replace(/[()]/g, '').trim();
+      if (withParenContent && normalizeAnswer(withParenContent) === uNorm) return true;
+
       return false;
     });
   }
@@ -761,11 +969,37 @@
 
     let allQuestions = [];
     if (state.currentSkill === 'listening') {
-      const part = getCurrentListeningPart();
-      allQuestions = part.questions;
+      const parts = test.listening?.parts || [];
+      parts.forEach((p, pIdx) => {
+        const pNum = p.n || p.part || (pIdx + 1);
+        if (p.groups && p.groups.length > 0) {
+          p.groups.forEach(g => {
+            (g.questions || []).forEach(q => {
+              allQuestions.push({ ...q, partN: pNum, partIndex: pIdx });
+            });
+          });
+        } else if (p.questions) {
+          p.questions.forEach(q => {
+            allQuestions.push({ ...q, partN: pNum, partIndex: pIdx });
+          });
+        }
+      });
     } else {
-      const passage = getCurrentReadingPassage();
-      allQuestions = passage.questions;
+      const passages = test.reading?.passages || [];
+      passages.forEach((p, pIdx) => {
+        const pNum = p.n || p.passage || (pIdx + 1);
+        if (p.groups && p.groups.length > 0) {
+          p.groups.forEach(g => {
+            (g.questions || []).forEach(q => {
+              allQuestions.push({ ...q, passageN: pNum, passageIndex: pIdx });
+            });
+          });
+        } else if (p.questions) {
+          p.questions.forEach(q => {
+            allQuestions.push({ ...q, passageN: pNum, passageIndex: pIdx });
+          });
+        }
+      });
     }
 
     let correctCount = 0;
@@ -778,19 +1012,22 @@
 
       detailedResults.push({
         q: q.q,
-        type: q.type,
-        label: q.label || q.question || '',
+        type: q.type || 'fill',
+        stem: q.stem || q.question || q.label || '',
         userAnswer: userVal,
-        correctAnswers: q.answer,
+        correctAnswers: Array.isArray(q.answer) ? q.answer : [q.answer],
         isCorrect: isCorrect,
-        clueQuote: q.clue_quote || '',
-        clueTime: q.clue_time || null,
-        clueParagraph: q.clue_paragraph || '',
-        explanation: q.explanation || ''
+        evidence: q.evidence || { quote: q.clue_quote || '', para: q.clue_paragraph || 'P1', start: q.clue_time?.start || 0, end: q.clue_time?.end || 0 },
+        keywords: q.keywords || [],
+        trap: q.trap || '',
+        explain: q.explain || q.explanation || '',
+        passageN: q.passageN || 1,
+        partN: q.partN || 1,
+        partIndex: q.partIndex !== undefined ? q.partIndex : 0
       });
     });
 
-    const totalQuestions = allQuestions.length;
+    const totalQuestions = allQuestions.length || 40;
     const bandScore = calculateBand(correctCount, totalQuestions, state.currentSkill);
     const now = new Date();
     const dateStr = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
@@ -822,7 +1059,7 @@
   }
 
   // =========================================================================
-  // VIEW 3: GRADING REVIEW & REPLAY CLUE AUDIO
+  // VIEW 3: GRADING REVIEW & DETAILED EVIDENCE / TRAP EXPLANATIONS
   // =========================================================================
   function renderReviewView() {
     const sub = state.lastSubmission;
@@ -892,6 +1129,7 @@
     sub.details.forEach(item => {
       const isCorrect = item.isCorrect;
       const statusClass = isCorrect ? 'card-status-correct' : 'card-status-wrong';
+      const ev = item.evidence || {};
 
       html += `
         <div class="review-item-card ${statusClass}" data-result="${isCorrect ? 'correct' : 'wrong'}">
@@ -903,17 +1141,30 @@
               </span>
             </div>
 
-            ${sub.skill === 'listening' && item.clueTime ? `
-              <button type="button" class="btn-replay-clue" 
-                      id="btn-clue-${item.q}"
-                      onclick="window.cambridgeModule.replayClueAudio(${item.clueTime.start}, ${item.clueTime.end}, ${item.q})">
-                <span class="btn-icon">▶</span>
-                <span>Phát lại đoạn audio dẫn chứng (${formatTime(item.clueTime.start)} - ${formatTime(item.clueTime.end)})</span>
-              </button>
-            ` : ''}
+            <div class="review-card-top-actions">
+              ${sub.skill === 'listening' && (ev.start !== undefined || ev.clueTime) ? `
+                <button type="button" class="btn-replay-clue" 
+                        id="btn-clue-${item.q}"
+                        onclick="window.cambridgeModule.replayClueAudio(${ev.start || 0}, ${ev.end || 0}, ${item.q})">
+                  <span class="btn-icon">▶</span>
+                  <span>Nghe đoạn dẫn chứng (${formatTime(ev.start || 0)} - ${formatTime(ev.end || 0)})</span>
+                </button>
+                <button type="button" class="btn-goto-listening3tab" title="Mở phòng luyện nghe chuyên sâu 3 tab cho Part này"
+                        onclick="window.openListening3Tab('${sub.testId}', ${item.partIndex})">
+                  🎧 Luyện nghe part này
+                </button>
+              ` : ''}
+
+              ${sub.skill === 'reading' ? `
+                <button type="button" class="btn-scroll-evidence" 
+                        onclick="window.cambridgeModule.jumpToReadingEvidence(${item.passageN}, '${ev.para || 'P1'}', ${item.q})">
+                  📍 Xem trong bài (Đoạn [${ev.para || 'P1'}])
+                </button>
+              ` : ''}
+            </div>
           </div>
 
-          <div class="review-prompt-text">${escapeHtml(item.label)}</div>
+          <div class="review-prompt-text">${escapeHtml(item.stem)}</div>
 
           <div class="review-answers-comparison">
             <div class="ans-box user-ans-box ${isCorrect ? 'box-correct' : 'box-wrong'}">
@@ -927,17 +1178,46 @@
             </div>
           </div>
 
-          <!-- CLUE QUOTE & VIETNAMESE EXPLANATION -->
+          <!-- CLUE QUOTE, KEYWORDS PARAPHRASE & TRAP EXPLANATION -->
           <div class="review-explanation-card">
-            <div class="clue-quote-box">
-              <span class="clue-tag">📌 Dẫn chứng trong bài:</span>
-              <blockquote class="clue-quote-text">"${escapeHtml(item.clueQuote)}"</blockquote>
-            </div>
+            ${ev.quote ? `
+              <div class="clue-quote-box">
+                <span class="clue-tag">📌 Dẫn chứng trong bài (${sub.skill === 'reading' ? `Đoạn [${ev.para || 'P'}]` : `Part ${item.partN}`}):</span>
+                <blockquote class="clue-quote-text">"${escapeHtml(ev.quote)}"</blockquote>
+              </div>
+            ` : ''}
 
-            <div class="explanation-box">
-              <span class="exp-tag">💡 Hướng dẫn & Giải thích:</span>
-              <p class="exp-text">${escapeHtml(item.explanation)}</p>
-            </div>
+            ${item.keywords && item.keywords.length > 0 ? `
+              <div class="keywords-paraphrase-strip">
+                <span class="kw-strip-title">🔑 Đối chiếu từ khóa (Paraphrase):</span>
+                <div class="kw-pairs-list">
+                  ${item.keywords.map((kw, kIdx) => `
+                    <span class="kw-pair-badge kw-color-${kIdx % 4}">
+                      <span class="kw-q-stem">${escapeHtml(kw.q)}</span>
+                      <span class="kw-arrow">⇄</span>
+                      <span class="kw-p-passage">${escapeHtml(kw.p)}</span>
+                    </span>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            ${item.trap && item.trap.trim() ? `
+              <div class="trap-warning-card">
+                <div class="trap-header-row">
+                  <span class="trap-icon">⚠️</span>
+                  <strong class="trap-title">Bẫy & Lưu ý câu này:</strong>
+                </div>
+                <p class="trap-body-text">${escapeHtml(item.trap)}</p>
+              </div>
+            ` : ''}
+
+            ${item.explain ? `
+              <div class="explanation-box">
+                <span class="exp-tag">💡 Hướng dẫn & Giải thích chi tiết:</span>
+                <p class="exp-text">${escapeHtml(item.explain)}</p>
+              </div>
+            ` : ''}
           </div>
         </div>
       `;
@@ -997,47 +1277,104 @@
     }, 200);
   }
 
+  function jumpToReadingEvidence(passageN, paraId, qNum) {
+    // Switch to test stage and to that passage
+    state.currentSkill = 'reading';
+    state.currentPartIndex = Math.max(0, passageN - 1);
+    showView('test');
+    renderTestStage();
+
+    // Find target paragraph in DOM
+    setTimeout(() => {
+      const paraEl = document.getElementById(`para-${passageN}-${paraId}`) || document.getElementById(`p-para-${paraId}`);
+      if (paraEl) {
+        paraEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        paraEl.classList.add('para-evidence-highlight');
+        setTimeout(() => {
+          paraEl.classList.remove('para-evidence-highlight');
+        }, 4000);
+
+        if (window.showToast) {
+          window.showToast(`📍 Dẫn chứng câu ${qNum} tại Đoạn [${paraId}]`);
+        }
+      }
+    }, 300);
+  }
+
   function reviewTestResult(testId, skill) {
     state.currentTestId = testId;
     state.currentSkill = skill;
     state.currentPartIndex = 0;
 
-    // Load test questions and synthesize submission details from answer key
-    const test = getCurrentTest();
-    if (!test) return;
+    loadTest(testId).then(test => {
+      let allQuestions = [];
+      if (skill === 'listening') {
+        const parts = test.listening?.parts || [];
+        parts.forEach((p, pIdx) => {
+          const pNum = p.n || p.part || (pIdx + 1);
+          if (p.groups && p.groups.length > 0) {
+            p.groups.forEach(g => {
+              (g.questions || []).forEach(q => {
+                allQuestions.push({ ...q, partN: pNum, partIndex: pIdx });
+              });
+            });
+          } else if (p.questions) {
+            p.questions.forEach(q => {
+              allQuestions.push({ ...q, partN: pNum, partIndex: pIdx });
+            });
+          }
+        });
+      } else {
+        const passages = test.reading?.passages || [];
+        passages.forEach((p, pIdx) => {
+          const pNum = p.n || p.passage || (pIdx + 1);
+          if (p.groups && p.groups.length > 0) {
+            p.groups.forEach(g => {
+              (g.questions || []).forEach(q => {
+                allQuestions.push({ ...q, passageN: pNum, passageIndex: pIdx });
+              });
+            });
+          } else if (p.questions) {
+            p.questions.forEach(q => {
+              allQuestions.push({ ...q, passageN: pNum, passageIndex: pIdx });
+            });
+          }
+        });
+      }
 
-    let allQuestions = [];
-    if (skill === 'listening') {
-      test.listening.parts.forEach(p => allQuestions.push(...p.questions));
-    } else {
-      test.reading.passages.forEach(p => allQuestions.push(...p.questions));
-    }
+      const prog = state.progress[`${testId}_${skill}`] || { score: allQuestions.length, total: allQuestions.length, band: 8.5, date: '26/10/2026' };
 
-    const prog = state.progress[`${testId}_${skill}`] || { score: allQuestions.length, total: allQuestions.length, band: 8.5, date: '26/10/2026' };
+      state.lastSubmission = {
+        testId: test.id,
+        testTitle: test.title,
+        skill: skill,
+        score: prog.score,
+        total: prog.total,
+        band: prog.band,
+        date: prog.date,
+        details: allQuestions.map(q => ({
+          q: q.q,
+          type: q.type || 'fill',
+          stem: q.stem || q.question || q.label || '',
+          userAnswer: Array.isArray(q.answer) ? q.answer[0] : q.answer,
+          correctAnswers: Array.isArray(q.answer) ? q.answer : [q.answer],
+          isCorrect: true,
+          evidence: q.evidence || { quote: q.clue_quote || '', para: q.clue_paragraph || 'P1', start: q.clue_time?.start || 0, end: q.clue_time?.end || 0 },
+          keywords: q.keywords || [],
+          trap: q.trap || '',
+          explain: q.explain || q.explanation || '',
+          passageN: q.passageN || 1,
+          partN: q.partN || 1,
+          partIndex: q.partIndex !== undefined ? q.partIndex : 0
+        }))
+      };
 
-    state.lastSubmission = {
-      testId: test.id,
-      testTitle: test.title,
-      skill: skill,
-      score: prog.score,
-      total: prog.total,
-      band: prog.band,
-      date: prog.date,
-      details: allQuestions.map(q => ({
-        q: q.q,
-        type: q.type,
-        label: q.label || q.question || '',
-        userAnswer: q.answer[0],
-        correctAnswers: q.answer,
-        isCorrect: true,
-        clueQuote: q.clue_quote || '',
-        clueTime: q.clue_time || null,
-        clueParagraph: q.clue_paragraph || '',
-        explanation: q.explanation || ''
-      }))
-    };
-
-    renderReviewView();
+      renderReviewView();
+    }).catch(err => {
+      if (window.showToast) {
+        window.showToast(`Chưa có dữ liệu bài thi ${testId}`);
+      }
+    });
   }
 
   function restartCurrentTest() {
@@ -1120,13 +1457,16 @@
   }
 
   function startTopicStudy(topicId) {
-    state.activeTopicId = topicId;
-    state.topicCurrentIndex = 0;
-    state.topicCardFlipped = false;
-    state.topicIntervalFilter = 'all';
-
-    showView('topic-study');
-    renderTopicStudyStage();
+    const mappedTopic = topicId === 'business' ? 'economy' : topicId;
+    if (typeof window.selectCategory === 'function') {
+      window.selectCategory('words');
+    }
+    if (typeof window.filterTopic === 'function') {
+      window.filterTopic(mappedTopic);
+    }
+    if (typeof window.showToast === 'function') {
+      window.showToast(`Đã chuyển tới Flashcards chủ đề: ${mappedTopic}`);
+    }
   }
 
   function renderTopicStudyStage() {
@@ -1510,7 +1850,10 @@
     filterReviewCards,
     replayClueAudio,
     reviewTestResult,
-    restartCurrentTest,
+    loadTest,
+    switchReadingMobileTab,
+    jumpToReadingEvidence,
+    onMultiAnswerChange,
     renderTopicsView,
     openTopicsFromTest,
     startTopicStudy,

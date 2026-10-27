@@ -1162,8 +1162,13 @@ for t in [1, 2, 3, 4]:
         }
     })
 
-# Import the 8 topics from build_cambridge_db.py
-from build_cambridge_db import VOCABULARY_TOPICS
+# Load legacy topics from data/legacy_topics.json
+legacy_topics_path = os.path.join(os.path.dirname(__file__), 'data', 'legacy_topics.json')
+if os.path.exists(legacy_topics_path):
+    with open(legacy_topics_path, 'r', encoding='utf-8') as f:
+        VOCABULARY_TOPICS = json.load(f)
+else:
+    VOCABULARY_TOPICS = []
 
 # Full Dataset Object
 cambridge_data = {
