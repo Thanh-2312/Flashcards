@@ -28,3 +28,15 @@ for f in files:
         print(f"{bname}: {len(srcs)} audio refs, {len(valid_srcs)} exist (sample: {sample})")
 
 print(f"Tests with valid audio: {found_audio} / {len(files)}")
+
+all_srcs = set()
+for f in files:
+    with open(f, 'r', encoding='utf-8') as fp:
+        all_srcs.update(re.findall(r'"src":\s*"([^"]+)"', fp.read()))
+
+total_bytes = sum(os.path.getsize(s) for s in all_srcs if os.path.exists(s))
+print(f"Distinct referenced audio files: {len(all_srcs)}")
+cam10_11_srcs = {s for s in all_srcs if 'CAM 10' in s or 'CAM 11' in s or 'Cam10' in s or 'Cam11' in s}
+cam12_20_srcs = all_srcs - cam10_11_srcs
+print(f"Cam 10-11 audio: {len(cam10_11_srcs)} files, {sum(os.path.getsize(s) for s in cam10_11_srcs if os.path.exists(s))/(1024*1024):.2f} MB")
+print(f"Cam 12-20 audio: {len(cam12_20_srcs)} files, {sum(os.path.getsize(s) for s in cam12_20_srcs if os.path.exists(s))/(1024*1024):.2f} MB")

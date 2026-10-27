@@ -438,10 +438,25 @@
     });
 
     audioEl.addEventListener('error', () => {
+      const currentSrc = audioEl.src;
+      const releaseBase = (window.APP_CONFIG && window.APP_CONFIG.AUDIO_RELEASE_URL)
+        ? window.APP_CONFIG.AUDIO_RELEASE_URL.replace(/\/$/, '') + '/'
+        : 'https://github.com/Thanh-2312/Flashcards/releases/download/v1.0-audio/';
+
+      if (currentSrc && !currentSrc.includes('/releases/download/')) {
+        const filename = decodeURIComponent(currentSrc.split('/').pop().trim());
+        if (filename && filename.length > 3) {
+          console.log('[Listening Audio Fallback] Retrying from Cloud GitHub Release:', filename);
+          audioEl.src = `${releaseBase}${encodeURIComponent(filename)}`;
+          audioEl.load();
+          return;
+        }
+      }
+
       const hintEl = document.getElementById('listening-audio-hint');
       if (hintEl) {
         hintEl.style.display = 'block';
-        hintEl.innerHTML = 'ℹ️ <strong>Audio:</strong> File nghe bài này chưa tìm thấy ở đường dẫn cục bộ hoặc đang tải. Bạn vẫn có thể luyện nghe, xem toàn bộ transcript, từ khó và tra nghĩa bên dưới.';
+        hintEl.innerHTML = 'ℹ️ <strong>Audio:</strong> Đang tải hoặc file nghe bài này cần kết nối internet. Bạn vẫn có thể luyện nghe, xem toàn bộ transcript, từ khó và tra nghĩa bên dưới.';
       }
     });
 
@@ -1262,7 +1277,8 @@
     if (audioEl) {
       audioEl.pause();
       if (sec.audio_src) {
-        audioEl.src = encodeURI(sec.audio_src);
+        const resolvedSrc = window.resolveAudioUrl ? window.resolveAudioUrl(sec.audio_src) : encodeURI(sec.audio_src);
+        audioEl.src = resolvedSrc;
         audioEl.playbackRate = state.playbackRate;
         audioEl.load();
 

@@ -32,5 +32,8 @@ window.APP_CONFIG = {
   GOOGLE_DRIVE: {
     CLIENT_ID: "", // Nhập Google OAuth Client ID
     FOLDER_NAME: "IELTS Speaking Voice"
-  }
+  },
+
+  // 4. Cấu hình Cloud Audio (Nghe đề thi Cambridge 12 - 20 trên điện thoại)
+  AUDIO_RELEASE_URL: "https://github.com/Thanh-2312/Flashcards/releases/download/v1.0-audio/"
 };

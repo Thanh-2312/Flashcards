@@ -64,6 +64,29 @@
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   }
 
+  // --- AUDIO CLOUD RESOLVER (GITHUB RELEASES FALLBACK) ---
+  const DEFAULT_AUDIO_RELEASE_BASE = 'https://github.com/Thanh-2312/Flashcards/releases/download/v1.0-audio/';
+
+  function resolveAudioUrl(src) {
+    if (!src) return '';
+    if (src.startsWith('http://') || src.startsWith('https://')) return src;
+
+    const releaseBase = (window.APP_CONFIG && window.APP_CONFIG.AUDIO_RELEASE_URL)
+      ? window.APP_CONFIG.AUDIO_RELEASE_URL.replace(/\/$/, '') + '/'
+      : DEFAULT_AUDIO_RELEASE_BASE;
+
+    const filename = src.split('/').pop().trim();
+    const isOnline = window.location.hostname.includes('github.io');
+    const isCam12To20 = /(?:CAM|Cam)\s*(?:1[2-9]|20)/i.test(src);
+
+    if (isOnline && isCam12To20) {
+      return `${releaseBase}${encodeURIComponent(filename)}`;
+    }
+
+    return encodeURI(src);
+  }
+  window.resolveAudioUrl = resolveAudioUrl;
+
   // --- STORAGE HELPERS FOR TEST PROGRESS ---
   const PROGRESS_STORAGE_KEY = 'ielts_cambridge_progress_v2';
   const SAVED_WORDS_STORAGE_KEY = 'ielts_cambridge_saved_vocab';
@@ -527,7 +550,7 @@
       const part = getCurrentListeningPart();
       if (part && state.audioEl) {
         const audioSrc = part.audio?.src || part.audio_src || '';
-        state.audioEl.src = encodeURI(audioSrc);
+        state.audioEl.src = resolveAudioUrl(audioSrc);
         state.audioEl.playbackRate = state.playbackRate;
         state.audioEl.load();
         updateAudioPlayButton(false);
@@ -1786,6 +1809,23 @@
           const pct = (state.currentTime / state.duration) * 100;
           fillEl.style.width = `${pct}%`;
         }
+      });
+      audio.addEventListener('error', () => {
+        const currentSrc = audio.src;
+        const releaseBase = (window.APP_CONFIG && window.APP_CONFIG.AUDIO_RELEASE_URL)
+          ? window.APP_CONFIG.AUDIO_RELEASE_URL.replace(/\/$/, '') + '/'
+          : DEFAULT_AUDIO_RELEASE_BASE;
+
+        if (currentSrc && !currentSrc.includes('/releases/download/')) {
+          const filename = decodeURIComponent(currentSrc.split('/').pop().trim());
+          if (filename && filename.length > 3) {
+            console.log('[Cambridge Audio Fallback] Retrying from Cloud GitHub Release:', filename);
+            audio.src = `${releaseBase}${encodeURIComponent(filename)}`;
+            audio.load();
+            return;
+          }
+        }
+        console.warn('[Cambridge Audio Error] Failed to play audio:', currentSrc);
       });
     }
 

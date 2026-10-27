@@ -30,3 +30,4 @@ CAMBRIDGE/CAMBRIDGE IELTS 10-20/CAMBRIDGE 20/
 # Data generation & venvs
 data/raw/
 .venv*/
+release_audio/
