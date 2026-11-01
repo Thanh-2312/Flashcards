@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Minimal Flashcards • Words & Collocations</title>
   <meta name="description"
     content="Ứng dụng Flashcard tối giản phong cách trung tính nhạt với chu kỳ ngắt quãng 1, 4, 7, 14 ngày và chế độ gõ tương tác / lật thẻ.">
@@ -141,26 +141,6 @@
       </div>
 
       <div class="header-right">
-        <!-- Quick Nav to Listening & Speaking AI -->
-        <button id="btn-nav-listening" class="nav-listening-pill-btn" title="Mở tính năng luyện IELTS Listening Real-time (Cam 10 Test 1)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-right: 4px;">
-            <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
-          </svg>
-          <span>Listening</span>
-        </button>
-
-        <button id="btn-nav-speaking" class="nav-speaking-pill-btn" title="Mở tính năng luyện IELTS Speaking AI">
-          <span>Speaking AI</span>
-        </button>
-
-        <button id="btn-nav-cambridge" class="nav-cambridge-pill-btn" title="Mở Cambridge IELTS Hub (Luyện đề, Chấm điểm, Phát lại dẫn chứng, Lọc từ B2-C2)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="margin-right: 4px;">
-            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
-          </svg>
-          <span>Cambridge IELTS</span>
-        </button>
-
         <!-- Interactive Mode Switcher -->
         <div class="study-mode-switch" role="radiogroup" aria-label="Chế độ học">
           <button id="mode-flip-btn" class="mode-tab-btn active" data-mode="flip" title="Chế độ lật thẻ truyền thống">
@@ -210,6 +190,30 @@
         </button>
       </div>
     </header>
+
+    <!-- SECTION NAV: tabs on desktop, bottom tab bar on phones -->
+    <nav class="section-nav" id="section-nav" aria-label="Chuyển mục">
+      <button type="button" class="section-nav-btn" data-category="words">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Từ vựng</span>
+      </button>
+      <button type="button" class="section-nav-btn" data-category="collocations">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <span>Cụm từ</span>
+      </button>
+      <button type="button" class="section-nav-btn" data-category="speaking">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        <span>Speaking</span>
+      </button>
+      <button type="button" class="section-nav-btn" data-category="listening">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+        <span>Listening</span>
+      </button>
+      <button type="button" class="section-nav-btn" data-category="cambridge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M8 7h8"/><path d="M8 11h6"/></svg>
+        <span>Cambridge</span>
+      </button>
+    </nav>
 
     <!-- TOPIC FILTER BAR (CHIA THEO CHỦ ĐỀ) -->
     <nav class="topic-filter-nav" id="topic-filter-nav" aria-label="Lọc thẻ theo chủ đề">

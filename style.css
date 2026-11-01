@@ -4271,6 +4271,7 @@ body.dark-mode .count-pill-listening {
 
 /* Workspace Layout */
 .listening-workspace {
+  width: 100%;
   max-width: 1060px;
   margin: 0 auto 120px;
   padding: 0 16px;
@@ -4538,7 +4539,7 @@ body.dark-mode .count-pill-listening {
 /* 4 Section Navigation Tabs */
 .listening-sections-nav {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
   padding-top: 14px;
   border-top: 1px solid var(--border-light);
@@ -6012,7 +6013,7 @@ body.dark-mode .ctrl-play-main.playing {
 /* Responsive Rules for Mobile */
 @media (max-width: 768px) {
   .listening-sections-nav {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .listening-hero-card {
     padding: 20px;
@@ -6099,6 +6100,7 @@ body.dark-mode .count-pill-cambridge {
 
 /* Cambridge Workspace Container */
 .cambridge-workspace {
+  width: 100%;
   max-width: 1180px;
   margin: 0 auto;
   padding: 0 16px 80px;
@@ -8252,3 +8254,156 @@ body.dark-mode .trap-title {
 
 
 
+
+/* ==========================================================================
+   SECTION NAV (tabs on desktop, bottom tab bar on phones)
+   ========================================================================== */
+/* Section tabs replace the category dropdown */
+.category-toggle-btn,
+.header-divider {
+  display: none;
+}
+
+.section-nav {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+  padding: 4px;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+}
+
+.section-nav-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 8px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.section-nav-btn:hover {
+  color: var(--text-main);
+  background-color: var(--bg-hover);
+}
+
+.section-nav-btn.active {
+  background-color: var(--bg-surface);
+  color: var(--accent-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.section-nav-btn:focus-visible,
+.icon-btn:focus-visible,
+.mode-tab-btn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Scrollable chip rows would otherwise get squashed by the column flex layout */
+.app-shell > * {
+  flex-shrink: 0;
+}
+
+/* Test/practice sections need room for split-screen layouts; flashcards stay narrow */
+.app-shell[data-view="speaking"],
+.app-shell[data-view="listening"],
+.app-shell[data-view="cambridge"] {
+  max-width: 1180px;
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+
+  .app-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 4px 0 12px;
+  }
+
+  /* Let the header buttons join the header row so the mode switch can take a full line */
+  .header-right {
+    display: contents;
+  }
+
+  .header-left {
+    order: 0;
+  }
+
+  .sync-status-btn {
+    margin-left: auto;
+  }
+
+  .sync-label-text {
+    display: none;
+  }
+
+  .sync-status-btn {
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .study-mode-switch {
+    order: 10;
+    width: 100%;
+  }
+
+  .mode-tab-btn {
+    flex: 1;
+    justify-content: center;
+    min-height: 36px;
+    font-size: 0.85rem;
+  }
+
+  .section-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 900;
+    margin: 0;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid var(--border-light);
+    background-color: var(--bg-surface);
+    box-shadow: 0 -4px 14px rgba(15, 23, 42, 0.06);
+  }
+
+  .section-nav-btn {
+    flex-direction: column;
+    gap: 2px;
+    min-height: 52px;
+    font-size: 0.7rem;
+  }
+
+  .section-nav-btn.active {
+    background-color: var(--accent-sage-soft);
+    box-shadow: none;
+  }
+
+  /* 16px stops iOS Safari from zooming in when an input is focused */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}

@@ -2832,11 +2832,8 @@
     btnSelectWords: document.getElementById('btn-select-words'),
     btnSelectCollocations: document.getElementById('btn-select-collocations'),
     btnSelectSpeaking: document.getElementById('btn-select-speaking'),
-    btnNavSpeaking: document.getElementById('btn-nav-speaking'),
     btnSelectListening: document.getElementById('btn-select-listening'),
-    btnNavListening: document.getElementById('btn-nav-listening'),
     btnSelectCambridge: document.getElementById('btn-select-cambridge'),
-    btnNavCambridge: document.getElementById('btn-nav-cambridge'),
     wordsPreviewCount: document.getElementById('words-preview-count'),
     collocationsPreviewCount: document.getElementById('collocations-preview-count'),
     
@@ -3243,7 +3240,10 @@
   // --- CATEGORY SELECTION ---
   function selectCategory(categoryKey, savePref = true) {
     state.selectedCategory = categoryKey;
+    document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.category === categoryKey));
     el.selectionOverlay.style.display = 'none';
+    if (el.topicFilterNav) el.topicFilterNav.style.display = 'none'; // flashcard branch below turns it back on
+    document.getElementById('app-shell').dataset.view = categoryKey;
 
     const speakingView = document.getElementById('speaking-view');
     const listeningView = document.getElementById('listening-view');
@@ -3252,9 +3252,6 @@
     const studyArea = document.getElementById('study-area');
     const studyModeSwitch = document.querySelector('.study-mode-switch');
     const spacedBadge = document.getElementById('spaced-due-badge');
-    const navSpeakingBtn = document.getElementById('btn-nav-speaking');
-    const navListeningBtn = document.getElementById('btn-nav-listening');
-    const navCambridgeBtn = document.getElementById('btn-nav-cambridge');
 
     // Pause audio if leaving
     if (categoryKey !== 'listening') {
@@ -3275,16 +3272,6 @@
       if (studyArea) studyArea.style.display = 'none';
       if (studyModeSwitch) studyModeSwitch.style.display = 'none';
       if (spacedBadge) spacedBadge.style.display = 'none';
-      if (navSpeakingBtn) {
-        navSpeakingBtn.classList.remove('active-nav-speaking');
-        navSpeakingBtn.innerHTML = '<span>Speaking AI</span>';
-      }
-      if (navListeningBtn) {
-        navListeningBtn.classList.remove('active-nav-listening');
-      }
-      if (navCambridgeBtn) {
-        navCambridgeBtn.classList.add('active-nav-cambridge');
-      }
       if (window.cambridgeModule && typeof window.cambridgeModule.onActivate === 'function') {
         window.cambridgeModule.onActivate();
       }
@@ -3303,16 +3290,6 @@
       if (studyArea) studyArea.style.display = 'none';
       if (studyModeSwitch) studyModeSwitch.style.display = 'none';
       if (spacedBadge) spacedBadge.style.display = 'none';
-      if (navSpeakingBtn) {
-        navSpeakingBtn.classList.remove('active-nav-speaking');
-        navSpeakingBtn.innerHTML = '<span>Speaking AI</span>';
-      }
-      if (navListeningBtn) {
-        navListeningBtn.classList.add('active-nav-listening');
-      }
-      if (navCambridgeBtn) {
-        navCambridgeBtn.classList.remove('active-nav-cambridge');
-      }
       if (window.listeningModule && typeof window.listeningModule.onActivate === 'function') {
         window.listeningModule.onActivate();
       }
@@ -3331,17 +3308,6 @@
       if (studyArea) studyArea.style.display = 'none';
       if (studyModeSwitch) studyModeSwitch.style.display = 'none';
       if (spacedBadge) spacedBadge.style.display = 'none';
-      if (navSpeakingBtn) {
-        navSpeakingBtn.classList.add('active-nav-speaking');
-        navSpeakingBtn.innerHTML = '<span>Flashcards</span>';
-        navSpeakingBtn.title = 'Quay về học Flashcard từ vựng & collocations';
-      }
-      if (navListeningBtn) {
-        navListeningBtn.classList.remove('active-nav-listening');
-      }
-      if (navCambridgeBtn) {
-        navCambridgeBtn.classList.remove('active-nav-cambridge');
-      }
       if (window.speakingModule && typeof window.speakingModule.onActivate === 'function') {
         window.speakingModule.onActivate();
       }
@@ -3360,17 +3326,6 @@
     if (studyArea) studyArea.style.display = 'block';
     if (studyModeSwitch) studyModeSwitch.style.display = 'inline-flex';
     if (spacedBadge) spacedBadge.style.display = 'inline-flex';
-    if (navSpeakingBtn) {
-      navSpeakingBtn.classList.remove('active-nav-speaking');
-      navSpeakingBtn.innerHTML = '<span>Speaking AI</span>';
-      navSpeakingBtn.title = 'Mở tính năng luyện IELTS Speaking AI';
-    }
-    if (navListeningBtn) {
-      navListeningBtn.classList.remove('active-nav-listening');
-    }
-    if (navCambridgeBtn) {
-      navCambridgeBtn.classList.remove('active-nav-cambridge');
-    }
 
     if (categoryKey === 'words') {
       el.currentCatName.textContent = 'Words';
@@ -4431,33 +4386,10 @@
     if (el.btnSelectCambridge) {
       el.btnSelectCambridge.addEventListener('click', () => selectCategory('cambridge'));
     }
-    if (el.btnNavCambridge) {
-      el.btnNavCambridge.addEventListener('click', () => {
-        if (state.selectedCategory === 'cambridge') {
-          selectCategory('words');
-        } else {
-          selectCategory('cambridge');
-        }
-      });
-    }
-    if (el.btnNavSpeaking) {
-      el.btnNavSpeaking.addEventListener('click', () => {
-        if (state.selectedCategory === 'speaking') {
-          selectCategory('words');
-        } else {
-          selectCategory('speaking');
-        }
-      });
-    }
-    if (el.btnNavListening) {
-      el.btnNavListening.addEventListener('click', () => {
-        if (state.selectedCategory === 'listening') {
-          selectCategory('words');
-        } else {
-          selectCategory('listening');
-        }
-      });
-    }
+    document.getElementById('section-nav').addEventListener('click', (e) => {
+      const btn = e.target.closest('.section-nav-btn');
+      if (btn) selectCategory(btn.dataset.category);
+    });
     el.btnChangeCategory.addEventListener('click', () => {
       updateCategoryCountsPreview();
       el.selectionOverlay.style.display = 'flex';

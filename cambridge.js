@@ -832,7 +832,7 @@
         </div>
 
         <!-- LEFT COLUMN: READING PASSAGE TEXT -->
-        <div class="reading-passage-column" id="reading-passage-column">
+        <div class="reading-passage-column mobile-active" id="reading-passage-column">
           <div class="passage-paper-card">
             <div class="passage-paper-header">
               <span class="passage-tag">Passage ${pNum}</span>
