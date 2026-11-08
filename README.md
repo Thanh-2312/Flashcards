@@ -6,6 +6,15 @@
 
 ## ✨ Điểm Nổi Bật
 
+0. **Mở app là học ngay: màn "Hôm nay" + lịch học 4 kỹ năng đến ngày thi** (`plan.js`):
+   - Mỗi ngày có danh sách việc cụ thể (từ vựng, Listening, Reading, Writing, Speaking), mỗi việc có các bước "Cách học" và nút **Bắt đầu** mở đúng bài.
+   - Lộ trình theo ngày thi (bắt đầu 8/11/2026, thi 1/5/2027, đổi trong Cài đặt lịch học): Kiểm tra đầu vào (Listening, Reading) → Nền tảng → Tăng tốc → Thi thử → Tuần thi.
+   - **Học Writing & Speaking từ con số 0** (`course.js`): 24 bài Writing (câu đúng → lên ý → đoạn PEEL → mở bài/kết luận → bài hoàn chỉnh 5 dạng đề → Task 1) và 18 bài Speaking (phát âm, nói đuổi → Part 1 → Part 2 → Part 3 → thi thử). Mỗi ngày 1 bài theo lịch; học xong mới chuyển sang luyện đề.
+   - Trình độ ước tính từng kỹ năng và band tổng, **Sổ lỗi sai** tự ghi câu sai sau mỗi bài Cambridge (kèm dẫn chứng, chọn nguyên nhân sai).
+   - **Writing Task 1 & 2** (`writing.js`): đồng hồ 20/40 phút, đếm từ, AI chấm theo 4 tiêu chí (dùng Gemini key của mục Speaking), viết lại phần yếu nhất.
+   - Lịch học, kết quả và sổ lỗi đồng bộ qua Firebase (nhánh `users/<id>_plan`). Kiểm tra logic lịch: `node tools/test_plan.js`.
+   - Trên iPhone/iPad: Safari → Chia sẻ → **Thêm vào Màn hình chính** để mở như ứng dụng.
+
 1. **Phân loại thẻ ngay khi vào web:**
    - 📖 **Words (Từ đơn):** Định nghĩa, phiên âm quốc tế (IPA), ví dụ ứng dụng.
    - 🔗 **Collocations (Cụm từ cố định):** Các cụm từ học thuật tự nhiên, hỗ trợ diễn đạt tự nhiên cho IELTS Speaking & Writing.

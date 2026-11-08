@@ -362,7 +362,7 @@ window.CAMBRIDGE_DATA = {
       "topic_id": "travel",
       "title": "Travel, Tourism & Hospitality",
       "titleVi": "Du lịch, Địa danh & Khách sạn",
-      "icon": "✈️",
+      "icon": "",
       "description": "Từ vựng học thuật B2-C2 về du lịch, lưu trú, lộ trình di chuyển và trải nghiệm khám phá trong IELTS.",
       "words": [
         {
@@ -640,7 +640,7 @@ window.CAMBRIDGE_DATA = {
       "topic_id": "environment",
       "title": "Environment, Climate & Ecology",
       "titleVi": "Môi trường, Sinh thái & Khí hậu",
-      "icon": "🌿",
+      "icon": "",
       "description": "Từ vựng IELTS B2-C2 về biến đổi khí hậu, sinh thái, bảo tồn động thực vật quý hiếm và thảm họa tự nhiên.",
       "words": [
         {
@@ -870,7 +870,7 @@ window.CAMBRIDGE_DATA = {
       "topic_id": "architecture",
       "title": "Architecture, History & Heritage",
       "titleVi": "Kiến trúc, Di sản & Lịch sử",
-      "icon": "🏛️",
+      "icon": "",
       "description": "Từ vựng IELTS B2-C2 miêu tả công trình cổ đại, kỹ thuật xây dựng đá vĩ đại, điêu khắc và di sản nhân loại.",
       "words": [
         {
@@ -1062,7 +1062,7 @@ window.CAMBRIDGE_DATA = {
       "topic_id": "science",
       "title": "Science, Innovation & Technology",
       "titleVi": "Khoa học, Sáng chế & Công nghệ",
-      "icon": "🔬",
+      "icon": "",
       "description": "Từ vựng IELTS B2-C2 về phát minh kỹ thuật, thiết kế bền vững, thử nghiệm nguyên mẫu và công nghệ tương lai.",
       "words": [
         {
@@ -1205,7 +1205,7 @@ window.CAMBRIDGE_DATA = {
       "topic_id": "health",
       "title": "Health, Medicine & Sports",
       "titleVi": "Y tế, Sức khỏe & Thể thao",
-      "icon": "🏃",
+      "icon": "",
       "description": "Từ vựng IELTS B2-C2 về thể lực, chế độ luyện tập, y học dự phòng và lối sống cân bằng.",
       "words": [
         {
@@ -1321,7 +1321,7 @@ window.CAMBRIDGE_DATA = {
       "topic_id": "education",
       "title": "Education, University & Academics",
       "titleVi": "Giáo dục, Đại học & Học thuật",
-      "icon": "🎓",
+      "icon": "",
       "description": "Từ vựng IELTS B2-C2 về môi trường học thuật, phương pháp giảng dạy, nghiên cứu khoa học và phát triển tư duy.",
       "words": [
         {
@@ -1417,7 +1417,7 @@ window.CAMBRIDGE_DATA = {
       "topic_id": "business",
       "title": "Economy, Business & Employment",
       "titleVi": "Kinh tế, Doanh nghiệp & Việc làm",
-      "icon": "📈",
+      "icon": "",
       "description": "Từ vựng IELTS B2-C2 về giao thương, cơ sở hạ tầng, chi phí chuỗi cung ứng và chuyển dịch mô hình vận tải.",
       "words": [
         {
@@ -1511,7 +1511,7 @@ window.CAMBRIDGE_DATA = {
       "topic_id": "psychology",
       "title": "Psychology, Innovation & Behavior",
       "titleVi": "Tâm lý học, Đổi mới & Hành vi",
-      "icon": "🧠",
+      "icon": "",
       "description": "Từ vựng IELTS B2-C2 về tâm lý sáng tạo, động lực con người, sự thấu cảm và động lực nhóm.",
       "words": [
         {

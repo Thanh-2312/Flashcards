@@ -395,10 +395,11 @@
   let config = loadConfig();
   let state = loadState();
   let voiceStats = loadVoiceStats();
-  let currentActiveTab = 'speak-now'; // 'speak-now' | 'voice-diary' | 'daily' | 'translate'
+  let currentActiveTab = 'course'; // 'course' | 'speak-now' | 'voice-diary' | 'daily' | 'translate' | 'roleplay'
   let currentPart = 1; // 1 | 2 | 3
   let currentSource = 'classic'; // 'classic' | 'forecast'
   let currentQuestion = null;
+  let lessonQuestion = null; // câu hỏi do bài học gửi sang, ưu tiên hơn ngân hàng câu hỏi
   let isTranslating = false;
   let isSubmitting = false;
   let isLoadingHints = false;
@@ -810,7 +811,7 @@
               localStorage.setItem('gdrive_speaking_access_token', this.accessToken);
               localStorage.setItem('gdrive_speaking_token_expiry', String(this.tokenExpiry));
               updateDriveAuthStatusUI();
-              showToastMessage('✅ Đã kết nối Google Drive thành công!');
+              showToastMessage('Đã kết nối Google Drive thành công!');
               await this.ensureFolder();
               await this.syncUnsyncedRecordings();
               renderVoiceDiary();
@@ -1371,6 +1372,10 @@ Return ONLY a JSON object with this exact structure:
   }
 
   function loadCurrentQuestion() {
+    if (lessonQuestion) {
+      currentQuestion = lessonQuestion;
+      return currentQuestion;
+    }
     const list = QUESTION_BANK[currentPart]?.[currentSource] || [];
     if (!list.length) return null;
 
@@ -1502,14 +1507,14 @@ Return ONLY a JSON object:
       container.innerHTML = `
         <div class="hints-content">
           <div class="hints-block">
-            <strong>📋 Dàn ý 3 bước dễ nói (bằng tiếng Việt):</strong>
+            <strong>Dàn ý 3 bước dễ nói (bằng tiếng Việt):</strong>
             <ol class="outline-steps">
               ${(data.outline_vi || []).map(step => `<li>${escapeHtml(step)}</li>`).join('')}
             </ol>
           </div>
 
           <div class="hints-block">
-            <strong>✨ Cụm từ gợi ý nên dùng:</strong>
+            <strong>Cụm từ gợi ý nên dùng:</strong>
             <div class="hint-phrases-list">
               ${(data.suggested_phrases || []).map(p => `
                 <span class="hint-phrase-pill" onclick="window.speakingModule.insertHintPhrase('${escapeJs(p.en)}')">
@@ -1521,13 +1526,13 @@ Return ONLY a JSON object:
 
           ${data.tip_vi ? `
             <div class="hints-tip">
-              💡 <em>${escapeHtml(data.tip_vi)}</em>
+              <em>${escapeHtml(data.tip_vi)}</em>
             </div>
           ` : ''}
         </div>
       `;
     } catch (err) {
-      container.innerHTML = `<div class="error-state">❌ Không tải được gợi ý: ${escapeHtml(err.message)}</div>`;
+      container.innerHTML = `<div class="error-state">Không tải được gợi ý: ${escapeHtml(err.message)}</div>`;
     }
   }
 
@@ -1651,7 +1656,7 @@ Return ONLY a JSON object:
               <div class="mistake-item">
                 <div class="mistake-diff">
                   <span class="m-wrong">${escapeHtml(m.wrong)}</span>
-                  <span class="m-arrow">➔</span>
+                  <span class="m-arrow"></span>
                   <span class="m-right">${escapeHtml(m.right)}</span>
                 </div>
                 <div class="m-why">${escapeHtml(m.why_vi)}</div>
@@ -1897,7 +1902,7 @@ Return ONLY a JSON object:
 
     if (authStatusText) {
       authStatusText.textContent = connected
-        ? '🟢 Đã kết nối Google Drive (Thư mục: IELTS Speaking Voice)'
+        ? 'Đã kết nối Google Drive (Thư mục: IELTS Speaking Voice)'
         : 'Chưa kết nối Google Drive';
     }
     if (authStatusDot) {
@@ -1907,7 +1912,7 @@ Return ONLY a JSON object:
     if (btnDriveSync && syncStatusLabel) {
       if (connected) {
         btnDriveSync.classList.add('is-connected');
-        syncStatusLabel.textContent = '🟢 Google Drive: Đã kết nối';
+        syncStatusLabel.textContent = 'Google Drive: Đã kết nối';
       } else {
         btnDriveSync.classList.remove('is-connected');
         syncStatusLabel.textContent = 'Kết nối Google Drive';
@@ -1941,10 +1946,10 @@ Return ONLY a JSON object:
     try {
       await testGeminiKey(key, model);
       statusBox.className = 'status-box status-success';
-      statusBox.innerHTML = `✅ Kết nối thành công! Khóa API hợp lệ và model <strong>${escapeHtml(model)}</strong> đã sẵn sàng hoạt động.`;
+      statusBox.innerHTML = `Kết nối thành công! Khóa API hợp lệ và model <strong>${escapeHtml(model)}</strong> đã sẵn sàng hoạt động.`;
     } catch (err) {
       statusBox.className = 'status-box status-error';
-      statusBox.innerHTML = `❌ Kiểm tra thất bại: ${escapeHtml(err.message)}<br><small>Nếu model này chưa mở cho tài khoản của bạn, bạn có thể chuyển sang <strong>gemini-2.5-flash</strong> hoặc <strong>gemini-1.5-flash</strong> để tiếp tục sử dụng bình thường.</small>`;
+      statusBox.innerHTML = `Kiểm tra thất bại: ${escapeHtml(err.message)}<br><small>Nếu model này chưa mở cho tài khoản của bạn, bạn có thể chuyển sang <strong>gemini-2.5-flash</strong> hoặc <strong>gemini-1.5-flash</strong> để tiếp tục sử dụng bình thường.</small>`;
     } finally {
       btnTest.disabled = false;
     }
@@ -2062,7 +2067,7 @@ Return ONLY a JSON object:
         <span class="starter-chips-label">Gợi ý mở đầu:</span>
         ${starterChips.map(phrase => `
           <button type="button" class="starter-chip" onclick="window.speakingModule.speak('${escapeJs(phrase)}')">
-            🔊 ${escapeHtml(phrase)}
+            ${escapeHtml(phrase)}
           </button>
         `).join('')}
       </div>
@@ -2145,6 +2150,7 @@ CRUCIAL REQUIREMENTS:
    - "word": English word
    - "ipa": phonetic transcription
    - "tip_vi": friendly advice in Vietnamese on how to pronounce it clearly.
+8. "band": a realistic IELTS Speaking band for this single answer (fluency, vocabulary, grammar, pronunciation) in 0.5 steps, e.g. "5.5". Do not inflate it.
 
 Return ONLY a JSON object:
 {
@@ -2154,12 +2160,14 @@ Return ONLY a JSON object:
   "mistakes": [{ "wrong": "...", "right": "...", "why_vi": "..." }],
   "upgraded_version": "...",
   "upgraded_phrases": [{ "en": "...", "ipa": "...", "vi": "..." }],
-  "pronunciation_tip": { "word": "...", "ipa": "...", "tip_vi": "..." }
+  "pronunciation_tip": { "word": "...", "ipa": "...", "tip_vi": "..." },
+  "band": "5.5"
 }`;
 
     const userPrompt = `Student answered IELTS Speaking Part ${currentPart} question: "${currentQuestion.question}". Audio duration: ${durationSec} seconds. Attempt number: ${currentAttemptNum}.`;
 
     const feedbackData = await callGeminiWithAudio(audioBlob, userPrompt, systemPrompt);
+    if (window.todayModule) window.todayModule.onSpeakingFeedback(feedbackData);
 
     // Create record
     const todayStr = getTodayDateString();
@@ -2209,7 +2217,7 @@ Return ONLY a JSON object:
         if (driveId) {
           const syncPill = document.getElementById('speak-now-drive-sync-indicator');
           if (syncPill) {
-            syncPill.innerHTML = '🟢 Đã lưu vào Google Drive & Thiết bị';
+            syncPill.innerHTML = 'Đã lưu vào Google Drive & Thiết bị';
           }
           renderVoiceDiary();
         }
@@ -2254,12 +2262,12 @@ Return ONLY a JSON object:
     if (mistakes.length) {
       mistakesHtml = `
         <div class="fb-card mistakes-fix-card">
-          <div class="fb-card-title">🔧 Sửa ${mistakes.length} Chỗ Cần Nhớ</div>
+          <div class="fb-card-title">Sửa ${mistakes.length} Chỗ Cần Nhớ</div>
           ${mistakes.map(m => `
             <div class="mistake-fix-row">
               <div class="mistake-diff-line">
                 <span class="m-wrong">${escapeHtml(m.wrong)}</span>
-                <span class="m-arrow">➔</span>
+                <span class="m-arrow"></span>
                 <span class="m-right">${escapeHtml(m.right)}</span>
               </div>
               <div class="m-explain-vi">${escapeHtml(m.why_vi)}</div>
@@ -2274,7 +2282,7 @@ Return ONLY a JSON object:
       const wordsSign = comparisonData.wordsDiff >= 0 ? `+${comparisonData.wordsDiff}` : `${comparisonData.wordsDiff}`;
       comparisonBannerHtml = `
         <div class="attempt-compare-banner">
-          <div class="attempt-compare-title">🎉 Tuyệt vời! Bạn vừa hoàn thành Lần Nói Thứ 2</div>
+          <div class="attempt-compare-title">Tuyệt vời! Bạn vừa hoàn thành Lần Nói Thứ 2</div>
           <div class="attempt-compare-body">
             Số từ phát triển: <strong>${wordsSign} từ</strong> so với lần 1. Bạn đã ứng dụng thành công các từ vựng và nói trôi chảy hơn!
           </div>
@@ -2288,7 +2296,7 @@ Return ONLY a JSON object:
       <!-- CELEBRATION HEADER -->
       <div class="celebrate-banner">
         <div class="celebrate-left">
-          <span class="celebrate-emoji">🎉</span>
+          <span class="celebrate-emoji"></span>
           <div>
             <div class="celebrate-headline">Bạn vừa nói ${record.durationSec} giây — ${fb.word_count || 0} từ!</div>
             <div class="celebrate-subtext">Lần nói thứ ${record.attempt || 1} • Câu hỏi Part ${record.part || 1}</div>
@@ -2300,7 +2308,7 @@ Return ONLY a JSON object:
       <!-- CARD 1: USER'S SPEECH & VOICE PLAYBACK -->
       <div class="fb-card user-speech-card">
         <div class="fb-card-title">
-          <span>🗣️ Bạn đã nói:</span>
+          <span>Bạn đã nói:</span>
           <span class="tag-duration">${record.durationSec}s</span>
         </div>
         <div class="user-transcript-text">
@@ -2319,7 +2327,7 @@ Return ONLY a JSON object:
 
       <!-- CARD 2: PRAISE -->
       <div class="fb-card praise-card">
-        <div class="fb-card-title">👍 Điểm sáng (Làm Tốt)</div>
+        <div class="fb-card-title">Điểm sáng (Làm Tốt)</div>
         <ul class="praise-list">
           ${praiseList.map(p => `<li>${escapeHtml(p)}</li>`).join('')}
         </ul>
@@ -2331,7 +2339,7 @@ Return ONLY a JSON object:
       <!-- CARD 4: UPGRADED ANSWER ("Ý CỦA BẠN, NÓI HAY HƠN") -->
       <div class="fb-card upgraded-speech-card">
         <div class="fb-card-title">
-          <span>✨ Ý của bạn, nói hay hơn (Band 6.5 - 7.0)</span>
+          <span>Ý của bạn, nói hay hơn (Band 6.5 - 7.0)</span>
           <button type="button" class="btn-speaking-action btn-speak" onclick="window.speakingModule.speak('${escapeJs(fb.upgraded_version || '')}', 0.85)">
             Nghe đọc chậm & nhại
           </button>
@@ -2344,7 +2352,7 @@ Return ONLY a JSON object:
             <span class="starter-chips-label">Cụm từ ghi điểm:</span>
             ${phrases.map((p, pIdx) => `
               <button type="button" class="starter-chip" onclick="window.speakingModule.savePhrase(${pIdx}, 'speak_now')">
-                ➕ Lưu "${escapeHtml(p.en)}"
+                Lưu "${escapeHtml(p.en)}"
               </button>
             `).join('')}
           </div>
@@ -2354,11 +2362,11 @@ Return ONLY a JSON object:
       <!-- CARD 5: PRONUNCIATION TIP -->
       ${pron && pron.word ? `
         <div class="fb-card pronounce-card">
-          <div class="fb-card-title">🗣️ Góp ý phát âm:</div>
+          <div class="fb-card-title">Góp ý phát âm:</div>
           <div class="pronounce-box">
             <span class="pronounce-word">${escapeHtml(pron.word)}</span>
             <span class="pronounce-ipa">${escapeHtml(pron.ipa || '')}</span>
-            <span>➔ ${escapeHtml(pron.tip_vi || '')}</span>
+            <span>${escapeHtml(pron.tip_vi || '')}</span>
             <button type="button" class="btn-speaking-action btn-speak" onclick="window.speakingModule.speak('${escapeJs(pron.word)}')">Nghe</button>
           </div>
         </div>
@@ -2367,14 +2375,14 @@ Return ONLY a JSON object:
       <!-- ACTION FOOTER: RETRY & NEXT -->
       <div class="speak-now-action-footer">
         <button type="button" class="btn-retry-second-attempt" onclick="window.speakingModule.retrySecondAttempt()">
-          🎙️ Nói Lại Lần 2 (Áp dụng bản hay hơn)
+          Nói Lại Lần 2 (Áp dụng bản hay hơn)
         </button>
         <div class="footer-secondary-row">
           <button type="button" class="btn-speaking-action btn-change-q" onclick="window.speakingModule.changeQuestion()">
-            🎲 Thử câu hỏi tiếp theo
+            Thử câu hỏi tiếp theo
           </button>
           <span class="sync-saved-pill" id="speak-now-drive-sync-indicator">
-            ${GoogleDriveService.isConnected() ? '🟢 Đã lưu vào Google Drive & Thiết bị' : '💾 Đã lưu vào Nhật ký giọng nói trên máy'}
+            ${GoogleDriveService.isConnected() ? 'Đã lưu vào Google Drive & Thiết bị' : 'Đã lưu vào Nhật ký giọng nói trên máy'}
           </span>
         </div>
       </div>
@@ -2464,7 +2472,7 @@ Return ONLY a JSON object:
     if (!allRecordings || allRecordings.length === 0) {
       listContainer.innerHTML = `
         <div class="empty-diary-state">
-          <div class="empty-diary-icon">🎙️</div>
+          <div class="empty-diary-icon"></div>
           <div class="empty-diary-text">Bạn chưa có bài nói nào được lưu. Hãy qua tab <strong>"1. Nói Ngay"</strong> và bấm micro để lưu bài đầu tiên nhé!</div>
         </div>
       `;
@@ -2514,7 +2522,7 @@ Return ONLY a JSON object:
       html += `
         <div class="diary-day-group">
           <div class="diary-day-heading">
-            <span>📅 ${escapeHtml(dayTitle)}</span>
+            <span>${escapeHtml(dayTitle)}</span>
             <span class="diary-day-count-badge">${items.length} bài nói</span>
           </div>
           <div class="diary-entries-grid">
@@ -2549,15 +2557,15 @@ Return ONLY a JSON object:
             <span class="tag-attempt">Lần ${item.attempt || 1}</span>
             <span class="tag-duration">${item.durationSec || 0}s</span>
             ${item.syncedToDrive
-              ? '<span class="tag-cloud-drive" title="Đã lưu an toàn trên Google Drive của bạn">☁️ Google Drive</span>'
-              : '<span class="tag-cloud-local" title="Đã lưu trên máy này">💾 Máy này</span>'}
+              ? '<span class="tag-cloud-drive" title="Đã lưu an toàn trên Google Drive của bạn">Google Drive</span>'
+              : '<span class="tag-cloud-local" title="Đã lưu trên máy này">Máy này</span>'}
           </div>
           <div class="diary-entry-actions">
             <button type="button" class="btn-diary-icon" title="Tải file audio về máy" onclick="window.speakingModule.downloadVoice('${item.id}')">
               ⬇ Tải về
             </button>
             <button type="button" class="btn-diary-icon btn-delete" title="Xóa bản ghi này" onclick="window.speakingModule.deleteVoice('${item.id}')">
-              🗑
+              
             </button>
           </div>
         </div>
@@ -2578,7 +2586,7 @@ Return ONLY a JSON object:
 
         <div class="diary-entry-bottom">
           <button type="button" class="btn-toggle-transcript" onclick="window.speakingModule.toggleDiaryTranscript('${item.id}')">
-            📝 Xem lời thoại & bản sửa ▾
+            Xem lời thoại & bản sửa ▾
           </button>
         </div>
 
@@ -2694,6 +2702,7 @@ Return ONLY a JSON object:
   function switchTab(tabKey) {
     currentActiveTab = tabKey;
     const tabMap = {
+      'course': { btn: 'tab-btn-course', panel: 'speaking-tab-course' },
       'speak-now': { btn: 'tab-btn-speak-now', panel: 'speaking-tab-speak-now' },
       'voice-diary': { btn: 'tab-btn-voice-diary', panel: 'speaking-tab-voice-diary' },
       'daily': { btn: 'tab-btn-daily', panel: 'speaking-tab-daily' },
@@ -2709,15 +2718,23 @@ Return ONLY a JSON object:
       if (panel) panel.style.display = isActive ? 'block' : 'none';
     });
 
-    if (tabKey === 'speak-now') {
+    if (tabKey === 'course') {
+      renderCourse();
+    } else if (tabKey === 'speak-now') {
       renderSpeakNowQuestion();
     } else if (tabKey === 'voice-diary') {
       renderVoiceDiary();
     }
   }
 
+  function renderCourse() {
+    if (window.courseModule) window.courseModule.render(document.getElementById('speaking-tab-course'), 'speaking');
+  }
+
   function bindEvents() {
     // 4-Tab Switching
+    const tabBtnCourse = document.getElementById('tab-btn-course');
+    if (tabBtnCourse) tabBtnCourse.addEventListener('click', () => switchTab('course'));
     const tabBtnSpeakNow = document.getElementById('tab-btn-speak-now');
     const tabBtnVoiceDiary = document.getElementById('tab-btn-voice-diary');
     const tabBtnDaily = document.getElementById('tab-btn-daily');
@@ -2798,6 +2815,7 @@ Return ONLY a JSON object:
         document.querySelectorAll('.part-switch-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentPart = parseInt(btn.getAttribute('data-part'), 10) || 1;
+        lessonQuestion = null;
         renderQuestionCard();
         renderSpeakNowQuestion();
       });
@@ -2809,6 +2827,7 @@ Return ONLY a JSON object:
         document.querySelectorAll('.source-switch-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentSource = btn.getAttribute('data-source') || 'classic';
+        lessonQuestion = null;
         renderQuestionCard();
         renderSpeakNowQuestion();
       });
@@ -2869,10 +2888,10 @@ Return ONLY a JSON object:
         if (inputKey) {
           if (inputKey.type === 'password') {
             inputKey.type = 'text';
-            btnToggleKeyVis.textContent = '🙈';
+            btnToggleKeyVis.textContent = '?n';
           } else {
             inputKey.type = 'password';
-            btnToggleKeyVis.textContent = '👁️';
+            btnToggleKeyVis.textContent = 'Hi?n';
           }
         }
       });
@@ -2909,6 +2928,8 @@ Return ONLY a JSON object:
     init: init,
     speak: speak,
     openAISettings: openAISettingsModal,
+    switchTab: switchTab,
+    callGemini: callGemini,
 
     onActivate: function () {
       updateAPIStatusBadge();
@@ -2916,6 +2937,23 @@ Return ONLY a JSON object:
       renderVoiceStatsBar();
       renderSpeakNowQuestion();
       renderVoiceDiary();
+      if (currentActiveTab === 'course') renderCourse();
+    },
+
+    // Bài học Speaking gửi một câu hỏi cụ thể sang mục Nói ngay
+    practiceQuestion: function (q) {
+      lessonQuestion = { id: q.id, part: q.part, topic: q.topic || 'Bài học', question: q.question, vietnamese: q.vietnamese || '', bullets: q.bullets || [] };
+      currentPart = q.part;
+      currentAttemptNum = 1;
+      lastAttempt1 = null;
+      const feedbackBox = document.getElementById('speak-now-feedback-container');
+      if (feedbackBox) feedbackBox.style.display = 'none';
+      switchTab('speak-now');
+    },
+
+    openCourse: function (lessonId) {
+      if (window.courseModule) window.courseModule.open('speaking', lessonId);
+      switchTab('course');
     },
 
     savePhrase: function (index, source) {
@@ -2938,6 +2976,7 @@ Return ONLY a JSON object:
     },
 
     changeQuestion: function () {
+      lessonQuestion = null;
       const offsetKey = `${currentPart}_${currentSource}`;
       state.skipOffsets[offsetKey] = (state.skipOffsets[offsetKey] || 0) + 1;
       saveState();

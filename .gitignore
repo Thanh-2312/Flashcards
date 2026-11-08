@@ -31,3 +31,8 @@ CAMBRIDGE/CAMBRIDGE IELTS 10-20/CAMBRIDGE 20/
 data/raw/
 .venv*/
 release_audio/
+
+# Transcript gốc và nhật ký sửa lỗi của bài giảng video: chỉ để trên máy
+/Writing.md
+/speaking.md
+/teacher_course_log.md

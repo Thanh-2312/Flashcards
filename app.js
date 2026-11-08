@@ -2828,14 +2828,6 @@
 
   // --- DOM ELEMENTS ---
   const el = {
-    selectionOverlay: document.getElementById('selection-overlay'),
-    btnSelectWords: document.getElementById('btn-select-words'),
-    btnSelectCollocations: document.getElementById('btn-select-collocations'),
-    btnSelectSpeaking: document.getElementById('btn-select-speaking'),
-    btnSelectListening: document.getElementById('btn-select-listening'),
-    btnSelectCambridge: document.getElementById('btn-select-cambridge'),
-    wordsPreviewCount: document.getElementById('words-preview-count'),
-    collocationsPreviewCount: document.getElementById('collocations-preview-count'),
     
     // Topic Filter
     topicFilterNav: document.getElementById('topic-filter-nav'),
@@ -2845,7 +2837,6 @@
     cardInputTopic: document.getElementById('card-input-topic'),
 
     // Header
-    btnChangeCategory: document.getElementById('btn-change-category'),
     currentCatName: document.getElementById('current-cat-name'),
     spacedDueBadge: document.getElementById('spaced-due-badge'),
     dueCountText: document.getElementById('due-count-text'),
@@ -2974,16 +2965,17 @@
 
   // --- TOPICS CONSTANTS ---
   const TOPIC_LIST = [
-    { id: 'all', name: 'Tất cả chủ đề', icon: '🌟' },
-    { id: 'environment', name: 'Môi trường', icon: '🌿' },
-    { id: 'travel', name: 'Du lịch', icon: '✈️' },
-    { id: 'architecture', name: 'Kiến trúc', icon: '🏛️' },
-    { id: 'science', name: 'Khoa học', icon: '🔬' },
-    { id: 'health', name: 'Sức khỏe', icon: '🏥' },
-    { id: 'education', name: 'Giáo dục', icon: '🎓' },
-    { id: 'economy', name: 'Kinh tế', icon: '💼' },
-    { id: 'psychology', name: 'Tâm lý', icon: '🧠' },
-    { id: 'communication', name: 'Giao tiếp', icon: '💬' }
+    { id: 'all', name: 'Tất cả', icon: '' },
+    { id: 'all', name: 'Mọi chủ đề', icon: '' },
+    { id: 'environment', name: 'Môi trường', icon: '' },
+    { id: 'travel', name: 'Du lịch', icon: '' },
+    { id: 'architecture', name: 'Kiến trúc', icon: '' },
+    { id: 'science', name: 'Khoa học', icon: '' },
+    { id: 'health', name: 'Sức khỏe', icon: '' },
+    { id: 'education', name: 'Giáo dục', icon: '' },
+    { id: 'economy', name: 'Kinh tế', icon: '' },
+    { id: 'psychology', name: 'Tâm lý', icon: '' },
+    { id: 'communication', name: 'Giao tiếp', icon: '' }
   ];
 
   // --- CALENDAR DATE & TIME HELPERS ---
@@ -3027,23 +3019,22 @@
   }
 
   function formatRelativeDue(timestamp) {
-    if (!timestamp) return { text: 'Chờ học cuốn chiếu', status: 'future', isDue: false };
+    if (!timestamp) return { text: 'Chưa học', status: 'future', isDue: false };
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
     const targetDate = new Date(timestamp);
     const targetStart = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate()).getTime();
     
     const diffDays = Math.round((targetStart - todayStart) / MS_PER_DAY);
-    const dateStr = formatDateDMY(timestamp);
 
     if (diffDays < 0) {
-      return { text: `Quá hạn ${Math.abs(diffDays)} ngày (${dateStr})`, status: 'overdue', isDue: true };
+      return { text: `Trễ ${Math.abs(diffDays)}d`, status: 'overdue', isDue: true };
     } else if (diffDays === 0) {
-      return { text: `Hôm nay (${dateStr})`, status: 'due', isDue: true };
+      return { text: 'Hôm nay', status: 'due', isDue: true };
     } else if (diffDays === 1) {
-      return { text: `Ngày mai (${dateStr})`, status: 'future', isDue: false };
+      return { text: 'Ngày mai', status: 'future', isDue: false };
     } else {
-      return { text: `${dateStr} (sau ${diffDays} ngày)`, status: 'future', isDue: false };
+      return { text: `+${diffDays}d`, status: 'future', isDue: false };
     }
   }
 
@@ -3155,7 +3146,7 @@
       const pref = localStorage.getItem(PREF_KEY);
       if (pref) return JSON.parse(pref);
     } catch (e) {}
-    return { category: null, theme: 'light', studyMode: 'flip' };
+    return { category: null, theme: null, studyMode: 'flip' };
   }
 
   function saveUserPreferences(prefs) {
@@ -3177,6 +3168,236 @@
       toast.style.transition = 'opacity 0.3s ease';
       setTimeout(() => toast.remove(), 300);
     }, 2400);
+  }
+
+  // --- GAMIFICATION, SOUND FX & INTERACTIVE HELPERS ---
+  const GAMIFY_KEY = 'minimal_flashcards_gamify_v1';
+  let audioCtx = null;
+  const gamify = {
+    xp: 0,
+    streak: 1,
+    lastStudyDate: '',
+    combo: 0,
+    sfxEnabled: true
+  };
+
+  function loadGamifyState() {
+    try {
+      const raw = localStorage.getItem(GAMIFY_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        gamify.xp = parsed.xp || 0;
+        gamify.streak = parsed.streak || 1;
+        gamify.lastStudyDate = parsed.lastStudyDate || '';
+        gamify.sfxEnabled = parsed.sfxEnabled !== false;
+      }
+    } catch (e) {}
+    const today = new Date().toISOString().slice(0, 10);
+    if (gamify.lastStudyDate && gamify.lastStudyDate !== today) {
+      const diff = Math.round((new Date(today) - new Date(gamify.lastStudyDate)) / MS_PER_DAY);
+      if (diff === 1) gamify.streak += 1;
+      else if (diff > 1) gamify.streak = 1;
+    }
+    updateGamifyUI();
+  }
+
+  function saveGamifyState() {
+    try {
+      localStorage.setItem(GAMIFY_KEY, JSON.stringify({
+        xp: gamify.xp,
+        streak: gamify.streak,
+        lastStudyDate: gamify.lastStudyDate,
+        sfxEnabled: gamify.sfxEnabled
+      }));
+    } catch (e) {}
+  }
+
+  function updateGamifyUI() {
+    const streakEl = document.getElementById('study-streak-val');
+    const xpEl = document.getElementById('study-xp-val');
+    const comboPill = document.getElementById('header-combo-pill');
+    const comboVal = document.getElementById('study-combo-val');
+    const sfxBtn = document.getElementById('btn-toggle-sfx');
+    if (streakEl) streakEl.textContent = gamify.streak;
+    if (xpEl) xpEl.textContent = gamify.xp;
+    if (comboPill && comboVal) {
+      if (gamify.combo >= 2) {
+        comboPill.style.display = 'inline-flex';
+        comboVal.textContent = gamify.combo;
+      } else {
+        comboPill.style.display = 'none';
+      }
+    }
+    if (sfxBtn) {
+      sfxBtn.classList.toggle('sfx-muted', !gamify.sfxEnabled);
+      sfxBtn.title = gamify.sfxEnabled ? 'Âm thanh hiệu ứng: Đang BẬT (Nhấn để tắt)' : 'Âm thanh hiệu ứng: Đang TẮT (Nhấn để bật)';
+    }
+  }
+
+  function playSfx(type) {
+    if (!gamify.sfxEnabled) return;
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      if (!audioCtx) audioCtx = new Ctx();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const now = audioCtx.currentTime;
+
+      const playTone = (freq, start, dur, vol = 0.08, wave = 'sine') => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = wave;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(vol, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + dur);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(start);
+        osc.stop(start + dur);
+      };
+
+      if (type === 'flip') {
+        playTone(420, now, 0.06, 0.04, 'triangle');
+      } else if (type === 'good') {
+        playTone(523.25, now, 0.12, 0.08, 'triangle');
+        playTone(659.25, now + 0.07, 0.16, 0.09, 'triangle');
+        playTone(783.99, now + 0.14, 0.24, 0.1, 'sine');
+      } else if (type === 'combo') {
+        playTone(523.25, now, 0.1, 0.08, 'triangle');
+        playTone(659.25, now + 0.06, 0.12, 0.08, 'triangle');
+        playTone(783.99, now + 0.12, 0.14, 0.09, 'triangle');
+        playTone(1046.5, now + 0.18, 0.3, 0.11, 'sine');
+      } else if (type === 'again') {
+        playTone(310, now, 0.12, 0.06, 'sine');
+        playTone(240, now + 0.09, 0.18, 0.06, 'sine');
+      }
+    } catch (e) {}
+  }
+
+  function spawnFloatingReward(xpGain, comboCount) {
+    const container = document.getElementById('xp-float-container');
+    if (!container) return;
+    const badge = document.createElement('div');
+    badge.className = 'xp-float-badge';
+    badge.innerHTML = comboCount >= 2
+      ? `<span>+${xpGain} XP</span> <span class="xp-combo-sub">Combo x${comboCount}</span>`
+      : `<span>+${xpGain} XP</span>`;
+    container.appendChild(badge);
+    setTimeout(() => badge.remove(), 1100);
+  }
+
+  function triggerConfetti() {
+    const container = document.getElementById('xp-float-container');
+    if (!container) return;
+    const colors = ['#6366F1', '#10B981', '#F59E0B', '#EC4899', '#06B6D4', '#8B5CF6'];
+    for (let i = 0; i < 24; i++) {
+      const p = document.createElement('span');
+      p.className = 'confetti-dot';
+      p.style.backgroundColor = colors[i % colors.length];
+      p.style.left = `${35 + Math.random() * 30}%`;
+      p.style.setProperty('--dx', `${(Math.random() - 0.5) * 260}px`);
+      p.style.setProperty('--dy', `${-60 - Math.random() * 140}px`);
+      p.style.setProperty('--rot', `${Math.random() * 540 - 270}deg`);
+      container.appendChild(p);
+      setTimeout(() => p.remove(), 1000);
+    }
+  }
+
+  function rewardStudyAction(success, isTyping = false) {
+    const today = new Date().toISOString().slice(0, 10);
+    if (gamify.lastStudyDate !== today) {
+      if (gamify.lastStudyDate) {
+        const diff = Math.round((new Date(today) - new Date(gamify.lastStudyDate)) / MS_PER_DAY);
+        gamify.streak = diff === 1 ? gamify.streak + 1 : 1;
+      } else {
+        gamify.streak = Math.max(1, gamify.streak);
+      }
+      gamify.lastStudyDate = today;
+    }
+
+    if (success) {
+      gamify.combo += 1;
+      const baseXp = isTyping ? 15 : 10;
+      const bonusXp = gamify.combo >= 3 ? 5 : 0;
+      const gain = baseXp + bonusXp;
+      gamify.xp += gain;
+      playSfx(gamify.combo >= 3 ? 'combo' : 'good');
+      spawnFloatingReward(gain, gamify.combo);
+      if (gamify.combo > 0 && gamify.combo % 5 === 0) {
+        triggerConfetti();
+      }
+      const xpPill = document.getElementById('header-xp-pill');
+      if (xpPill) {
+        xpPill.classList.remove('pop-anim');
+        void xpPill.offsetWidth;
+        xpPill.classList.add('pop-anim');
+      }
+    } else {
+      gamify.combo = 0;
+      playSfx('again');
+    }
+    saveGamifyState();
+    updateGamifyUI();
+  }
+
+  function escapeHtmlStr(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function formatClozeHtml(rawText, liveTyped = '') {
+    const safe = escapeHtmlStr(rawText || '');
+    if (!/_{3,}/.test(safe)) return safe;
+    const slotContent = liveTyped
+      ? `<span class="cloze-blank-slot is-typing">${escapeHtmlStr(liveTyped)}</span>`
+      : `<span class="cloze-blank-slot">_____</span>`;
+    return safe.replace(/_{3,}/g, slotContent);
+  }
+
+  function highlightTargetInText(text, targetWord, acceptedList) {
+    const safe = escapeHtmlStr(text || '');
+    const candidates = [targetWord, ...(acceptedList || [])].filter(Boolean).sort((a, b) => b.length - a.length);
+    if (!candidates.length) return safe;
+    for (const w of candidates) {
+      const escaped = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const re = new RegExp(`(${escaped})`, 'gi');
+      if (re.test(safe)) {
+        return safe.replace(re, '<mark class="context-word-highlight">$1</mark>');
+      }
+    }
+    return safe;
+  }
+
+  function extractCefrAndPos(ipaStr) {
+    if (!ipaStr) return null;
+    const match = ipaStr.match(/\(([^)]+)\)/);
+    if (!match) return null;
+    const inner = match[1].trim()
+      .replace(/\bnoun\b/gi, 'n')
+      .replace(/\badjective\b/gi, 'adj')
+      .replace(/\bverb\b/gi, 'v')
+      .replace(/\badverb\b/gi, 'adv')
+      .replace(/\s*-\s*/g, ' • ');
+    const levelMatch = inner.match(/\b(A1|A2|B1|B2|C1|C2)\b/i);
+    return {
+      label: inner,
+      level: levelMatch ? levelMatch[1].toUpperCase() : 'B2'
+    };
+  }
+
+  function applyCefrBadge(badgeEl, ipaStr) {
+    if (!badgeEl) return;
+    const info = extractCefrAndPos(ipaStr);
+    if (!info) {
+      badgeEl.style.display = 'none';
+      return;
+    }
+    badgeEl.textContent = info.label;
+    badgeEl.className = `card-cefr-badge level-${info.level.toLowerCase()}`;
+    badgeEl.style.display = 'inline-flex';
   }
 
   // --- SOUND / TTS SYNTHESIS ---
@@ -3201,9 +3422,11 @@
   // --- INITIALIZATION ---
   function init() {
     state.cards = loadCardsFromStorage();
+    loadGamifyState();
     const prefs = loadUserPreferences();
 
-    if (prefs.theme === 'dark') {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefs.theme ? prefs.theme === 'dark' : prefersDark) {
       document.body.classList.add('dark-mode');
     }
 
@@ -3217,41 +3440,33 @@
       state.selectedTopic = prefs.topic;
     }
 
-    updateCategoryCountsPreview();
-
-    if (prefs.category && (prefs.category === 'words' || prefs.category === 'collocations' || prefs.category === 'speaking')) {
-      selectCategory(prefs.category, false);
-      el.selectionOverlay.style.display = 'none';
-    } else {
-      el.selectionOverlay.style.display = 'flex';
-    }
+    // Mở app là vào ngay kế hoạch học hôm nay
+    selectCategory('today', false);
 
     bindEvents();
   }
 
-  // --- CATEGORY COUNTS PREVIEW ---
-  function updateCategoryCountsPreview() {
-    const wordsCount = state.cards.filter(c => c.category === 'words').length;
-    const collocationsCount = state.cards.filter(c => c.category === 'collocations').length;
-    el.wordsPreviewCount.textContent = `${wordsCount} từ`;
-    el.collocationsPreviewCount.textContent = `${collocationsCount} cụm`;
+  // --- CARDS CHANGED (thêm, xoá, nhập, đồng bộ) → cập nhật số thẻ đến hạn ở màn Hôm nay ---
+  function notifyCardsChanged() {
+    if (window.todayModule) window.todayModule.refresh();
   }
 
   // --- CATEGORY SELECTION ---
+  const SECTION_VIEWS = { today: 'today-view', speaking: 'speaking-view', listening: 'listening-view', cambridge: 'cambridge-view', writing: 'writing-view' };
+  const SECTION_TITLES = { today: 'Hôm nay', words: 'Từ vựng', collocations: 'Từ vựng', cambridge: 'Luyện đề', listening: 'Nghe sâu', speaking: 'Speaking', writing: 'Writing' };
+  // Mục con được tô sáng dưới tab cha trên thanh điều hướng
+  const PARENT_TAB = { collocations: 'words', listening: 'cambridge' };
+
   function selectCategory(categoryKey, savePref = true) {
     state.selectedCategory = categoryKey;
-    document.querySelectorAll('.section-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.category === categoryKey));
-    el.selectionOverlay.style.display = 'none';
-    if (el.topicFilterNav) el.topicFilterNav.style.display = 'none'; // flashcard branch below turns it back on
+    const tab = PARENT_TAB[categoryKey] || categoryKey;
+    document.querySelectorAll('.section-nav-btn').forEach(b => {
+      const on = b.dataset.category === tab;
+      b.classList.toggle('active', on);
+      if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
     document.getElementById('app-shell').dataset.view = categoryKey;
-
-    const speakingView = document.getElementById('speaking-view');
-    const listeningView = document.getElementById('listening-view');
-    const cambridgeView = document.getElementById('cambridge-view');
-    const intervalNav = document.querySelector('.interval-nav');
-    const studyArea = document.getElementById('study-area');
-    const studyModeSwitch = document.querySelector('.study-mode-switch');
-    const spacedBadge = document.getElementById('spaced-due-badge');
+    el.currentCatName.textContent = SECTION_TITLES[categoryKey] || '';
 
     // Pause audio if leaving
     if (categoryKey !== 'listening') {
@@ -3263,82 +3478,34 @@
       if (cAudio && !cAudio.paused) cAudio.pause();
     }
 
-    if (categoryKey === 'cambridge') {
-      el.currentCatName.textContent = 'Cambridge IELTS';
-      if (speakingView) speakingView.style.display = 'none';
-      if (listeningView) listeningView.style.display = 'none';
-      if (cambridgeView) cambridgeView.style.display = 'block';
-      if (intervalNav) intervalNav.style.display = 'none';
-      if (studyArea) studyArea.style.display = 'none';
-      if (studyModeSwitch) studyModeSwitch.style.display = 'none';
-      if (spacedBadge) spacedBadge.style.display = 'none';
-      if (window.cambridgeModule && typeof window.cambridgeModule.onActivate === 'function') {
-        window.cambridgeModule.onActivate();
-      }
-      if (savePref) {
-        saveUserPreferences({ category: categoryKey });
-      }
-      return;
-    }
-
-    if (categoryKey === 'listening') {
-      el.currentCatName.textContent = 'Listening';
-      if (speakingView) speakingView.style.display = 'none';
-      if (listeningView) listeningView.style.display = 'block';
-      if (cambridgeView) cambridgeView.style.display = 'none';
-      if (intervalNav) intervalNav.style.display = 'none';
-      if (studyArea) studyArea.style.display = 'none';
-      if (studyModeSwitch) studyModeSwitch.style.display = 'none';
-      if (spacedBadge) spacedBadge.style.display = 'none';
-      if (window.listeningModule && typeof window.listeningModule.onActivate === 'function') {
-        window.listeningModule.onActivate();
-      }
-      if (savePref) {
-        saveUserPreferences({ category: categoryKey });
-      }
-      return;
-    }
-
-    if (categoryKey === 'speaking') {
-      el.currentCatName.textContent = 'Speaking AI';
-      if (speakingView) speakingView.style.display = 'block';
-      if (listeningView) listeningView.style.display = 'none';
-      if (cambridgeView) cambridgeView.style.display = 'none';
-      if (intervalNav) intervalNav.style.display = 'none';
-      if (studyArea) studyArea.style.display = 'none';
-      if (studyModeSwitch) studyModeSwitch.style.display = 'none';
-      if (spacedBadge) spacedBadge.style.display = 'none';
-      if (window.speakingModule && typeof window.speakingModule.onActivate === 'function') {
-        window.speakingModule.onActivate();
-      }
-      if (savePref) {
-        saveUserPreferences({ category: categoryKey });
-      }
-      return;
-    }
-
-    // Otherwise Words or Collocations
-    if (speakingView) speakingView.style.display = 'none';
-    if (listeningView) listeningView.style.display = 'none';
-    if (cambridgeView) cambridgeView.style.display = 'none';
-    if (el.topicFilterNav) el.topicFilterNav.style.display = 'block';
-    if (intervalNav) intervalNav.style.display = 'block';
-    if (studyArea) studyArea.style.display = 'block';
-    if (studyModeSwitch) studyModeSwitch.style.display = 'inline-flex';
-    if (spacedBadge) spacedBadge.style.display = 'inline-flex';
-
-    if (categoryKey === 'words') {
-      el.currentCatName.textContent = 'Words';
-    } else {
-      el.currentCatName.textContent = 'Collocations';
-    }
+    Object.keys(SECTION_VIEWS).forEach(key => {
+      const view = document.getElementById(SECTION_VIEWS[key]);
+      if (view) view.style.display = key === categoryKey ? 'block' : 'none';
+    });
+    const isCards = categoryKey === 'words' || categoryKey === 'collocations';
+    [document.getElementById('vocab-toolbar'), el.topicFilterNav, document.querySelector('.interval-nav'),
+      document.getElementById('study-area'), document.getElementById('spaced-due-badge')].forEach(node => {
+      if (node) node.style.display = isCards ? '' : 'none';
+    });
 
     if (savePref) {
       saveUserPreferences({ category: categoryKey });
     }
 
+    if (!isCards) {
+      const module = window[`${categoryKey}Module`];
+      if (module && typeof module.onActivate === 'function') module.onActivate();
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    document.querySelectorAll('#vocab-cat-switch button').forEach(b => {
+      const on = b.dataset.category === categoryKey;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
     renderTopicFilterChips();
-    state.currentFilter = 'all';
+    if (state.currentFilter !== 'due') state.currentFilter = 'all'; // đang ôn thẻ đến hạn thì giữ khi đổi Từ đơn/Cụm từ
     state.currentIndex = 0;
     updateIntervalNavChips();
     filterAndRenderCards();
@@ -3360,9 +3527,8 @@
       const isActive = state.selectedTopic === t.id ? 'active' : '';
       html += `
         <button type="button" class="topic-filter-chip ${isActive}" data-topic="${t.id}">
-          <span>${t.icon}</span>
           <span>${t.name}</span>
-          <span style="opacity:0.75; font-size:0.75rem;">(${count})</span>
+          <span class="chip-count">${count}</span>
         </button>
       `;
     });
@@ -3484,17 +3650,17 @@
     const card = list[state.currentIndex];
     const progressPercent = ((state.currentIndex + 1) / total) * 100;
     el.studyProgressFill.style.width = `${progressPercent}%`;
-    el.cardPositionText.textContent = `Thẻ ${state.currentIndex + 1} / ${total}`;
+    el.cardPositionText.textContent = `${state.currentIndex + 1} / ${total}`;
 
     // Box Level Info & Due Date Tag
     el.currentBoxTag.style.display = 'inline-flex';
-    el.currentBoxText.textContent = `Hộp ${card.interval} ngày`;
+    el.currentBoxText.textContent = `${card.interval}d`;
 
     // Topic Badge Tag
     if (el.currentTopicTag && el.currentTopicText) {
       const cardTopicId = card.topic || 'communication';
-      const topicObj = TOPIC_LIST.find(t => t.id === cardTopicId) || { icon: '💬', name: 'Giao tiếp' };
-      el.currentTopicText.textContent = `${topicObj.icon} ${topicObj.name}`;
+      const topicObj = TOPIC_LIST.find(t => t.id === cardTopicId) || { icon: '', name: 'Giao tiếp' };
+      el.currentTopicText.textContent = topicObj.name;
       el.currentTopicTag.style.display = 'inline-flex';
     }
 
@@ -3507,13 +3673,10 @@
 
     // Next advance interval label & Rating Button Date Hints
     const nextInterval = getNextInterval(card.interval);
-    el.btnAdvanceIntervalLabel.textContent = `+${nextInterval} ngày`;
+    el.btnAdvanceIntervalLabel.textContent = `+${nextInterval}d`;
 
-    const now = Date.now();
-    const dateAgainStr = formatShortDate(now + 1 * MS_PER_DAY);
-    const dateGoodStr = formatShortDate(now + nextInterval * MS_PER_DAY);
-    if (el.rateAgainDate) el.rateAgainDate.textContent = `(${dateAgainStr})`;
-    if (el.rateGoodDate) el.rateGoodDate.textContent = `(${dateGoodStr})`;
+    if (el.rateAgainDate) el.rateAgainDate.textContent = '';
+    if (el.rateGoodDate) el.rateGoodDate.textContent = '';
 
     // Render in Flip Mode
     renderFlipCard(card);
@@ -3539,46 +3702,36 @@
     el.frontTypeChip.textContent = catLabel;
     el.backTypeChip.textContent = catLabel;
 
-    // FRONT: Displays the simple, clear A1/A2/B1 cloze sentence (No hints!)
-    el.frontPromptLabel.textContent = 'ĐIỀN TỪ VÀO CHỖ TRỐNG (MẶT TRƯỚC)';
-    el.frontVietnamese.textContent = card.frontText || card.vietnamese || '...';
-    el.frontContextHint.textContent = ''; // Absolutely no hints
+    applyCefrBadge(document.getElementById('front-cefr-chip'), card.ipa);
+    applyCefrBadge(document.getElementById('back-cefr-chip'), card.ipa);
 
-    // BACK: Displays the Target answer, IPA, Vietnamese meaning, and Reading passage context
+    // FRONT: Clean A1/A2/B1 cloze sentence
+    el.frontPromptLabel.textContent = 'ĐIỀN TỪ';
+    const rawFront = card.frontText || card.vietnamese || '...';
+    el.frontVietnamese.innerHTML = formatClozeHtml(rawFront);
+    el.frontContextHint.textContent = '';
+
+    // BACK: Target answer, clean IPA (without redundant POS/CEFR), meaning, and 1 concise example
     el.backEnglish.textContent = card.english || '';
-    el.backIpa.textContent = card.ipa || '';
-    el.backMeaning.innerHTML = `<strong>Ý nghĩa:</strong> ${card.vietnamese || ''}`;
+    el.backIpa.textContent = (card.ipa || '').replace(/\s*\([^)]*\)/g, '').trim();
+    el.backMeaning.textContent = card.vietnamese || '';
 
-    if (card.context || card.exampleEn) {
+    const exampleText = card.exampleEn || card.context || '';
+    if (exampleText) {
       el.backExampleWrapper.style.display = 'block';
       const labelElem = el.backExampleWrapper.querySelector('.example-label');
-      if (labelElem) labelElem.textContent = 'NGỮ CẢNH TRONG BÀI ĐỌC';
-
-      el.backExampleEn.textContent = card.context ? `"${card.context}"` : card.exampleEn;
-      el.backExampleVi.textContent = card.exampleEn !== card.context ? `Câu mặt trước hoàn chỉnh: ${card.exampleEn}` : '';
+      if (labelElem) labelElem.textContent = 'VÍ DỤ';
+      el.backExampleEn.innerHTML = highlightTargetInText(exampleText, card.english, card.acceptedAnswers);
+      el.backExampleVi.textContent = '';
     } else {
       el.backExampleWrapper.style.display = 'none';
     }
 
-    const nextDays = getNextInterval(card.interval);
-    const now = Date.now();
-    const nextDateGood = now + (nextDays * MS_PER_DAY);
-    const nextDateAgain = now + (1 * MS_PER_DAY);
-    const dateGoodStr = formatDateDMY(nextDateGood);
-    const dateAgainStr = formatDateDMY(nextDateAgain);
-
-    const sourceHtml = (card.source && card.source.length > 0)
-      ? `<div class="card-source-badge" style="font-size:0.8rem; opacity:0.85; margin-top:8px; padding-top:6px; border-top:1px dashed var(--border-light);">📍 Nguồn: <strong>${card.source.join(', ')}</strong></div>`
-      : '';
-
-    el.backNextReviewInfo.innerHTML = `
-      <div class="review-date-detail" style="line-height:1.6;">
-        <div>Chu kỳ tiếp theo nếu nhớ: <strong>+${nextDays} ngày</strong> (Hộp ${nextDays}d ➔ Hạn ôn: <strong>${dateGoodStr}</strong>)</div>
-        <div style="font-size:0.85em; opacity:0.85; margin-top:3px;">Nếu quên / chưa nhớ: <strong>1 ngày</strong> (Hộp 1d ➔ Hạn ôn: <strong>${dateAgainStr}</strong>)</div>
-        ${card.lastReviewed ? `<div style="font-size:0.8em; color:var(--text-tertiary); margin-top:4px;">Lần ôn gần nhất: ${formatDateTimeDMY(card.lastReviewed)}</div>` : ''}
-        ${sourceHtml}
-      </div>
-    `;
+    if (card.source && card.source.length > 0) {
+      el.backNextReviewInfo.innerHTML = `<span style="opacity:0.75;">${escapeHtmlStr(card.source[0])}</span>`;
+    } else {
+      el.backNextReviewInfo.textContent = '';
+    }
   }
 
   function renderTypeMode(card) {
@@ -3587,13 +3740,17 @@
       hasSubmitted: false
     };
 
-    el.typeBadgeCategory.textContent = card.category === 'words' ? 'Word Quiz' : 'Collocation Quiz';
+    el.typeBadgeCategory.textContent = card.category === 'words' ? 'Word' : 'Collocation';
+    applyCefrBadge(document.getElementById('type-cefr-chip'), card.ipa);
     
-    // In typing mode: display the clear A1-B1 sentence
-    el.typePromptMeaning.textContent = card.frontText || card.vietnamese || '';
+    // In typing mode: display the clear A1-B1 sentence with interactive live cloze slot
+    const rawFront = card.frontText || card.vietnamese || '';
+    el.typePromptMeaning.innerHTML = formatClozeHtml(rawFront, '');
     el.typeClozeHint.style.display = 'none';
 
     el.userTypedInput.value = '';
+    const promptCard = document.getElementById('type-prompt-card');
+    if (promptCard) promptCard.classList.remove('is-correct-card', 'is-wrong-card');
     el.typeFeedbackBanner.style.display = 'none';
     el.typeFeedbackBanner.className = 'feedback-banner';
     el.btnSubmitAnswer.textContent = 'Kiểm tra';
@@ -3609,13 +3766,17 @@
   }
 
   // --- SPACED REPETITION ACTION ---
-  function handleRateCard(success) {
+  function handleRateCard(success, fromTyping = false) {
     const list = state.filteredCards;
     if (list.length === 0) return;
 
     const currentCard = list[state.currentIndex];
     const originalCard = state.cards.find(c => c.id === currentCard.id);
     if (!originalCard) return;
+
+    if (!fromTyping) {
+      rewardStudyAction(success, false);
+    }
 
     const now = Date.now();
 
@@ -3626,16 +3787,14 @@
       originalCard.nextReviewDate = now + (newInterval * MS_PER_DAY);
       originalCard.lastReviewed = now;
       originalCard.updatedAt = now;
-      const targetDateStr = formatDateDMY(originalCard.nextReviewDate);
-      showToast(`Đã nhớ! Thẻ chuyển sang hộp +${newInterval} ngày (Hạn ôn: ${targetDateStr})`);
+      showToast(`Đã nhớ (+${newInterval}d)`);
     } else {
       originalCard.interval = 1;
       originalCard.boxLevel = 1;
       originalCard.nextReviewDate = now + (1 * MS_PER_DAY);
       originalCard.lastReviewed = now;
       originalCard.updatedAt = now;
-      const targetDateStr = formatDateDMY(originalCard.nextReviewDate);
-      showToast(`Chưa nhớ. Xếp lại vào Hộp 1 ngày (Hạn ôn: ${targetDateStr})`);
+      showToast('Ôn lại (1d)');
     }
 
     saveCardsToStorage(state.cards);
@@ -3656,13 +3815,13 @@
     const card = list[state.currentIndex];
 
     if (state.typingState.hasSubmitted) {
-      handleRateCard(state.typingState.isCorrect);
+      handleRateCard(state.typingState.isCorrect, true);
       return;
     }
 
     const userInput = el.userTypedInput.value.trim();
     if (!userInput) {
-      showToast('Hãy gõ câu trả lời của bạn trước khi kiểm tra');
+      showToast('Hãy gõ đáp án trước');
       el.userTypedInput.focus();
       return;
     }
@@ -3673,22 +3832,34 @@
 
     state.typingState.hasSubmitted = true;
     state.typingState.isCorrect = isMatch;
+    rewardStudyAction(isMatch, true);
 
     el.typeFeedbackBanner.style.display = 'flex';
+    const promptCard = document.getElementById('type-prompt-card');
+    const cleanIpa = (card.ipa || '').replace(/\s*\([^)]*\)/g, '').trim();
 
     if (isMatch) {
+      if (promptCard) {
+        promptCard.classList.remove('is-wrong-card');
+        promptCard.classList.add('is-correct-card');
+      }
       el.typeFeedbackBanner.className = 'feedback-banner correct';
-      el.feedbackIcon.textContent = '✓';
+      el.feedbackIcon.textContent = '';
       el.feedbackStatusText.textContent = 'Chính xác!';
-      el.feedbackCorrectWord.innerHTML = `Đáp án: <span>${card.english}</span> ${card.ipa ? `<em>${card.ipa}</em>` : ''}`;
-      el.btnSubmitAnswer.textContent = 'Tiếp tục ➔';
+      el.feedbackCorrectWord.innerHTML = `<span>${escapeHtmlStr(card.english)}</span> ${cleanIpa ? `<em>${escapeHtmlStr(cleanIpa)}</em>` : ''} — ${escapeHtmlStr(card.vietnamese || '')}`;
+      el.btnSubmitAnswer.textContent = 'Tiếp';
       speakEnglish(card.english);
     } else {
+      if (promptCard) {
+        promptCard.classList.remove('is-correct-card', 'is-wrong-card');
+        void promptCard.offsetWidth;
+        promptCard.classList.add('is-wrong-card');
+      }
       el.typeFeedbackBanner.className = 'feedback-banner incorrect';
-      el.feedbackIcon.textContent = '✕';
-      el.feedbackStatusText.textContent = 'Chưa chính xác!';
-      el.feedbackCorrectWord.innerHTML = `Đáp án đúng: <span>${card.english}</span> ${card.ipa ? `<em>${card.ipa}</em>` : ''}`;
-      el.btnSubmitAnswer.textContent = 'Tiếp tục ➔';
+      el.feedbackIcon.textContent = '';
+      el.feedbackStatusText.textContent = 'Chưa đúng';
+      el.feedbackCorrectWord.innerHTML = `<span>${escapeHtmlStr(card.english)}</span> ${cleanIpa ? `<em>${escapeHtmlStr(cleanIpa)}</em>` : ''} — ${escapeHtmlStr(card.vietnamese || '')}`;
+      el.btnSubmitAnswer.textContent = 'Tiếp';
       speakEnglish(card.english);
     }
   }
@@ -3708,8 +3879,10 @@
     state.typingState.hintRevealedCount++;
     const sub = card.english.slice(0, state.typingState.hintRevealedCount);
     el.userTypedInput.value = sub;
+    const rawFront = card.frontText || card.vietnamese || '';
+    el.typePromptMeaning.innerHTML = formatClozeHtml(rawFront, `${sub}... (${card.english.length} ký tự)`);
     el.userTypedInput.focus();
-    showToast(`Chữ cái đầu: ${sub}...`);
+    showToast(`Gợi ý: "${sub}..." (${card.english.length} ký tự)`);
   }
 
   function revealSolution() {
@@ -3718,6 +3891,8 @@
     const card = list[state.currentIndex];
 
     el.userTypedInput.value = card.english;
+    const rawFront = card.frontText || card.vietnamese || '';
+    el.typePromptMeaning.innerHTML = formatClozeHtml(rawFront, card.english);
     checkTypedAnswer();
   }
 
@@ -3736,6 +3911,7 @@
 
   function toggleFlipCard() {
     state.isFlipped = !state.isFlipped;
+    playSfx('flip');
     if (state.isFlipped) {
       el.flashcardElement.classList.add('is-flipped');
       const card = state.filteredCards[state.currentIndex];
@@ -3853,7 +4029,7 @@
 
     saveCardsToStorage(state.cards);
     closeCardModal();
-    updateCategoryCountsPreview();
+    notifyCardsChanged();
     filterAndRenderCards();
     if (el.modalManageCards.style.display === 'flex') {
       renderManageTable();
@@ -3865,7 +4041,7 @@
     state.cards = state.cards.filter(c => c.id !== cardId);
     saveCardsToStorage(state.cards);
     showToast('Đã xóa flashcard');
-    updateCategoryCountsPreview();
+    notifyCardsChanged();
     filterAndRenderCards();
     renderManageTable();
   }
@@ -3946,7 +4122,7 @@
           state.cards = imported;
           saveCardsToStorage(state.cards);
           showToast(`Nhập thành công ${imported.length} thẻ flashcard!`);
-          updateCategoryCountsPreview();
+          notifyCardsChanged();
           filterAndRenderCards();
           renderManageTable();
         } else {
@@ -3964,7 +4140,7 @@
     state.cards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
     saveCardsToStorage(state.cards);
     showToast(`Đã khôi phục toàn bộ ${DEFAULT_CARDS.length} thẻ với câu A1-A2-B1 dễ hiểu`);
-    updateCategoryCountsPreview();
+    notifyCardsChanged();
     filterAndRenderCards();
     renderManageTable();
     syncModule.pushProgressToCloud();
@@ -3973,7 +4149,7 @@
   // --- REAL-TIME CLOUD SYNC MODULE (FIREBASE REALTIME DATABASE) ---
   const SYNC_STORAGE_KEY = 'minimal_flashcards_sync_v2';
   const SPEAKING_CONFIG_KEY = 'speaking_gemini_config_v1'; // trùng STORAGE_CONFIG_KEY trong speaking.js
-  
+
   const syncModule = {
     app: null,
     db: null,
@@ -4058,7 +4234,7 @@
 
           if (changed) {
             window.history.replaceState({}, document.title, window.location.pathname);
-            setTimeout(() => showToast('🎉 Đã tự động kích hoạt Firebase & Gemini AI thành công cho thiết bị này!'), 800);
+            setTimeout(() => showToast('Đã tự động kích hoạt Firebase & Gemini AI thành công cho thiết bị này!'), 800);
           }
         } catch (e) {
           console.warn('Lỗi đọc link tự động cấu hình:', e);
@@ -4154,6 +4330,7 @@
         this.db = firebase.database();
         const safeUserId = encodeURIComponent(this.config.userId || 'thanh_flashcards_2312').replace(/\./g, '_');
         this.dbRef = this.db.ref(`users/${safeUserId}`);
+        if (window.todayModule) window.todayModule.attachCloud(this.db, safeUserId);
 
         // Listen for realtime changes across devices
         this.dbRef.on('value', (snapshot) => {
@@ -4226,7 +4403,7 @@
         saveCardsToStorage(state.cards);
         filterAndRenderCards();
         renderManageTable();
-        updateCategoryCountsPreview();
+        notifyCardsChanged();
         const deviceName = remoteData.device === 'phone' ? 'Điện thoại' : 'Máy tính';
         showToast(`Đã tự động đồng bộ tiến độ mới từ ${deviceName}!`);
       }
@@ -4394,27 +4571,61 @@
 
   // --- EVENT BINDINGS ---
   function bindEvents() {
-    el.btnSelectWords.addEventListener('click', () => selectCategory('words'));
-    el.btnSelectCollocations.addEventListener('click', () => selectCategory('collocations'));
-    if (el.btnSelectSpeaking) {
-      el.btnSelectSpeaking.addEventListener('click', () => selectCategory('speaking'));
-    }
-    if (el.btnSelectListening) {
-      el.btnSelectListening.addEventListener('click', () => selectCategory('listening'));
-    }
-    if (el.btnSelectCambridge) {
-      el.btnSelectCambridge.addEventListener('click', () => selectCategory('cambridge'));
-    }
     document.getElementById('section-nav').addEventListener('click', (e) => {
       const btn = e.target.closest('.section-nav-btn');
       if (btn) selectCategory(btn.dataset.category);
     });
-    el.btnChangeCategory.addEventListener('click', () => {
-      updateCategoryCountsPreview();
-      el.selectionOverlay.style.display = 'flex';
+    document.getElementById('vocab-cat-switch').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-category]');
+      if (btn && btn.dataset.category !== state.selectedCategory) selectCategory(btn.dataset.category);
+    });
+
+    // Menu ••• (đồng bộ, danh sách thẻ, thêm thẻ, âm thanh, giao diện, lịch học)
+    const btnMore = document.getElementById('btn-more');
+    const moreMenu = document.getElementById('more-menu');
+    const setMenu = (open) => {
+      moreMenu.hidden = !open;
+      btnMore.setAttribute('aria-expanded', String(open));
+    };
+    btnMore.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setMenu(moreMenu.hidden);
+    });
+    moreMenu.addEventListener('click', (e) => {
+      if (e.target.closest('.menu-item')) setMenu(false);
+    });
+    document.addEventListener('click', (e) => {
+      if (!moreMenu.hidden && !moreMenu.contains(e.target)) setMenu(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !moreMenu.hidden) {
+        setMenu(false);
+        btnMore.focus();
+      }
+    });
+    document.getElementById('btn-plan-settings').addEventListener('click', () => {
+      if (window.todayModule) window.todayModule.openSettings();
     });
 
     el.btnToggleTheme.addEventListener('click', toggleTheme);
+
+    const btnToggleSfx = document.getElementById('btn-toggle-sfx');
+    if (btnToggleSfx) {
+      btnToggleSfx.addEventListener('click', () => {
+        gamify.sfxEnabled = !gamify.sfxEnabled;
+        saveGamifyState();
+        updateGamifyUI();
+        if (gamify.sfxEnabled) playSfx('good');
+        showToast(gamify.sfxEnabled ? 'Đã bật âm thanh hiệu ứng' : 'Đã tắt âm thanh hiệu ứng');
+      });
+    }
+
+    el.userTypedInput.addEventListener('input', () => {
+      const card = state.filteredCards[state.currentIndex];
+      if (!card || state.typingState.hasSubmitted) return;
+      const rawFront = card.frontText || card.vietnamese || '';
+      el.typePromptMeaning.innerHTML = formatClozeHtml(rawFront, el.userTypedInput.value.trim());
+    });
 
     el.modeFlipBtn.addEventListener('click', () => setStudyMode('flip'));
     el.modeTypeBtn.addEventListener('click', () => setStudyMode('type'));
@@ -4629,7 +4840,7 @@
 
     state.cards.unshift(newCard);
     saveCardsToStorage(state.cards);
-    updateCategoryCountsPreview();
+    notifyCardsChanged();
     if (typeof syncModule !== 'undefined' && syncModule.syncCardsToCloud) {
       syncModule.syncCardsToCloud(state.cards);
     }
@@ -4677,12 +4888,26 @@
 
     state.cards.unshift(newCard);
     saveCardsToStorage(state.cards);
-    updateCategoryCountsPreview();
+    notifyCardsChanged();
     if (typeof syncModule !== 'undefined' && syncModule.syncCardsToCloud) {
       syncModule.syncCardsToCloud(state.cards);
     }
     showToast(`Đã lưu "${english}" vào Words Flashcards!`);
     return true;
+  };
+
+  // --- API CHO MÀN HÔM NAY (plan.js) ---
+  window.appApi = {
+    selectCategory,
+    getDueCount: () => state.cards.filter(isCardDue).length,
+    showDueCards() {
+      const hasWordsDue = state.cards.some(c => c.category === 'words' && isCardDue(c));
+      selectCategory(hasWordsDue ? 'words' : 'collocations');
+      state.currentFilter = 'due';
+      state.currentIndex = 0;
+      updateIntervalNavChips();
+      filterAndRenderCards();
+    }
   };
 
   // --- INITIALIZE SYNC MODULE ON INIT ---

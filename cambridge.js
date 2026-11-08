@@ -301,16 +301,17 @@
       let testsInBook = 0;
       let completedInBook = 0;
       b.tests.forEach(t => {
-        testsInBook += 2; // 1 Listening, 1 Reading
+        testsInBook += 2;
         if (state.progress[`${t.id}_listening`]?.completed) completedInBook++;
         if (state.progress[`${t.id}_reading`]?.completed) completedInBook++;
       });
+      const shortTitle = (b.title || '').replace('Cambridge IELTS ', 'Cam ');
 
       html += `
         <button type="button" class="cam-book-chip ${isSelected ? 'active' : ''}" 
                 onclick="window.cambridgeModule.selectBook('${b.id}')">
-          <span class="chip-title">${escapeHtml(b.title)}</span>
-          <span class="chip-badge">${completedInBook}/${testsInBook} xong</span>
+          <span class="chip-title">${escapeHtml(shortTitle)}</span>
+          <span class="chip-badge">${completedInBook}/${testsInBook}</span>
         </button>
       `;
     });
@@ -357,7 +358,7 @@
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
               </svg>
-              <span>Trọn bộ 80 câu</span>
+              <span>80 câu</span>
             </div>
           </div>
 
@@ -367,24 +368,24 @@
               <div class="skill-info">
                 <div class="skill-title-row">
                   <span class="skill-icon">🎧</span>
-                  <strong class="skill-name">IELTS Listening</strong>
+                  <strong class="skill-name">Listening</strong>
                 </div>
                 <div class="skill-status-tag">
                   ${lCompleted 
-                    ? `<span class="badge-done">✓ Đã làm: ${lProgress.score}/${lProgress.total} (Band ${lProgress.band})</span>`
-                    : `<span class="badge-pending">Chưa làm • 4 Parts</span>`
+                    ? `<span class="badge-done">Đã làm: ${lProgress.score}/${lProgress.total} (Band ${lProgress.band})</span>`
+                    : `<span class="badge-pending">4 Parts</span>`
                   }
                 </div>
               </div>
               <div class="skill-buttons-group">
                 <button type="button" class="btn-cam-action btn-start-listening" 
                         onclick="window.cambridgeModule.startListeningTest('${test.id}', 0)">
-                  <span>${lCompleted ? 'Làm lại Listening' : 'Làm Listening'}</span>
+                  <span>${lCompleted ? 'Làm lại' : 'Bắt đầu'}</span>
                 </button>
                 ${lCompleted ? `
                   <button type="button" class="btn-cam-review" title="Xem lại bài làm và dẫn chứng âm thanh"
                           onclick="window.cambridgeModule.reviewTestResult('${test.id}', 'listening')">
-                    Xem kết quả
+                    Kết quả
                   </button>
                 ` : ''}
               </div>
@@ -395,24 +396,24 @@
               <div class="skill-info">
                 <div class="skill-title-row">
                   <span class="skill-icon">📖</span>
-                  <strong class="skill-name">IELTS Reading</strong>
+                  <strong class="skill-name">Reading</strong>
                 </div>
                 <div class="skill-status-tag">
                   ${rCompleted 
-                    ? `<span class="badge-done">✓ Đã làm: ${rProgress.score}/${rProgress.total} (Band ${rProgress.band})</span>`
-                    : `<span class="badge-pending">Chưa làm • 3 Passages</span>`
+                    ? `<span class="badge-done">Đã làm: ${rProgress.score}/${rProgress.total} (Band ${rProgress.band})</span>`
+                    : `<span class="badge-pending">3 Passages</span>`
                   }
                 </div>
               </div>
               <div class="skill-buttons-group">
                 <button type="button" class="btn-cam-action btn-start-reading" 
                         onclick="window.cambridgeModule.startReadingTest('${test.id}', 0)">
-                  <span>${rCompleted ? 'Làm lại Reading' : 'Làm Reading'}</span>
+                  <span>${rCompleted ? 'Làm lại' : 'Bắt đầu'}</span>
                 </button>
                 ${rCompleted ? `
                   <button type="button" class="btn-cam-review" title="Xem lại bài làm và vị trí dẫn chứng"
                           onclick="window.cambridgeModule.reviewTestResult('${test.id}', 'reading')">
-                    Xem kết quả
+                    Kết quả
                   </button>
                 ` : ''}
               </div>
@@ -422,11 +423,7 @@
           <div class="test-card-footer">
             <button type="button" class="btn-card-vocab-link" 
                     onclick="window.cambridgeModule.openTopicsFromTest('${test.id}')">
-              <span>🗂️ Học từ vựng học thuật B2-C2 liên quan</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
-              </svg>
+              <span>Từ vựng học thuật B2–C2</span>
             </button>
           </div>
         </div>
@@ -456,7 +453,7 @@
     if (container) {
       container.innerHTML = `
         <div class="cam-error-box">
-          <span class="cam-error-icon">⚠️</span>
+          <span class="cam-error-icon"></span>
           <h3>Chưa có dữ liệu bài thi này</h3>
           <p class="cam-error-text">${escapeHtml(err.message || 'File dữ liệu bài thi đang được khởi tạo theo Schema 3.1.')}</p>
           <button type="button" class="btn-cam-action btn-start-reading" onclick="window.cambridgeModule.renderHub()">
@@ -510,7 +507,7 @@
     if (titleEl) titleEl.textContent = `${test.title}`;
     if (skillBadgeEl) {
       skillBadgeEl.className = `cam-skill-pill pill-${state.currentSkill}`;
-      skillBadgeEl.textContent = state.currentSkill === 'listening' ? '🎧 Listening Test' : '📖 Reading Test';
+      skillBadgeEl.textContent = state.currentSkill === 'listening' ? 'Listening Test' : 'Reading Test';
     }
 
     // Render Part / Passage Tabs
@@ -757,7 +754,7 @@
             <span class="part-range-tag">Câu ${startQ} đến ${endQ}</span>
           </div>
           <h2 class="part-title-text">${escapeHtml(part.title || `Part ${pNum}`)}</h2>
-          <p class="part-desc-text">${escapeHtml(part.description || '🎧 Lắng nghe đoạn băng audio và điền câu trả lời bên dưới. Toàn bộ transcript dẫn chứng sẽ được mở sau khi nộp bài.')}</p>
+          <p class="part-desc-text">${escapeHtml(part.description || 'Lắng nghe đoạn băng audio và điền câu trả lời bên dưới. Toàn bộ transcript dẫn chứng sẽ được mở sau khi nộp bài.')}</p>
         </div>
 
         <div class="questions-stream-box">
@@ -779,7 +776,7 @@
         <!-- Submit Bar -->
         <div class="cam-test-submit-bar">
           <button type="button" class="btn-subtle" onclick="window.cambridgeModule.saveDraft()">
-            💾 Lưu bản nháp
+            Lưu bản nháp
           </button>
           <button type="button" class="btn-cam-submit-test" onclick="window.cambridgeModule.submitCurrentTest()">
             <span>Nộp bài & Chấm điểm trọn bộ</span>
@@ -824,10 +821,10 @@
         <!-- MOBILE VIEW SWITCHER TABS -->
         <div class="reading-mobile-view-tabs">
           <button type="button" class="btn-read-tab active" id="btn-read-tab-passage" onclick="window.cambridgeModule.switchReadingMobileTab('passage')">
-            📖 Bài đọc (Passage ${pNum})
+            Bài đọc (Passage ${pNum})
           </button>
           <button type="button" class="btn-read-tab" id="btn-read-tab-questions" onclick="window.cambridgeModule.switchReadingMobileTab('questions')">
-            ✏️ Câu hỏi (${totalQ} câu)
+            Câu hỏi (${totalQ} câu)
           </button>
         </div>
 
@@ -838,7 +835,7 @@
               <span class="passage-tag">Passage ${pNum}</span>
               <h2 class="passage-paper-title">${escapeHtml(passage.title)}</h2>
               <div class="passage-read-tools">
-                <span class="text-hint">💡 Đọc kỹ văn bản để tìm từ khóa đối chiếu câu hỏi</span>
+                <span class="text-hint">Đọc kỹ văn bản để tìm từ khóa đối chiếu câu hỏi</span>
               </div>
             </div>
 
@@ -887,7 +884,7 @@
             <!-- Submit Bar -->
             <div class="cam-test-submit-bar">
               <button type="button" class="btn-subtle" onclick="window.cambridgeModule.saveDraft()">
-                💾 Lưu bản nháp
+                Lưu bản nháp
               </button>
               <button type="button" class="btn-cam-submit-test" onclick="window.cambridgeModule.submitCurrentTest()">
                 <span>Nộp bài & Chấm điểm trọn bộ</span>
@@ -943,7 +940,7 @@
 
   function saveDraft() {
     if (window.showToast) {
-      window.showToast('💾 Đã lưu nháp các câu trả lời của bạn!');
+      window.showToast('Đã lưu nháp các câu trả lời của bạn!');
     }
   }
 
@@ -1067,6 +1064,14 @@
     };
     saveProgress();
 
+    // Báo về lịch học: đánh dấu việc hôm nay, cập nhật trình độ, ghi câu sai vào sổ lỗi
+    if (window.todayModule) {
+      window.todayModule.onTestSubmitted({
+        testId: test.id, skill: state.currentSkill, score: correctCount, total: totalQuestions,
+        band: bandScore, wrong: detailedResults.filter(r => !r.isCorrect)
+      });
+    }
+
     state.lastSubmission = {
       testId: test.id,
       testTitle: test.title,
@@ -1112,19 +1117,19 @@
             </div>
             <p class="hero-feedback-comment">
               ${sub.band >= 8.0 
-                ? '🎉 Xuất sắc! Điểm số đạt mức thành thạo cao cấp Band 8.0+ IELTS học thuật.'
+                ? 'Xuất sắc! Điểm số đạt mức thành thạo cao cấp Band 8.0+ IELTS học thuật.'
                 : sub.band >= 6.5
-                ? '👍 Rất tốt! Bạn đạt mức điểm vững chắc Band 6.5 - 7.5. Xem lại các câu sai để bứt phá lên 8.0+!'
-                : '💪 Hãy kiên trì! Lắng nghe lại các đoạn audio dẫn chứng và phân tích bẫy từ vựng dưới đây.'}
+                ? 'Rất tốt! Bạn đạt mức điểm vững chắc Band 6.5 - 7.5. Xem lại các câu sai để bứt phá lên 8.0+!'
+                : 'Hãy kiên trì! Lắng nghe lại các đoạn audio dẫn chứng và phân tích bẫy từ vựng dưới đây.'}
             </p>
           </div>
 
           <div class="hero-action-buttons">
             <button type="button" class="btn-hero-primary" onclick="window.cambridgeModule.renderHub()">
-              🏛️ Về kho đề thi
+              Về kho đề thi
             </button>
             <button type="button" class="btn-hero-secondary" onclick="window.cambridgeModule.restartCurrentTest()">
-              🔄 Làm lại bài này
+              Làm lại bài này
             </button>
           </div>
         </div>
@@ -1138,10 +1143,10 @@
                 Tất cả (${sub.total})
               </button>
               <button type="button" class="rev-filter-btn" data-filter="correct" onclick="window.cambridgeModule.filterReviewCards('correct')">
-                ✅ Đúng (${sub.score})
+                Đúng (${sub.score})
               </button>
               <button type="button" class="rev-filter-btn" data-filter="wrong" onclick="window.cambridgeModule.filterReviewCards('wrong')">
-                ❌ Sai (${sub.total - sub.score})
+                Sai (${sub.total - sub.score})
               </button>
             </div>
           </div>
@@ -1160,7 +1165,7 @@
             <div class="q-badge-row">
               <span class="review-q-num">Câu ${item.q}</span>
               <span class="review-status-pill ${isCorrect ? 'pill-correct' : 'pill-wrong'}">
-                ${isCorrect ? '✅ ĐÚNG' : '❌ SAI'}
+                ${isCorrect ? 'ĐÚNG' : 'SAI'}
               </span>
             </div>
 
@@ -1174,14 +1179,14 @@
                 </button>
                 <button type="button" class="btn-goto-listening3tab" title="Mở phòng luyện nghe chuyên sâu 3 tab cho Part này"
                         onclick="window.openListening3Tab('${sub.testId}', ${item.partIndex})">
-                  🎧 Luyện nghe part này
+                  Luyện nghe part này
                 </button>
               ` : ''}
 
               ${sub.skill === 'reading' ? `
                 <button type="button" class="btn-scroll-evidence" 
                         onclick="window.cambridgeModule.jumpToReadingEvidence(${item.passageN}, '${ev.para || 'P1'}', ${item.q})">
-                  📍 Xem trong bài (Đoạn [${ev.para || 'P1'}])
+                  Xem trong bài (Đoạn [${ev.para || 'P1'}])
                 </button>
               ` : ''}
             </div>
@@ -1205,14 +1210,14 @@
           <div class="review-explanation-card">
             ${ev.quote ? `
               <div class="clue-quote-box">
-                <span class="clue-tag">📌 Dẫn chứng trong bài (${sub.skill === 'reading' ? `Đoạn [${ev.para || 'P'}]` : `Part ${item.partN}`}):</span>
+                <span class="clue-tag">Dẫn chứng trong bài (${sub.skill === 'reading' ? `Đoạn [${ev.para || 'P'}]` : `Part ${item.partN}`}):</span>
                 <blockquote class="clue-quote-text">"${escapeHtml(ev.quote)}"</blockquote>
               </div>
             ` : ''}
 
             ${item.keywords && item.keywords.length > 0 ? `
               <div class="keywords-paraphrase-strip">
-                <span class="kw-strip-title">🔑 Đối chiếu từ khóa (Paraphrase):</span>
+                <span class="kw-strip-title">Đối chiếu từ khóa (Paraphrase):</span>
                 <div class="kw-pairs-list">
                   ${item.keywords.map((kw, kIdx) => `
                     <span class="kw-pair-badge kw-color-${kIdx % 4}">
@@ -1228,7 +1233,7 @@
             ${item.trap && item.trap.trim() ? `
               <div class="trap-warning-card">
                 <div class="trap-header-row">
-                  <span class="trap-icon">⚠️</span>
+                  <span class="trap-icon"></span>
                   <strong class="trap-title">Bẫy & Lưu ý câu này:</strong>
                 </div>
                 <p class="trap-body-text">${escapeHtml(item.trap)}</p>
@@ -1237,7 +1242,7 @@
 
             ${item.explain ? `
               <div class="explanation-box">
-                <span class="exp-tag">💡 Hướng dẫn & Giải thích chi tiết:</span>
+                <span class="exp-tag">Hướng dẫn & Giải thích chi tiết:</span>
                 <p class="exp-text">${escapeHtml(item.explain)}</p>
               </div>
             ` : ''}
@@ -1282,7 +1287,7 @@
     state.audioEl.play().catch(e => console.warn('Audio play blocked:', e));
 
     if (window.showToast) {
-      window.showToast(`🎧 Đang phát lại đoạn dẫn chứng câu ${qNum} (${formatTime(startTime)} - ${formatTime(endTime)})`);
+      window.showToast(`Đang phát lại đoạn dẫn chứng câu ${qNum} (${formatTime(startTime)} - ${formatTime(endTime)})`);
     }
 
     // Highlight button
@@ -1318,7 +1323,7 @@
         }, 4000);
 
         if (window.showToast) {
-          window.showToast(`📍 Dẫn chứng câu ${qNum} tại Đoạn [${paraId}]`);
+          window.showToast(`Dẫn chứng câu ${qNum} tại Đoạn [${paraId}]`);
         }
       }
     }, 300);
@@ -1500,7 +1505,7 @@
     const topicHeaderSub = document.getElementById('topic-study-header-sub');
     const stageContainer = document.getElementById('topic-flashcard-stage');
 
-    if (topicHeaderTitle) topicHeaderTitle.textContent = `${topic.icon} ${topic.titleVi}`;
+    if (topicHeaderTitle) topicHeaderTitle.textContent = topic.titleVi;
     if (topicHeaderSub) topicHeaderSub.textContent = `${topic.title} • Chu kỳ lặp lại ngắt quãng (Spaced Repetition)`;
 
     const words = getFilteredTopicWords();
@@ -1560,7 +1565,7 @@
               </div>
 
               <div class="card-front-hint">
-                <span class="hint-icon">💡</span>
+                <span class="hint-icon"></span>
                 <span>Chạm để lật xem từ vựng IELTS, phiên âm IPA & nghĩa tiếng Việt</span>
               </div>
             </div>
@@ -1572,7 +1577,7 @@
                 <span class="type-tag">${word.type || 'word'}</span>
                 <button type="button" class="btn-tts-speak" title="Nghe phát âm chuẩn UK"
                         onclick="event.stopPropagation(); window.cambridgeModule.speakText('${word.word}')">
-                  🔊 Nghe phát âm
+                  Nghe phát âm
                 </button>
               </div>
 
@@ -1611,7 +1616,7 @@
 
           <button type="button" class="btn-flash-save ${isSaved ? 'already-saved' : ''}" 
                   onclick="window.cambridgeModule.saveCurrentWordToFlashcards('${word.id}')">
-            ${isSaved ? '✓ Đã lưu trong Flashcards' : '⭐ Thêm từ này vào Flashcards'}
+            ${isSaved ? 'Đã lưu trong Flashcards' : '⭐ Thêm từ này vào Flashcards'}
           </button>
 
           <button type="button" class="btn-flash-nav" onclick="window.cambridgeModule.nextTopicCard()">
@@ -1735,7 +1740,7 @@
 
     saveTopicWordsStorage();
     if (window.showToast) {
-      window.showToast(`🎉 Đã thêm toàn bộ ${addedCount} từ của chủ đề "${topic.titleVi}" vào Flashcards cá nhân!`);
+      window.showToast(`Đã thêm toàn bộ ${addedCount} từ của chủ đề "${topic.titleVi}" vào Flashcards cá nhân!`);
     }
     renderTopicsView();
   }
@@ -1868,6 +1873,7 @@
         const targetView = tab.getAttribute('data-target-view');
         if (targetView === 'hub') renderHub();
         else if (targetView === 'topics') renderTopicsView();
+        else if (targetView === 'listening' && window.appApi) window.appApi.selectCategory('listening');
       });
     });
   }

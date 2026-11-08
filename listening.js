@@ -385,6 +385,7 @@
       : loadTestScript(testId);
 
     loader.then(testData => {
+      if (state.currentTestId !== testId) return; // đã chuyển sang bài khác trong lúc đang tải
       renderPartTabs(testData);
       loadSection(state.currentSectionId, autoPlay);
     }).catch(err => {
@@ -540,7 +541,7 @@
           state.pausedWordIds.add(activeWord.id);
           audioEl.pause();
           if (window.showToast) {
-            window.showToast(`🎯 Tạm dừng tại từ: "${activeWord.word}". Bấm Play/Phím Cách để tiếp tục!`);
+            window.showToast(`Tạm dừng tại từ: "${activeWord.word}". Bấm Play/Phím Cách để tiếp tục!`);
           }
         }
 
@@ -753,7 +754,7 @@
           <div class="chip-time">${formatTime(w.start)}</div>
           <div class="chip-word">${escapeHtml(w.word)}</div>
           <div class="chip-meaning">${escapeHtml(w.meaning)}</div>
-          ${isSaved ? '<span class="chip-saved-icon" title="Đã lưu thẻ">★</span>' : ''}
+          ${isSaved ? '<span class="chip-saved-icon" title="Đã lưu thẻ"></span>' : ''}
         </div>
       `;
     });
@@ -818,7 +819,7 @@
             </svg>
           </button>
           <button type="button" class="minimal-btn-save ${isSaved ? 'saved' : ''}" title="Lưu thẻ" onclick="window.listeningModule.saveToFlashcards('${word.id}')">
-            ${isSaved ? '★ Đã lưu thẻ' : '+ Lưu thẻ'}
+            ${isSaved ? 'Đã lưu thẻ' : '+ Lưu thẻ'}
           </button>
         </div>
       </div>
@@ -1032,7 +1033,7 @@
             <button type="button" class="btn-save-mini ${isSaved ? 'saved' : ''}" 
                     title="${isSaved ? 'Đã lưu trong Flashcards' : 'Lưu từ này vào Flashcards'}"
                     onclick="window.listeningModule.saveToFlashcards('${w.id}')">
-              ${isSaved ? '★ Đã lưu' : '+ Lưu thẻ'}
+              ${isSaved ? 'Đã lưu' : '+ Lưu thẻ'}
             </button>
           </div>
 
@@ -1405,7 +1406,7 @@
     renderMinimalWord(word, true);
 
     if (window.showToast) {
-      window.showToast(`🎧 Đang nghe: "${word.word}" (${formatTime(word.start)})`);
+      window.showToast(`Đang nghe: "${word.word}" (${formatTime(word.start)})`);
     }
   }
 
@@ -1544,7 +1545,7 @@
     });
 
     if (window.showToast) {
-      window.showToast(`🎉 Đã lưu toàn bộ ${addedCount} từ vựng của ${sec.title} vào Flashcards!`);
+      window.showToast(`Đã lưu toàn bộ ${addedCount} từ vựng của ${sec.title} vào Flashcards!`);
     }
   }
 
