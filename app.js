@@ -3972,6 +3972,7 @@
 
   // --- REAL-TIME CLOUD SYNC MODULE (FIREBASE REALTIME DATABASE) ---
   const SYNC_STORAGE_KEY = 'minimal_flashcards_sync_v2';
+  const SPEAKING_CONFIG_KEY = 'speaking_gemini_config_v1'; // trùng STORAGE_CONFIG_KEY trong speaking.js
   
   const syncModule = {
     app: null,
@@ -4038,7 +4039,7 @@
 
           // 2. Gemini Speaking & Drive setup
           if (decoded.gemini || decoded.apiKey) {
-            const speakingKey = 'speaking_ai_config_v2';
+            const speakingKey = SPEAKING_CONFIG_KEY;
             let curSpeaking = {};
             try {
               const curRaw = localStorage.getItem(speakingKey);
@@ -4136,6 +4137,8 @@
       if (this.config.firebaseConfig && window.firebase) {
         this.connect();
       }
+      // Xin trình duyệt giữ dữ liệu lâu dài, tránh tự dọn mất cài đặt khi máy thiếu bộ nhớ
+      if (this.config.firebaseConfig && navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
     },
 
     connect() {
@@ -4337,7 +4340,7 @@
           }
         }
         try {
-          const spkRaw = localStorage.getItem('speaking_ai_config_v2');
+          const spkRaw = localStorage.getItem(SPEAKING_CONFIG_KEY);
           if (spkRaw) {
             const parsed = JSON.parse(spkRaw);
             if (parsed.apiKey) geminiKey = parsed.apiKey;
@@ -4364,6 +4367,22 @@
         el.syncShareBox.style.display = 'none';
       }
     }
+  };
+
+  // Dán link cài đặt nhanh (#setup=...) vào ô cấu hình: mở lại trang với link đó để cài cả Firebase lẫn API key.
+  // Cần cho app ở Màn hình chính iPhone: bấm link sẽ mở Safari (bộ nhớ riêng), không vào được app.
+  window.applySetupLink = (text) => {
+    const m = String(text || '').match(/[#?&]setup=([^&#\s]+)/);
+    if (!m) return false;
+    try {
+      JSON.parse(atob(decodeURIComponent(m[1])));
+    } catch (e) {
+      showToast('Link cài đặt bị lỗi, hãy sao chép lại từ máy tính.');
+      return true;
+    }
+    history.replaceState(null, '', `${location.pathname}${location.search}#setup=${m[1]}`);
+    location.reload();
+    return true;
   };
 
   // --- THEME TOGGLE ---
@@ -4456,6 +4475,7 @@
     if (el.btnSaveSyncConfig) {
       el.btnSaveSyncConfig.addEventListener('click', () => {
         const raw = el.firebaseConfigInput.value.trim();
+        if (window.applySetupLink(raw)) return;
         const userId = el.syncUserIdInput.value.trim() || 'thanh_flashcards_2312';
         syncModule.config.userId = userId;
         syncModule.config.firebaseRaw = raw;

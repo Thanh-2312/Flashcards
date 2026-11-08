@@ -1444,7 +1444,7 @@
         <div class="form-row">
           <label for="firebase-config-input" class="form-label">
             Cấu hình Firebase (JSON hoặc Database URL) *
-            <span class="label-subtext">Dán toàn bộ firebaseConfig hoặc đường dẫn https://...firebaseio.com</span>
+            <span class="label-subtext">Dán đường dẫn https://...firebaseio.com, toàn bộ firebaseConfig, hoặc link cài đặt nhanh sao chép từ máy tính (cài luôn cả API key)</span>
           </label>
           <textarea id="firebase-config-input" class="form-textarea" rows="4"
             placeholder='{"databaseURL": "https://your-app-default-rtdb.firebaseio.com", "apiKey": "..."}'></textarea>
@@ -1468,7 +1468,7 @@
         <!-- Generate Instant Link for Phone -->
         <div class="sync-share-box" id="sync-share-box" style="display: none;">
           <label class="form-label">Link đồng bộ nhanh cho Điện Thoại:</label>
-          <p class="share-desc">Mở link này trên điện thoại để tự động kết nối ngay mà không cần nhập lại cấu hình:</p>
+          <p class="share-desc">Link có cả Firebase và API key. Mở link bằng Safari hoặc Chrome trên điện thoại; nếu dùng app ở Màn hình chính thì dán link vào ô Cấu hình Firebase ở trên rồi bấm Lưu. Không gửi link này cho người khác.</p>
           <div class="input-with-copy">
             <input type="text" id="sync-share-url-input" class="form-input" readonly>
             <button type="button" id="btn-copy-share-url" class="btn-subtle btn-copy" title="Sao chép link">Sao chép</button>
@@ -1499,7 +1499,7 @@
         <div class="form-row">
           <label for="speaking-api-key-input" class="form-label">
             Google Gemini API Key *
-            <span class="label-subtext">Khóa API được lưu an toàn trực tiếp trên trình duyệt máy bạn (localStorage)</span>
+            <span class="label-subtext">Lưu trên trình duyệt của máy này. Có thể dán link cài đặt nhanh từ máy tính vào đây để cài cả Firebase.</span>
           </label>
           <div class="input-with-copy">
             <input type="password" id="speaking-api-key-input" class="form-input"

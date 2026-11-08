@@ -1958,6 +1958,7 @@ Return ONLY a JSON object:
     const driveInput = document.getElementById('speaking-drive-client-id');
 
     const key = (inputKey.value || '').trim();
+    if (window.applySetupLink && window.applySetupLink(key)) return;
     let model = (selectModel.value || 'gemini-3.8-flash');
     if (model === 'custom') {
       model = (customInput?.value || '').trim() || 'gemini-3.8-flash';
